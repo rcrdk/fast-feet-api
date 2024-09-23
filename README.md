@@ -26,12 +26,12 @@ Lorem ipsum
 
 ### Functional Requirements
 
-- [ ] This app should have only two kind of user: admin or delivery person;
-- [ ] It should be able to authenticate with document number and password;
+- [x] This app should have only two kinds of user: admin or delivery person;
+- [x] It should be able to authenticate with document number and password;
 - [ ] It should be able to make the CRUD of delivery person;
 - [ ] It should be able to make the CRUD of orders;
 - [ ] It should be able to make the CRUD of receivers;
-- [ ] It should be able to mark a order as "waiting" (available to pick up);
+- [ ] It should be able to mark a order as "posted" (available to pick up);
 - [ ] It should be able to pick up a order;
 - [ ] It should be able to mark a order as delivered;
 - [ ] It should be able to mark a order as returned;
@@ -42,10 +42,10 @@ Lorem ipsum
 
 ### Business Rules
 
-- [ ] Only the admin user can make CRUD operations on orders;
 - [ ] Only the admin user can make CRUD operations on delivery persons;
+- [ ] Only the admin user can make CRUD operations on orders;
 - [ ] Only the admin user can make CRUD operations on receivers;
-- [ ] To make a order as shipped it must be required to send a picture;
+- [ ] To make a order as shipped it must have to send a picture;
 - [ ] Only the delivery person who pick up the order can mark it as shipped;
 - [ ] Only a admin user can change a user password;
 - [ ] A delivery person can only fetch their own orders;

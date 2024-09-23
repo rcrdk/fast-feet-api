@@ -8,16 +8,21 @@ datasource db {
 }
 
 enum UserRole {
-    ADMIN
-    DELIVER_PERSON
+    ADMINISTRATOR
+    DELIVERY_PERSON
 }
 
 model User {
-    id       String   @id @default(uuid())
-    name     String
-    email    String   @unique
-    password String
-    role     UserRole
+    id             String    @id @default(uuid())
+    name           String
+    documentNumber String    @unique
+    email          String    @unique
+    phone          String
+    state          String
+    city           String
+    password       String
+    role           UserRole? @default(DELIVERY_PERSON)
+    deletedAt      DateTime?
 
     @@map("users")
 }
