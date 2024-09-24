@@ -5,26 +5,29 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 
-interface DeleteDeliveryPersonUseCaseRequest {
+interface RecoverDeliveryPersonUseCaseRequest {
 	personId: string
 }
 
-type DeleteDeliveryPersonUseCaseResponse = Either<ResourceNotFoundError, object>
+type RecoverDeliveryPersonUseCaseResponse = Either<
+	ResourceNotFoundError,
+	object
+>
 
 @Injectable()
-export class DeleteDeliveryPersonUseCase {
+export class RecoverDeliveryPersonUseCase {
 	constructor(private deliveryPersonRepository: DeliveryPersonRepository) {}
 
 	async execute({
 		personId,
-	}: DeleteDeliveryPersonUseCaseRequest): Promise<DeleteDeliveryPersonUseCaseResponse> {
+	}: RecoverDeliveryPersonUseCaseRequest): Promise<RecoverDeliveryPersonUseCaseResponse> {
 		const person = await this.deliveryPersonRepository.findById(personId)
 
 		if (!person) {
 			return left(new ResourceNotFoundError())
 		}
 
-		await this.deliveryPersonRepository.delete(person)
+		await this.deliveryPersonRepository.recover(person)
 
 		return right({})
 	}

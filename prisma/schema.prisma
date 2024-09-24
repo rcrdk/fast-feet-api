@@ -26,3 +26,13 @@ model User {
 
     @@map("users")
 }
+
+enum OrderStatusCode {
+    PICKED
+    TRANSFER_PROCESS
+    TRANSFER_FINISHED
+    ON_ROUTE
+    DELIVERED
+    CANCELED
+    RETURNED
+}

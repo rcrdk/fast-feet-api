@@ -52,8 +52,8 @@ Lorem ipsum
 
 ### Non Functional Requirements
 
-- [ ] The user password must be encypted;
-- [ ] All application data must be persisted on a postgreSQL database;
+- [x] The user password must be encypted;
+- [x] All application data must be persisted on a postgreSQL database;
 - [ ] All files should be stored on Cloudflare R2 bucket;
 - [ ] All data listed should be paginated with 20 itens by page;
 - [ ] The user must be identified by a JWT (JSON Web Token);

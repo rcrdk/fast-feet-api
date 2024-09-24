@@ -8,4 +8,5 @@ export abstract class DeliveryPersonRepository {
 	abstract create(data: DeliveryPerson): Promise<void>
 	abstract edit(data: DeliveryPerson): Promise<void>
 	abstract delete(data: DeliveryPerson): Promise<void>
+	abstract recover(data: DeliveryPerson): Promise<void>
 }

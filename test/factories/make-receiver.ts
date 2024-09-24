@@ -2,29 +2,26 @@ import { faker, fakerPT_BR as fakerBrazilian } from '@faker-js/faker'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
-	Administrator,
-	AdministratorProps,
-} from '@/domain/app/enterprise/entities/administrator'
+	Receiver,
+	ReceiverProps,
+} from '@/domain/app/enterprise/entities/receiver'
 
-/**
- *
- * @param role
- * @returns can be setted as DELIVERY_PERSON for testing purpouses.
- */
-export function makeAdministrator(
-	override: Partial<AdministratorProps> = {},
+export function makeReceiver(
+	override: Partial<ReceiverProps> = {},
 	id?: UniqueEntityId,
 ) {
-	const person = Administrator.create(
+	const person = Receiver.create(
 		{
 			name: fakerBrazilian.person.fullName(),
 			documentNumber: '000.000.000-00',
-			password: faker.internet.password(),
 			email: fakerBrazilian.internet.email(),
 			phone: fakerBrazilian.phone.number(),
+			address: fakerBrazilian.location.streetAddress(),
 			city: fakerBrazilian.location.city(),
 			state: fakerBrazilian.location.state({ abbreviated: true }),
-			role: 'ADMINISTRATOR',
+			neighborhood: 'Centro',
+			zipCode: fakerBrazilian.location.zipCode(),
+			reference: faker.lorem.sentence(),
 			...override,
 		},
 		id,

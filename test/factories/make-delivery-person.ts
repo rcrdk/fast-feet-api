@@ -17,11 +17,11 @@ export function makeDeliveryPerson(
 ) {
 	const person = DeliveryPerson.create(
 		{
-			name: faker.person.fullName(),
+			name: fakerBrazilian.person.fullName(),
 			documentNumber: '000.000.000-00',
 			password: faker.internet.password(),
-			email: faker.internet.email(),
-			phone: faker.phone.number(),
+			email: fakerBrazilian.internet.email(),
+			phone: fakerBrazilian.phone.number(),
 			city: fakerBrazilian.location.city(),
 			state: fakerBrazilian.location.state({ abbreviated: true }),
 			role: 'DELIVERY_PERSON',

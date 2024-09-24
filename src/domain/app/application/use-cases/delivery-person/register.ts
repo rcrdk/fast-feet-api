@@ -7,7 +7,7 @@ import { HashGenerator } from '../../cryptography/hash-generator'
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
-interface RegisterStudentUseCaseRequest {
+interface RegisterDeliveryPersonUseCaseRequest {
 	name: string
 	documentNumber: string
 	password: string
@@ -17,7 +17,7 @@ interface RegisterStudentUseCaseRequest {
 	state: string
 }
 
-type RegisterStudentUseCaseResponse = Either<
+type RegisterDeliveryPersonUseCaseResponse = Either<
 	UserAlreadyExistsError,
 	{
 		deliveryPerson: DeliveryPerson
@@ -25,7 +25,7 @@ type RegisterStudentUseCaseResponse = Either<
 >
 
 @Injectable()
-export class RegisterStudentUseCase {
+export class RegisterDeliveryPersonUseCase {
 	constructor(
 		private deliveryPersonRepository: DeliveryPersonRepository,
 		private hashGenerator: HashGenerator,
@@ -39,7 +39,7 @@ export class RegisterStudentUseCase {
 		phone,
 		city,
 		state,
-	}: RegisterStudentUseCaseRequest): Promise<RegisterStudentUseCaseResponse> {
+	}: RegisterDeliveryPersonUseCaseRequest): Promise<RegisterDeliveryPersonUseCaseResponse> {
 		const personWithSameData = await this.deliveryPersonRepository.findByUnique(
 			documentNumber,
 			email,

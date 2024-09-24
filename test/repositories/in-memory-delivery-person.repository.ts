@@ -41,7 +41,14 @@ export class InMemoryDeliveryPersonRepository
 	async delete(data: DeliveryPerson) {
 		const index = this.items.findIndex((item) => item.id === data.id)
 
-		data.deleted()
+		data.deletePerson()
+		this.items[index] = data
+	}
+
+	async recover(data: DeliveryPerson) {
+		const index = this.items.findIndex((item) => item.id === data.id)
+
+		data.recoverPerson()
 		this.items[index] = data
 	}
 }
