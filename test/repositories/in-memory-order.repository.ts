@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
 	FindManyByAvailabilityParams,
+	FindManyByDeliveryPersonParams,
 	OrderRepository,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
@@ -40,7 +41,13 @@ export class InMemoryOrderRepository implements OrderRepository {
 		const ITEMS_OFFSET_END = page * perPage
 
 		const allOrdersWithOriginLocation: OrderWithLocation[] = this.items.map((order) => {
-			const distributionCenter = this.distributionCenterRepository.items.find((locale) => locale.id.equals(order.currentLocationId)) ?? {} as DistributionCenter
+			const distributionCenter = this.distributionCenterRepository.items.find((locale) => locale.id.equals(order.currentLocationId))
+
+			if (!distributionCenter) {
+				throw new Error(
+					`Author with id "${order.currentLocationId.toString()}" does not exists.`,
+				)
+			}
 
 			return {
 				order,
@@ -53,7 +60,6 @@ export class InMemoryOrderRepository implements OrderRepository {
 				const location = normalizeSearch(city, item.distributionCenter.city) && normalizeSearch(state, item.distributionCenter.state)
 				const status = item.order.currentStatusCode === 'POSTED' || item.order.currentStatusCode === 'AWAITING_PICK_UP'
 				const withoutDeliveryPerson = !item.order.deliveryPersonId?.toString()
-
 				return location && status && withoutDeliveryPerson
 			})
 			.map((item) => item.order.id)
@@ -61,6 +67,26 @@ export class InMemoryOrderRepository implements OrderRepository {
 		const filteredOrders = this.items
 			.filter((order) => ordersFilteredIds.includes(order.id))
 			.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())	
+
+		return {
+			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(filteredOrders.length / perPage),
+			totalItems: filteredOrders.length,
+		}
+	}
+
+	async findManyByDeliveryPerson({
+		deliveryPersonId,
+		page,
+		perPage
+	}: FindManyByDeliveryPersonParams) {
+		const ITEMS_OFFSET_START = (page - 1) * perPage
+		const ITEMS_OFFSET_END = page * perPage
+
+		const filteredOrders = this.items.filter((item) => {
+			return item.deliveryPersonId?.toString() === deliveryPersonId
+		}).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
 
 		return {
 			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
