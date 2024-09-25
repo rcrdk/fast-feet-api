@@ -18,7 +18,7 @@ describe('search distribution center', () => {
 		)
 	})
 
-	it('should be able to search for distribution center by query', async () => {
+	it('should be able to search for distribution centers by query', async () => {
 		const newDistributionPersonOne = makeDistributionCenter({
 			name: 'Fátima da Cruz',
 			city: 'Timbó',
@@ -44,6 +44,7 @@ describe('search distribution center', () => {
 
 		const responseOne = await sut.execute({
 			query: 'fatima',
+			limit: 20,
 		})
 
 		expect(responseOne.isRight()).toBe(true)
@@ -53,6 +54,7 @@ describe('search distribution center', () => {
 
 		const responseTwo = await sut.execute({
 			query: 'sao',
+			limit: 20,
 		})
 
 		expect(responseTwo.isRight()).toBe(true)
@@ -65,6 +67,7 @@ describe('search distribution center', () => {
 
 		const responseThree = await sut.execute({
 			query: 'PR',
+			limit: 20,
 		})
 
 		expect(responseThree.isRight()).toBe(true)
@@ -73,12 +76,34 @@ describe('search distribution center', () => {
 		})
 	})
 
-	it('should not be able to search for distribution center without a query with at least 2 characters', async () => {
+	it('should not be able to search for distribution centers without a query with at least 2 characters', async () => {
 		const response = await sut.execute({
 			query: 'a',
+			limit: 20,
 		})
 
 		expect(response.isLeft()).toBe(true)
 		expect(response.value).toBeInstanceOf(InvalidQueryLengthError)
+	})
+
+	it('should be able to search for distribution centers by query with limit of results', async () => {
+		for (let i = 1; i <= 20; i++) {
+			await inMemoryDistributionCenterRepository.create(
+				makeDistributionCenter({
+					name: 'Fátima da Cruz',
+					city: 'Timbó',
+					state: 'SC',
+				}),
+			)
+		}
+
+		const response = await sut.execute({
+			query: 'fatima',
+			limit: 10,
+		})
+
+		expect(response.isRight()).toBe(true)
+		// @ts-expect-error distributionCenters does exists
+		expect(response.value.distributionCenters).toHaveLength(10)
 	})
 })

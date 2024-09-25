@@ -8,6 +8,7 @@ import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 
 interface SearchReceiversUseCaseRequest {
 	query: string
+	limit: number
 }
 
 type SearchReceiversUseCaseResponse = Either<
@@ -23,13 +24,17 @@ export class SearchReceiversUseCase {
 
 	async execute({
 		query,
+		limit,
 	}: SearchReceiversUseCaseRequest): Promise<SearchReceiversUseCaseResponse> {
 		if (query.length < 2) {
 			return left(new InvalidQueryLengthError('two'))
 		}
 
 		// eslint-disable-next-line prettier/prettier
-		const receivers = await this.receiverRepository.findManyBySearchQueries(query)
+		const receivers = await this.receiverRepository.findManyBySearchQueries({
+			query,
+			limit,
+		})
 
 		return right({ receivers })
 	}

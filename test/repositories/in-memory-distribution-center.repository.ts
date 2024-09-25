@@ -1,3 +1,4 @@
+import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 import { DistributionCenterRepository } from '@/domain/app/application/repositories/distribution-center.repository'
 import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
 import { normalizeSearch } from '@/infra/utils/normalize'
@@ -12,7 +13,7 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 		return person ?? null
 	}
 
-	async findManyByQuery(query: string) {
+	async findManyByQuery({ query, limit }: QueryDataLimitParams) {
 		const filter = this.items.filter((person) => {
 			const name = normalizeSearch(query, person.name)
 			const city = normalizeSearch(query, person.city)
@@ -21,7 +22,7 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 			return name || city || state
 		})
 
-		return filter
+		return filter.slice(0, limit)
 	}
 
 	async create(data: DistributionCenter) {

@@ -1,3 +1,4 @@
+import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 import {
 	FindByUnique,
 	ReceiverRepository,
@@ -22,7 +23,7 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		return person ?? null
 	}
 
-	async findManyBySearchQueries(query: string) {
+	async findManyBySearchQueries({ query, limit }: QueryDataLimitParams) {
 		const filter = this.items.filter((person) => {
 			const name = normalizeSearch(query, person.name)
 			const documentNumber = normalizeSearch(query, person.documentNumber)
@@ -30,7 +31,7 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 			return name || documentNumber
 		})
 
-		return filter
+		return filter.slice(0, limit)
 	}
 
 	async create(data: Receiver) {
