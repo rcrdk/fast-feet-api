@@ -42,10 +42,10 @@ export class CreateReceiverUseCase {
 		zipCode,
 		reference,
 	}: CreateReceiverUseCaseRequest): Promise<CreateReceiverUseCaseResponse> {
-		const personWithSameData = await this.receiverRepository.findByUnique(
+		const personWithSameData = await this.receiverRepository.findByUnique({
 			documentNumber,
 			email,
-		)
+		})
 
 		if (personWithSameData) {
 			return left(new UserAlreadyExistsError(personWithSameData.documentNumber))

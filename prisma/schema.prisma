@@ -15,19 +15,37 @@ enum UserRole {
 model User {
     id             String    @id @default(uuid())
     name           String
-    documentNumber String    @unique
+    documentNumber String    @unique @map("document_number")
     email          String    @unique
     phone          String
     state          String
     city           String
     password       String
     role           UserRole? @default(DELIVERY_PERSON)
-    deletedAt      DateTime?
+    deletedAt      DateTime? @map("deleted_at")
 
     @@map("users")
 }
 
+model Receiver {
+    id             String    @id @default(uuid())
+    name           String
+    documentNumber String    @unique @map("document_number")
+    email          String    @unique
+    phone          String
+    address        String
+    state          String
+    city           String
+    neighborhood   String
+    zipZode        String    @map("zip_code")
+    reference      String?
+    deletedAt      DateTime? @map("deleted_at")
+
+    @@map("receivers")
+}
+
 enum OrderStatusCode {
+    POSTED
     PICKED
     TRANSFER_PROCESS
     TRANSFER_FINISHED
@@ -35,4 +53,40 @@ enum OrderStatusCode {
     DELIVERED
     CANCELED
     RETURNED
+}
+
+model Order {
+    id                String          @id @default(uuid())
+    currentStatusCode OrderStatusCode @default(POSTED)
+    state             String
+    city              String
+    postedAt          DateTime        @default(now())
+    updatedAt         DateTime        @default(now()) @updatedAt
+
+    // deliveryPersonId: User
+    // receiverId: Receiver
+    // attachmentId: Attachment
+
+    @@map("orders")
+}
+
+model OrderStatus {
+    id String @id @default(uuid())
+
+    statusCode OrderStatusCode @default(POSTED)
+    details    String?
+    updatedAt  DateTime        @default(now()) @updatedAt
+
+    // orderId Order
+    // creatorId: User
+
+    @@map("orders_statuses")
+}
+
+model OrderAttachment {
+    id String @id @default(uuid())
+
+    // orderStatusId OrderStatus
+
+    @@map("orders_attachments")
 }

@@ -1,0 +1,10 @@
+export type OrderStatusCode =
+	| 'POSTED'
+	| 'PICKED'
+	| 'TRANSFER_PROCESS'
+	| 'AWAITING_PICK_UP'
+	| 'TRANSFER_FINISHED'
+	| 'ON_ROUTE'
+	| 'DELIVERED'
+	| 'CANCELED'
+	| 'RETURNED'

@@ -13,4 +13,16 @@ export class InMemoryAdministratorRepository
 
 		return administrator ?? null
 	}
+
+	async findByUnique(documentNumber: string, email: string) {
+		const person = this.items.find((person) => {
+			return person.documentNumber === documentNumber || person.email === email
+		})
+
+		return person ?? null
+	}
+
+	async create(data: Administrator) {
+		this.items.push(data)
+	}
 }

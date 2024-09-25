@@ -1,5 +1,9 @@
-import { ReceiverRepository } from '@/domain/app/application/repositories/receiver.repository'
+import {
+	FindByUnique,
+	ReceiverRepository,
+} from '@/domain/app/application/repositories/receiver.repository'
 import { Receiver } from '@/domain/app/enterprise/entities/receiver'
+import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryReceiverRepository implements ReceiverRepository {
 	public items: Receiver[] = []
@@ -10,12 +14,23 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		return person ?? null
 	}
 
-	async findByUnique(documentNumber: string, email: string) {
+	async findByUnique({ documentNumber, email }: FindByUnique) {
 		const person = this.items.find((person) => {
 			return person.documentNumber === documentNumber || person.email === email
 		})
 
 		return person ?? null
+	}
+
+	async findManyBySearchQueries(query: string) {
+		const filter = this.items.filter((person) => {
+			const name = normalizeSearch(query, person.name)
+			const documentNumber = normalizeSearch(query, person.documentNumber)
+
+			return name || documentNumber
+		})
+
+		return filter
 	}
 
 	async create(data: Receiver) {

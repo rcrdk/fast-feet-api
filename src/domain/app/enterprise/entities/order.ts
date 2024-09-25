@@ -1,61 +1,73 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { OrderStatusCode } from '@/domain/types/statuses'
 
 export interface OrderProps {
-	deliveryPersonId: UniqueEntityId
+	creatorId: UniqueEntityId
+	deliveryPersonId?: UniqueEntityId | null
 	receiverId: UniqueEntityId
-	attachmentId?: UniqueEntityId | null
 	postedAt: Date
-	retrievedAt?: Date | null
-	deliveredAt?: Date | null
+	updatedAt?: Date | null
+	currentStatusCode: OrderStatusCode
+	city: string
+	state: string
 }
 
 export class Order extends Entity<OrderProps> {
+	get creatorId() {
+		return this.props.creatorId
+	}
+
 	get deliveryPersonId() {
 		return this.props.deliveryPersonId
 	}
 
-	get receiverId() {
-		return this.props.receiverId
-	}
-
-	get attachmentId() {
-		return this.props.attachmentId
-	}
-
-	set attachmentId(attachmentId: UniqueEntityId | null | undefined) {
-		this.props.attachmentId = attachmentId
+	set deliveryPersonId(deliveryPersonId: UniqueEntityId | null | undefined) {
+		this.props.deliveryPersonId = deliveryPersonId ?? null
+		this.touch()
 	}
 
 	get postedAt() {
 		return this.props.postedAt
 	}
 
-	get retrievedAt() {
-		return this.props.retrievedAt
+	get currentStatusCode() {
+		return this.props.currentStatusCode
 	}
 
-	get deliveredAt() {
-		return this.props.deliveredAt
+	set currentStatusCode(currentStatusCode: OrderStatusCode) {
+		this.props.currentStatusCode = currentStatusCode
+		this.touch()
 	}
 
-	delivered() {
-		this.props.deliveredAt = new Date()
+	get city() {
+		return this.props.city
 	}
 
-	posted() {
-		this.props.postedAt = new Date()
+	set city(city: string) {
+		this.props.city = city
+		this.touch()
 	}
 
-	retrieved() {
-		this.props.retrievedAt = new Date()
+	get state() {
+		return this.props.state
+	}
+
+	set state(state: string) {
+		this.props.state = state
+		this.touch()
+	}
+
+	private touch() {
+		this.props.updatedAt = new Date()
 	}
 
 	static create(props: Optional<OrderProps, 'postedAt'>, id?: UniqueEntityId) {
 		const order = new Order(
 			{
 				...props,
+				currentStatusCode: props.currentStatusCode ?? 'POSTED',
 				postedAt: props.postedAt ?? new Date(),
 			},
 			id,
