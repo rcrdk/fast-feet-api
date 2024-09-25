@@ -1,5 +1,5 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Order, OrderProps } from '@/domain/app/enterprise/entities/order'
+import { Order, OrderProps } from '@/domain/logistic/enterprise/entities/order'
 
 export function makeOrder(
 	override: Partial<OrderProps> = {},

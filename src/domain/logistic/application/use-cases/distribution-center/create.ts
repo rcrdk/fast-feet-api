@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, right } from '@/core/either'
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 import { DistributionCenterRepository } from '../../repositories/distribution-center.repository'
 

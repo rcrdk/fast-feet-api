@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { OrderStatusCode } from '@/core/repositories/statuses'
 import { Optional } from '@/core/types/optional'
-import { OrderStatusCode } from '@/domain/types/statuses'
 
 export interface OrderStatusProps {
 	orderId: UniqueEntityId

@@ -4,7 +4,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	Receiver,
 	ReceiverProps,
-} from '@/domain/app/enterprise/entities/receiver'
+} from '@/domain/logistic/enterprise/entities/receiver'
 
 export function makeReceiver(
 	override: Partial<ReceiverProps> = {},

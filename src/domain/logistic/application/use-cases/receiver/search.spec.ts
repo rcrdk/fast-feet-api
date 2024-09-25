@@ -1,7 +1,7 @@
 import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryReceiverRepository } from 'test/repositories/in-memory-receiver.repository'
 
-import { Receiver } from '@/domain/app/enterprise/entities/receiver'
+import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 import { SearchReceiversUseCase } from './search'

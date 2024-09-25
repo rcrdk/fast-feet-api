@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
+import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 
-import { DeliveryPerson } from '../../../enterprise/entities/delivery-person'
 import { HashGenerator } from '../../cryptography/hash-generator'
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'

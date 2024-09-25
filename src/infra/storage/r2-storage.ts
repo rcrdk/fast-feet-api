@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common'
 import {
 	Uploader,
 	UploadParams,
-} from '@/domain/app/application/storage/uploader'
+} from '@/domain/logistic/application/storage/uploader'
 
 import { EnvService } from '../env/env.service'
 

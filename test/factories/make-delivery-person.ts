@@ -4,7 +4,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	DeliveryPerson,
 	DeliveryPersonProps,
-} from '@/domain/app/enterprise/entities/delivery-person'
+} from '@/domain/logistic/enterprise/entities/delivery-person'
 
 /**
  *

@@ -1,6 +1,6 @@
 import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
-import { DistributionCenterRepository } from '@/domain/app/application/repositories/distribution-center.repository'
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
+import { DistributionCenterRepository } from '@/domain/logistic/application/repositories/distribution-center.repository'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 // eslint-disable-next-line prettier/prettier

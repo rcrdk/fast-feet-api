@@ -2,8 +2,8 @@ import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 import {
 	FindByUnique,
 	ReceiverRepository,
-} from '@/domain/app/application/repositories/receiver.repository'
-import { Receiver } from '@/domain/app/enterprise/entities/receiver'
+} from '@/domain/logistic/application/repositories/receiver.repository'
+import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryReceiverRepository implements ReceiverRepository {

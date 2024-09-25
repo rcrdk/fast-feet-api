@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, right } from '@/core/either'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Order } from '@/domain/app/enterprise/entities/order'
+import { Order } from '@/domain/logistic/enterprise/entities/order'
 
 import { OrderRepository } from '../../repositories/order.repository'
 

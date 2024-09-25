@@ -1,7 +1,7 @@
 import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 import { SearchDistributionCentersUseCase } from './search'

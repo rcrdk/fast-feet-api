@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { UserRoles } from '@/domain/types/roles'
+import { UserRoles } from '@/core/repositories/roles'
 
 export interface PersonProps {
 	name: string

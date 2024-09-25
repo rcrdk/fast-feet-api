@@ -2,8 +2,8 @@
 import {
 	DeliveryPersonRepository,
 	FindManyByFiltersParams,
-} from '@/domain/app/application/repositories/delivery-person.repository'
-import { DeliveryPerson } from '@/domain/app/enterprise/entities/delivery-person'
+} from '@/domain/logistic/application/repositories/delivery-person.repository'
+import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryDeliveryPersonRepository

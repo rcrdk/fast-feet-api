@@ -1,5 +1,5 @@
-import { OrderStatusRepository } from '@/domain/app/application/repositories/order-status.repository'
-import { OrderStatus } from '@/domain/app/enterprise/entities/order-status'
+import { OrderStatusRepository } from '@/domain/logistic/application/repositories/order-status.repository'
+import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
 
 export class InMemoryOrderStatusRepository implements OrderStatusRepository {
 	public items: OrderStatus[] = []

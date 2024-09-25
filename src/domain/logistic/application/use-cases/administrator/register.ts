@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
+import { Administrator } from '@/domain/logistic/enterprise/entities/administrator'
 
-import { Administrator } from '../../../enterprise/entities/administrator'
 import { HashGenerator } from '../../cryptography/hash-generator'
 import { AdministratorRepository } from '../../repositories/administrator.repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { Receiver } from '@/domain/app/enterprise/entities/receiver'
+import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 
 import { ReceiverRepository } from '../../repositories/receiver.repository'
 

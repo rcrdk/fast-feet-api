@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
+import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 
-import { Receiver } from '../../../enterprise/entities/receiver'
 import { ReceiverRepository } from '../../repositories/receiver.repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 

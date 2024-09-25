@@ -2,16 +2,16 @@
 import {
 	FindManyByAvailabilityParams,
 	OrderRepository,
-} from '@/domain/app/application/repositories/order.repository'
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
-import { Order } from '@/domain/app/enterprise/entities/order'
-import { OrderStatus } from '@/domain/app/enterprise/entities/order-status'
+} from '@/domain/logistic/application/repositories/order.repository'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
+import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 import { InMemoryDistributionCenterRepository } from './in-memory-distribution-center.repository'
 import { InMemoryOrderStatusRepository } from './in-memory-order-status.repository'
 
-export interface OrderWithLocation{
+interface OrderWithLocation {
 	order: Order,
 	distributionCenter: DistributionCenter
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 import { DistributionCenterRepository } from '../../repositories/distribution-center.repository'
 

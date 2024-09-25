@@ -44,10 +44,13 @@ model Receiver {
     @@map("receivers")
 }
 
+// Distribution center
+
 enum OrderStatusCode {
     POSTED
     PICKED
     TRANSFER_PROCESS
+    AWAITING_PICK_UP
     TRANSFER_FINISHED
     ON_ROUTE
     DELIVERED

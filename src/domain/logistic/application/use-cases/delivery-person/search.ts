@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
-import { DeliveryPerson } from '@/domain/app/enterprise/entities/delivery-person'
+import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { MinQuerySearchNotProviedError } from '../errors/expected-one-search-param-error'

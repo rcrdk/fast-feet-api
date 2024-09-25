@@ -4,7 +4,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	Administrator,
 	AdministratorProps,
-} from '@/domain/app/enterprise/entities/administrator'
+} from '@/domain/logistic/enterprise/entities/administrator'
 
 /**
  *

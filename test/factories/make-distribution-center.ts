@@ -1,7 +1,7 @@
 import { fakerPT_BR as fakerBrazilian } from '@faker-js/faker'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
+import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 export function makeDistributionCenter(
 	override: Partial<DistributionCenter> = {},
