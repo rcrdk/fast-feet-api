@@ -1,42 +1,39 @@
 /* eslint-disable prettier/prettier */
+import { makeOrder } from 'test/factories/make-order'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
-import { CreateOrderUseCase } from './create'
+import { DeleteOrderUseCase } from './delete'
 
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
-let sut: CreateOrderUseCase
+let sut: DeleteOrderUseCase
 
-describe('create a order', () => {
+describe('delete a order', () => {
 	beforeEach(() => {
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryOrderRepository = new InMemoryOrderRepository(inMemoryOrderStatusRepository)
-		sut = new CreateOrderUseCase(inMemoryOrderRepository)
+		sut = new DeleteOrderUseCase(inMemoryOrderRepository)
 	})
 
-	it('should be able to create a order', async () => {
+	it('should be able to delete a order', async () => {
+		const newOrderOne = makeOrder({}, new UniqueEntityId('order-01'))
+		const newOrderTwo = makeOrder({}, new UniqueEntityId('order-02'))
+
+		inMemoryOrderRepository.create(newOrderOne)
+		inMemoryOrderRepository.create(newOrderTwo)
+
+		expect(inMemoryOrderRepository.items).toHaveLength(2)
+		expect(inMemoryOrderStatusRepository.items).toHaveLength(2)
+
 		const result = await sut.execute({
-			creatorId: 'admin-01',
-			receiverId: 'receiver-01',
-			deliveryPersonId: undefined,
-			originDistributionCenterId: 'distribution-center-01'
+			orderId: 'order-01',
 		})
 
 		expect(result.isRight()).toBe(true)
-		expect(result.value).toEqual({
-			order: inMemoryOrderRepository.items.at(0),
-		})
-
+		expect(inMemoryOrderRepository.items).toHaveLength(1)
 		expect(inMemoryOrderStatusRepository.items).toHaveLength(1)
-		expect(inMemoryOrderStatusRepository.items.at(0)).toMatchObject({
-			statusCode: 'POSTED',
-			creatorId: new UniqueEntityId('admin-01'),
-			orderId: result.value?.order.id,
-			currentLocationId: new UniqueEntityId('distribution-center-01')
-		})
-		
 	})
 })

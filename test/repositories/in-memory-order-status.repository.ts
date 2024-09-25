@@ -7,4 +7,12 @@ export class InMemoryOrderStatusRepository implements OrderStatusRepository {
 	async create(data: OrderStatus) {
 		this.items.push(data)
 	}
+
+	async deleteMany(orderId: string) {
+		const statusesNotToDelete = this.items.filter((item) => {
+			return item.orderId.toString() !== orderId
+		})
+
+		this.items = statusesNotToDelete
+	}
 }

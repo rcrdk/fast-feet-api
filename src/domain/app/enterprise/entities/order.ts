@@ -6,12 +6,12 @@ import { OrderStatusCode } from '@/domain/types/statuses'
 export interface OrderProps {
 	creatorId: UniqueEntityId
 	deliveryPersonId?: UniqueEntityId | null
+	originLocationId: UniqueEntityId
+	currentLocationId: UniqueEntityId
 	receiverId: UniqueEntityId
 	postedAt: Date
 	updatedAt?: Date | null
 	currentStatusCode: OrderStatusCode
-	city: string
-	state: string
 }
 
 export class Order extends Entity<OrderProps> {
@@ -28,6 +28,19 @@ export class Order extends Entity<OrderProps> {
 		this.touch()
 	}
 
+	get originLocationId() {
+		return this.props.originLocationId
+	}
+
+	get currentLocationId() {
+		return this.props.currentLocationId
+	}
+
+	set currentLocationId(currentLocationId: UniqueEntityId) {
+		this.props.currentLocationId = currentLocationId ?? null
+		this.touch()
+	}
+
 	get postedAt() {
 		return this.props.postedAt
 	}
@@ -41,32 +54,18 @@ export class Order extends Entity<OrderProps> {
 		this.touch()
 	}
 
-	get city() {
-		return this.props.city
-	}
-
-	set city(city: string) {
-		this.props.city = city
-		this.touch()
-	}
-
-	get state() {
-		return this.props.state
-	}
-
-	set state(state: string) {
-		this.props.state = state
-		this.touch()
-	}
-
 	private touch() {
 		this.props.updatedAt = new Date()
 	}
 
-	static create(props: Optional<OrderProps, 'postedAt'>, id?: UniqueEntityId) {
+	static create(
+		props: Optional<OrderProps, 'postedAt' | 'currentLocationId'>,
+		id?: UniqueEntityId,
+	) {
 		const order = new Order(
 			{
 				...props,
+				currentLocationId: props.originLocationId,
 				currentStatusCode: props.currentStatusCode ?? 'POSTED',
 				postedAt: props.postedAt ?? new Date(),
 			},

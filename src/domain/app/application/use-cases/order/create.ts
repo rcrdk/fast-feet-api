@@ -10,8 +10,7 @@ interface CreateOrderUseCaseRequest {
 	creatorId: string
 	deliveryPersonId?: string
 	receiverId: string
-	city: string
-	state: string
+	originDistributionCenterId: string
 }
 
 type CreateOrderUseCaseResponse = Either<
@@ -29,17 +28,14 @@ export class CreateOrderUseCase {
 		creatorId,
 		deliveryPersonId,
 		receiverId,
-		city,
-		state,
+		originDistributionCenterId,
 	}: CreateOrderUseCaseRequest): Promise<CreateOrderUseCaseResponse> {
 		const order = Order.create({
 			creatorId: new UniqueEntityId(creatorId),
-			deliveryPersonId: deliveryPersonId
-				? new UniqueEntityId(deliveryPersonId)
-				: null,
+			// eslint-disable-next-line prettier/prettier
+			deliveryPersonId: deliveryPersonId ? new UniqueEntityId(deliveryPersonId) : null,
 			receiverId: new UniqueEntityId(receiverId),
-			city,
-			state,
+			originLocationId: new UniqueEntityId(originDistributionCenterId),
 			currentStatusCode: 'POSTED',
 		})
 

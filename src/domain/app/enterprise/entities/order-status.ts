@@ -6,6 +6,7 @@ import { OrderStatusCode } from '@/domain/types/statuses'
 export interface OrderStatusProps {
 	orderId: UniqueEntityId
 	creatorId: UniqueEntityId
+	currentLocationId?: UniqueEntityId | null
 	attachmentId?: UniqueEntityId | null
 	statusCode: OrderStatusCode
 	details?: string | null
@@ -31,6 +32,14 @@ export class OrderStatus extends Entity<OrderStatusProps> {
 
 	get updatedAt() {
 		return this.props.updatedAt
+	}
+
+	get currentLocationId() {
+		return this.props.currentLocationId
+	}
+
+	set currentLocationId(currentLocationId: UniqueEntityId | null | undefined) {
+		this.props.currentLocationId = currentLocationId
 	}
 
 	get attachmentId() {
