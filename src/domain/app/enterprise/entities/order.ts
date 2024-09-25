@@ -10,7 +10,7 @@ export interface OrderProps {
 	currentLocationId: UniqueEntityId
 	receiverId: UniqueEntityId
 	postedAt: Date
-	updatedAt?: Date | null
+	updatedAt: Date
 	currentStatusCode: OrderStatusCode
 }
 
@@ -41,6 +41,10 @@ export class Order extends Entity<OrderProps> {
 		this.touch()
 	}
 
+	get updatedAt() {
+		return this.props.updatedAt
+	}
+
 	get postedAt() {
 		return this.props.postedAt
 	}
@@ -59,7 +63,7 @@ export class Order extends Entity<OrderProps> {
 	}
 
 	static create(
-		props: Optional<OrderProps, 'postedAt' | 'currentLocationId'>,
+		props: Optional<OrderProps, 'postedAt' | 'updatedAt' | 'currentLocationId'>,
 		id?: UniqueEntityId,
 	) {
 		const order = new Order(
@@ -68,6 +72,7 @@ export class Order extends Entity<OrderProps> {
 				currentLocationId: props.originLocationId,
 				currentStatusCode: props.currentStatusCode ?? 'POSTED',
 				postedAt: props.postedAt ?? new Date(),
+				updatedAt: props.postedAt ?? new Date(),
 			},
 			id,
 		)

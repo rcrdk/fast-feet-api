@@ -48,9 +48,9 @@ describe('search receivers', () => {
 		})
 	})
 
-	it('should not be able to search for receivers without a query with at least 3 characters', async () => {
+	it('should not be able to search for receivers without a query with at least 2 characters', async () => {
 		const response = await sut.execute({
-			query: '123',
+			query: 'a',
 		})
 
 		expect(response.isLeft()).toBe(true)

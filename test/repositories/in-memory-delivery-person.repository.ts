@@ -1,5 +1,10 @@
-import { DeliveryPersonRepository } from '@/domain/app/application/repositories/delivery-person.repository'
+/* eslint-disable prettier/prettier */
+import {
+	DeliveryPersonRepository,
+	FindManyByFiltersParams,
+} from '@/domain/app/application/repositories/delivery-person.repository'
 import { DeliveryPerson } from '@/domain/app/enterprise/entities/delivery-person'
+import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryDeliveryPersonRepository
 	implements DeliveryPersonRepository
@@ -26,6 +31,37 @@ export class InMemoryDeliveryPersonRepository
 		})
 
 		return person ?? null
+	}
+
+	async findManyByFilters({
+		name,
+		city,
+		state,
+		deleted,
+		page,
+		perPage,
+	}: FindManyByFiltersParams) {
+		const ITEMS_OFFSET_START = (page - 1) * perPage
+		const ITEMS_OFFSET_END = page * perPage
+
+		let items = this.items
+
+		if (name) items = items.filter((item) => normalizeSearch(name, item.name))
+		if (city) items = items.filter((item) => normalizeSearch(city, item.city))
+		if (state) items = items.filter((item) => normalizeSearch(state, item.state))
+
+		if (deleted) {
+			items = items.filter((item) => !!item.deletedAt)
+		} else {
+			items = items.filter((item) => !item.deletedAt)
+		}
+
+		return {
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(items.length / perPage),
+			totalItems: items.length,
+		}
 	}
 
 	async create(data: DeliveryPerson) {

@@ -24,8 +24,8 @@ export class SearchReceiversUseCase {
 	async execute({
 		query,
 	}: SearchReceiversUseCaseRequest): Promise<SearchReceiversUseCaseResponse> {
-		if (query.length < 4) {
-			return left(new InvalidQueryLengthError(4))
+		if (query.length < 2) {
+			return left(new InvalidQueryLengthError('two'))
 		}
 
 		// eslint-disable-next-line prettier/prettier

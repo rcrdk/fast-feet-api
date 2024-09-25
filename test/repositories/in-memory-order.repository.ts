@@ -1,14 +1,20 @@
+/* eslint-disable prettier/prettier */
 import {
 	FindManyByAvailabilityParams,
 	OrderRepository,
-	OrderWithLocation,
 } from '@/domain/app/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/app/enterprise/entities/distribution-center'
 import { Order } from '@/domain/app/enterprise/entities/order'
 import { OrderStatus } from '@/domain/app/enterprise/entities/order-status'
+import { normalizeSearch } from '@/infra/utils/normalize'
 
 import { InMemoryDistributionCenterRepository } from './in-memory-distribution-center.repository'
 import { InMemoryOrderStatusRepository } from './in-memory-order-status.repository'
+
+export interface OrderWithLocation{
+	order: Order,
+	distributionCenter: DistributionCenter
+}
 
 export class InMemoryOrderRepository implements OrderRepository {
 	public items: Order[] = []
@@ -33,33 +39,35 @@ export class InMemoryOrderRepository implements OrderRepository {
 		const ITEMS_OFFSET_START = (page - 1) * perPage
 		const ITEMS_OFFSET_END = page * perPage
 
-		const allOrdersWithOriginLocation = this.items.map((item) => {
-			const distributionCenter =
-				this.distributionCenterRepository.items.find(
-					(locale) => locale.id === item.currentLocationId,
-				) ?? ({} as DistributionCenter)
+		const allOrdersWithOriginLocation: OrderWithLocation[] = this.items.map((order) => {
+			const distributionCenter = this.distributionCenterRepository.items.find((locale) => locale.id.equals(order.currentLocationId)) ?? {} as DistributionCenter
 
 			return {
-				...item,
+				order,
 				distributionCenter,
 			}
-		}) as OrderWithLocation[]
+		}) 
 
-		const ordersFiltered = allOrdersWithOriginLocation.filter((item) => {
-			const location =
-				item.distributionCenter.city === city &&
-				item.distributionCenter.state === state
+		const ordersFilteredIds = allOrdersWithOriginLocation
+			.filter((item) => {
+				const location = normalizeSearch(city, item.distributionCenter.city) && normalizeSearch(state, item.distributionCenter.state)
+				const status = item.order.currentStatusCode === 'POSTED' || item.order.currentStatusCode === 'AWAITING_PICK_UP'
+				const withoutDeliveryPerson = !item.order.deliveryPersonId?.toString()
 
-			const status =
-				item.currentStatusCode === 'POSTED' ||
-				item.currentStatusCode === 'AWAITING_PICK_UP'
+				return location && status && withoutDeliveryPerson
+			})
+			.map((item) => item.order.id)
 
-			return location && status
-		})
+		const filteredOrders = this.items
+			.filter((order) => ordersFilteredIds.includes(order.id))
+			.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())	
 
-		return ordersFiltered
-			.sort((a, b) => b.postedAt.getTime() - a.postedAt.getTime())
-			.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END)
+		return {
+			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(filteredOrders.length / perPage),
+			totalItems: filteredOrders.length,
+		}
 	}
 
 	async create(data: Order) {

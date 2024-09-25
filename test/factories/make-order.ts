@@ -9,6 +9,7 @@ export function makeOrder(
 		{
 			creatorId: new UniqueEntityId('creator-01'),
 			originLocationId: new UniqueEntityId('distribution-center-01'),
+			currentLocationId: new UniqueEntityId('distribution-center-01'),
 			receiverId: new UniqueEntityId('receiver-01'),
 			currentStatusCode: 'POSTED',
 			...override,
