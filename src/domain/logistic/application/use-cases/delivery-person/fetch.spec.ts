@@ -5,18 +5,18 @@ import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-de
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { MinQuerySearchNotProviedError } from '../errors/expected-one-search-param-error'
-import { SearchDeliveryPeopleUseCase } from './search'
+import { FetchDeliveryPeopleUseCase } from './fetch'
 
 let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
-let sut: SearchDeliveryPeopleUseCase
+let sut: FetchDeliveryPeopleUseCase
 
 describe('search for delivery people', () => {
 	beforeEach(() => {
 		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
-		sut = new SearchDeliveryPeopleUseCase(inMemoryDeliveryPersonRepository)
+		sut = new FetchDeliveryPeopleUseCase(inMemoryDeliveryPersonRepository)
 	})
 
-	it('should be able to search for active delivery people', async () => {
+	it('should be able to fetch active delivery people', async () => {
 		const newPersonOne = makeDeliveryPerson({ name: 'John Doe', city: 'Blumenau', state: 'SC' }, new UniqueEntityId('person-01'))
 		const newPersonTwo = makeDeliveryPerson({ name: 'Janet Doe', city: 'Timbó', state: 'SC' }, new UniqueEntityId('person-02'))
 		const newPersonThree = makeDeliveryPerson({ name: 'Janet Doe', city: 'Timbó', state: 'SC' }, new UniqueEntityId('person-03'))
@@ -50,7 +50,7 @@ describe('search for delivery people', () => {
 		})
 	})
 
-	it('should be able to search for deleted delivery people', async () => {
+	it('should be able to fetch deleted delivery people', async () => {
 		const newPersonOne = makeDeliveryPerson({ name: 'John Doe', city: 'Blumenau', state: 'SC' }, new UniqueEntityId('person-01'))
 		const newPersonTwo = makeDeliveryPerson({ name: 'Janet Doe', city: 'Timbó', state: 'SC' }, new UniqueEntityId('person-02'))
 		const newPersonThree = makeDeliveryPerson({ name: 'Janet Doe', city: 'Timbó', state: 'SC' }, new UniqueEntityId('person-03'))
@@ -85,7 +85,7 @@ describe('search for delivery people', () => {
 		})
 	})
 
-	it('should be able to search paginated delivery people with filters', async () => {
+	it('should be able to fetch paginated delivery people with filters', async () => {
 		for (let i = 1; i <= 20; i++) {
 			await inMemoryDeliveryPersonRepository.create(
 				makeDeliveryPerson({
@@ -110,7 +110,7 @@ describe('search for delivery people', () => {
 		})
 	})
 
-	it('should not be able to search for delivery people without params', async () => {
+	it('should not be able to fetch delivery people without params', async () => {
 		const result = await sut.execute({
 			name: '',
 			city: '',

@@ -7,7 +7,7 @@ import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-p
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { MinQuerySearchNotProviedError } from '../errors/expected-one-search-param-error'
 
-interface SearchDeliveryPeopleUseCaseRequest {
+interface FetchDeliveryPeopleUseCaseRequest {
 	name?: string
 	city?: string
 	state?: string
@@ -16,13 +16,13 @@ interface SearchDeliveryPeopleUseCaseRequest {
 	perPage: number
 }
 
-type SearchDeliveryPeopleUseCaseResponse = Either<
+type FetchDeliveryPeopleUseCaseResponse = Either<
 	MinQuerySearchNotProviedError,
 	PaginationData<DeliveryPerson[]>
 >
 
 @Injectable()
-export class SearchDeliveryPeopleUseCase {
+export class FetchDeliveryPeopleUseCase {
 	constructor(private deliveryPersonRepository: DeliveryPersonRepository) {}
 
 	async execute({
@@ -32,7 +32,7 @@ export class SearchDeliveryPeopleUseCase {
 		deleted = false,
 		page,
 		perPage,
-	}: SearchDeliveryPeopleUseCaseRequest): Promise<SearchDeliveryPeopleUseCaseResponse> {
+	}: FetchDeliveryPeopleUseCaseRequest): Promise<FetchDeliveryPeopleUseCaseResponse> {
 		if (
 			!(name || city || state) ||
 			(name && name.length < 2) ||
