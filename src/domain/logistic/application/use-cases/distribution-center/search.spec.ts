@@ -106,4 +106,37 @@ describe('search distribution center', () => {
 		// @ts-expect-error distributionCenters does exists
 		expect(response.value.distributionCenters).toHaveLength(10)
 	})
+
+	it('should not be able to search for deleted distribution centers', async () => {
+		const newDistributionPersonOne = makeDistributionCenter({
+			name: 'Fátima da Cruz',
+			city: 'Timbó',
+			state: 'SC',
+		})
+
+		const newDistributionPersonTwo = makeDistributionCenter({
+			name: 'Fátima de Medeiros',
+			city: 'São José dos Pinhais',
+			state: 'PR',
+		})
+
+		newDistributionPersonTwo.deleteDistributionCenter()
+
+		await inMemoryDistributionCenterRepository.create(newDistributionPersonOne)
+		await inMemoryDistributionCenterRepository.create(newDistributionPersonTwo)
+
+		const response = await sut.execute({
+			query: 'Fatima',
+			limit: 20,
+		})
+
+		expect(response.isRight()).toBe(true)
+		expect(response.value).toEqual({
+			distributionCenters: [
+				expect.objectContaining({
+					name: 'Fátima da Cruz',
+				}),
+			],
+		})
+	})
 })

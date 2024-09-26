@@ -44,7 +44,15 @@ model Receiver {
     @@map("receivers")
 }
 
-// Distribution center
+model DistributionCenter {
+    id        String    @id @default(uuid())
+    name      String
+    state     String
+    city      String
+    deletedAt DateTime? @map("deleted_at")
+
+    @@map("distribution_centers")
+}
 
 enum OrderStatusCode {
     POSTED

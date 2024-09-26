@@ -23,12 +23,21 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		return person ?? null
 	}
 
+	async findByDocumentNumber(documentNumber: string) {
+		const person = this.items.find((person) => {
+			return person.documentNumber === documentNumber
+		})
+
+		return person ?? null
+	}
+
 	async findManyBySearchQueries({ query, limit }: QueryDataLimitParams) {
 		const filter = this.items.filter((person) => {
 			const name = normalizeSearch(query, person.name)
 			const documentNumber = normalizeSearch(query, person.documentNumber)
+			const nonDeletedReceiver = !person.deletedAt
 
-			return name || documentNumber
+			return (name || documentNumber) && nonDeletedReceiver
 		})
 
 		return filter.slice(0, limit)

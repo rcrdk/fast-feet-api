@@ -114,4 +114,35 @@ describe('search receivers', () => {
 		// @ts-expect-error receivers does exists
 		expect(response.value.receivers).toHaveLength(10)
 	})
+
+	it('should not be able to search for deleted receivers', async () => {
+		const newPersonOne = makeReceiver({
+			name: 'Fátima da Cruz',
+			documentNumber: '999.999.999-99',
+		})
+
+		const newPersonTwo = makeReceiver({
+			name: 'Fátima Doe',
+			documentNumber: '000.999.000-00',
+		})
+
+		newPersonTwo.deleteReceiver()
+
+		await inMemoryReceiverRepository.create(newPersonOne)
+		await inMemoryReceiverRepository.create(newPersonTwo)
+
+		const response = await sut.execute({
+			query: 'fatima',
+			limit: 20,
+		})
+
+		expect(response.isRight()).toBe(true)
+		expect(response.value).toEqual({
+			receivers: [
+				expect.objectContaining({
+					name: 'Fátima da Cruz',
+				}),
+			],
+		})
+	})
 })

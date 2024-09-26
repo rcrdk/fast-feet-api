@@ -41,6 +41,10 @@ export class Order extends Entity<OrderProps> {
 		this.touch()
 	}
 
+	get receiverId() {
+		return this.props.receiverId
+	}
+
 	get updatedAt() {
 		return this.props.updatedAt
 	}

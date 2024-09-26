@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 import {
+	FindByReceiverParams,
 	FindManyByAvailabilityParams,
 	FindManyByDeliveryPersonParams,
+	FindManyByReceiverParams,
 	OrderRepository,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
@@ -94,6 +96,30 @@ export class InMemoryOrderRepository implements OrderRepository {
 			totalPages: Math.ceil(filteredOrders.length / perPage),
 			totalItems: filteredOrders.length,
 		}
+	}
+
+	async findManyByReceiver({ receiverId, page, perPage }: FindManyByReceiverParams) {
+		const ITEMS_OFFSET_START = (page - 1) * perPage
+		const ITEMS_OFFSET_END = page * perPage
+
+		const filteredOrders = this.items.filter((item) => {
+			return item.receiverId.toString() === receiverId
+		}).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+
+		return {
+			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(filteredOrders.length / perPage),
+			totalItems: filteredOrders.length,
+		}
+	}
+
+	async findByReceiver({ orderId, receiverId }: FindByReceiverParams) {
+		const order = this.items.find((item) => {
+			return item.id.toString() === orderId && item.receiverId.toString() === receiverId
+		})
+
+		return order ?? null
 	}
 
 	async create(data: Order) {

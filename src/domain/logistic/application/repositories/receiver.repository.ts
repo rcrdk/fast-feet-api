@@ -11,6 +11,7 @@ export interface FindByUnique {
 export abstract class ReceiverRepository {
 	abstract findById(id: string): Promise<Receiver | null>
 	abstract findByUnique(props: FindByUnique): Promise<Receiver | null>
+	abstract findByDocumentNumber(documentNumber: string): Promise<Receiver | null>
 	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<Receiver[]>
 	abstract create(data: Receiver): Promise<void>
 	abstract edit(data: Receiver): Promise<void>

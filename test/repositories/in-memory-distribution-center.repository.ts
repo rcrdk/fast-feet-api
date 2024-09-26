@@ -14,12 +14,13 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 	}
 
 	async findManyByQuery({ query, limit }: QueryDataLimitParams) {
-		const filter = this.items.filter((person) => {
-			const name = normalizeSearch(query, person.name)
-			const city = normalizeSearch(query, person.city)
-			const state = normalizeSearch(query, person.state)
+		const filter = this.items.filter((place) => {
+			const name = normalizeSearch(query, place.name)
+			const city = normalizeSearch(query, place.city)
+			const state = normalizeSearch(query, place.state)
+			const nonDeletedPlace = !place.deletedAt
 
-			return name || city || state
+			return (name || city || state) && nonDeletedPlace
 		})
 
 		return filter.slice(0, limit)
