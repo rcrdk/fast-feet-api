@@ -51,12 +51,8 @@ export class InMemoryDeliveryPersonRepository
 		if (city) items = items.filter((item) => normalizeSearch(city, item.city))
 		if (state) items = items.filter((item) => normalizeSearch(state, item.state))
 
-		if (deleted) {
-			items = items.filter((item) => !!item.deletedAt)
-		} else {
-			items = items.filter((item) => !item.deletedAt)
-		}
-
+		items = items.filter((item) => deleted ? !!item.deletedAt : !item.deletedAt)
+		
 		return {
 			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
 			perPage,
