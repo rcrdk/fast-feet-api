@@ -5,7 +5,6 @@ import { PaginationData } from '@/core/repositories/pagination-data'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 import { DistributionCenterRepository } from '../../repositories/distribution-center.repository'
-import { MinQuerySearchNotProviedError } from '../errors/expected-one-search-param-error'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 
 interface FetchDistributionCenterUseCaseRequest {
@@ -16,7 +15,7 @@ interface FetchDistributionCenterUseCaseRequest {
 }
 
 type FetchDistributionCenterUseCaseResponse = Either<
-	MinQuerySearchNotProviedError,
+	InvalidQueryLengthError,
 	PaginationData<DistributionCenter[]>
 >
 

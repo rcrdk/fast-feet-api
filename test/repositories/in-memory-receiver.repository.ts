@@ -1,6 +1,7 @@
 import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 import {
 	FindByUnique,
+	FindManyByFiltersParams,
 	ReceiverRepository,
 } from '@/domain/logistic/application/repositories/receiver.repository'
 import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
@@ -41,6 +42,32 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		})
 
 		return filter.slice(0, limit)
+	}
+
+	async findManyByFilters({
+		query,
+		deleted,
+		page,
+		perPage,
+	}: FindManyByFiltersParams) {
+		const ITEMS_OFFSET_START = (page - 1) * perPage
+		const ITEMS_OFFSET_END = page * perPage
+
+		const items = this.items.filter((place) => {
+			const name = normalizeSearch(query, place.name)
+			const documentNumber = normalizeSearch(query, place.documentNumber)
+
+			const wasDeleted = deleted ? !!place.deletedAt : !place.deletedAt
+
+			return (name || documentNumber) && wasDeleted
+		})
+
+		return {
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(items.length / perPage),
+			totalItems: items.length,
+		}
 	}
 
 	async create(data: Receiver) {
