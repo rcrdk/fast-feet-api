@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 import {
 	DeliveryPersonRepository,
 	FindManyByFiltersParams,
@@ -62,6 +63,20 @@ export class InMemoryDeliveryPersonRepository
 			totalPages: Math.ceil(items.length / perPage),
 			totalItems: items.length,
 		}
+	}
+
+	async findManyBySearchQueries({ query, limit }: QueryDataLimitParams) {
+		const filter = this.items.filter((person) => {
+			const name = normalizeSearch(query, person.name)
+			const city = normalizeSearch(query, person.city)
+			const state = normalizeSearch(query, person.state)
+			const documentNumber = normalizeSearch(query, person.documentNumber)
+			const nonDeletedReceiver = !person.deletedAt
+
+			return (name || city || state || documentNumber) && nonDeletedReceiver
+		})
+
+		return filter.slice(0, limit)
 	}
 
 	async create(data: DeliveryPerson) {

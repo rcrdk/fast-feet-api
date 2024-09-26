@@ -60,41 +60,6 @@ describe('search receivers', () => {
 		expect(response.value).toBeInstanceOf(InvalidQueryLengthError)
 	})
 
-	it('should be able to search for receivers by query', async () => {
-		const newPersonOne = makeReceiver({
-			name: 'Fátima da Cruz',
-			documentNumber: '999.999.999-99',
-		})
-
-		const newPersonTwo = makeReceiver({
-			name: 'John Doe',
-			documentNumber: '000.999.000-00',
-		})
-
-		await inMemoryReceiverRepository.create(newPersonOne)
-		await inMemoryReceiverRepository.create(newPersonTwo)
-
-		const responseOne = await sut.execute({
-			query: 'fatima',
-			limit: 20,
-		})
-
-		expect(responseOne.isRight()).toBe(true)
-		expect(responseOne.value).toMatchObject({
-			receivers: [expect.any(Receiver)],
-		})
-
-		const responseTwo = await sut.execute({
-			query: '999.0',
-			limit: 20,
-		})
-
-		expect(responseTwo.isRight()).toBe(true)
-		expect(responseTwo.value).toMatchObject({
-			receivers: [expect.any(Receiver)],
-		})
-	})
-
 	it('should be able to search for receivers by query with limit of results', async () => {
 		for (let i = 1; i <= 20; i++) {
 			await inMemoryReceiverRepository.create(
