@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	FindByReceiverParams,
 	FindManyByAvailabilityParams,
 	FindManyByDeliveryPersonParams,
 	FindManyByReceiverParams,
 	OrderRepository,
+	UpdateDeliveryPersonParams,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
@@ -132,6 +134,21 @@ export class InMemoryOrderRepository implements OrderRepository {
 				currentLocationId: data.originLocationId,
 				statusCode: 'POSTED',
 			}),
+		)
+	}
+
+	async updateDeliveryPerson({ data, authPersonId }: UpdateDeliveryPersonParams) {
+		const index = this.items.findIndex((item) => item.id === data.id)
+
+		this.items[index] = data
+
+		this.orderStatusRepository.create(
+			OrderStatus.create({
+				orderId: data.id,
+				creatorId: new UniqueEntityId(authPersonId),
+				currentLocationId: data.currentLocationId,
+				statusCode: data.deliveryPersonId ? 'PICKED' : 'AWAITING_PICK_UP',
+			})
 		)
 	}
 

@@ -22,6 +22,11 @@ export interface FindByReceiverParams {
 	orderId: string
 }
 
+export interface UpdateDeliveryPersonParams {
+	data: Order
+	authPersonId: string
+}
+
 export abstract class OrderRepository {
 	abstract findById(orderId: string): Promise<Order | null>
 	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<Order[]>>
@@ -29,5 +34,6 @@ export abstract class OrderRepository {
 	abstract findManyByReceiver(props: FindManyByReceiverParams): Promise<PaginationData<Order[]>>
 	abstract findByReceiver(props: FindByReceiverParams): Promise<Order | null>
 	abstract create(data: Order): Promise<void>
+	abstract updateDeliveryPerson(props: UpdateDeliveryPersonParams): Promise<void>
 	abstract delete(data: Order): Promise<void>
 }
