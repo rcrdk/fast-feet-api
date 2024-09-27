@@ -27,11 +27,21 @@ export interface UpdateDeliveryPersonParams {
 	authPersonId: string
 }
 
+export type FindManyByFiltersParams = PaginationParams & {
+	currentDeliveryPersonId?: string | null
+	currentLocationId?: string | null
+	currentStatus?: string | null
+	receiverId?: string | null
+	updatedFrom?: string | null
+	updatedUntil?: string | null
+}
+
 export abstract class OrderRepository {
 	abstract findById(orderId: string): Promise<Order | null>
 	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<Order[]>>
 	abstract findManyByDeliveryPerson(props: FindManyByDeliveryPersonParams): Promise<PaginationData<Order[]>>
 	abstract findManyByReceiver(props: FindManyByReceiverParams): Promise<PaginationData<Order[]>>
+	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<Order[]>>
 	abstract findByReceiver(props: FindByReceiverParams): Promise<Order | null>
 	abstract create(data: Order): Promise<void>
 	abstract updateDeliveryPerson(props: UpdateDeliveryPersonParams): Promise<void>

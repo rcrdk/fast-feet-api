@@ -1,9 +1,14 @@
 /* eslint-disable prettier/prettier */
+import dayjs from 'dayjs'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	FindByReceiverParams,
 	FindManyByAvailabilityParams,
 	FindManyByDeliveryPersonParams,
+	FindManyByFiltersParams,
 	FindManyByReceiverParams,
 	OrderRepository,
 	UpdateDeliveryPersonParams,
@@ -20,6 +25,9 @@ interface OrderWithLocation {
 	order: Order,
 	distributionCenter: DistributionCenter
 }
+
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 
 export class InMemoryOrderRepository implements OrderRepository {
 	public items: Order[] = []
@@ -49,7 +57,7 @@ export class InMemoryOrderRepository implements OrderRepository {
 
 			if (!distributionCenter) {
 				throw new Error(
-					`Author with id "${order.currentLocationId.toString()}" does not exists.`,
+					`Distribution center with id "${order.currentLocationId.toString()}" does not exists.`,
 				)
 			}
 
@@ -122,6 +130,55 @@ export class InMemoryOrderRepository implements OrderRepository {
 		})
 
 		return order ?? null
+	}
+
+	async findManyByFilters({ currentDeliveryPersonId, currentLocationId, currentStatus, receiverId, updatedFrom, updatedUntil, page, perPage }: FindManyByFiltersParams) {
+		const ITEMS_OFFSET_START = (page - 1) * perPage
+		const ITEMS_OFFSET_END = page * perPage
+
+		let items = this.items
+
+		if (currentDeliveryPersonId) items = items.filter((order) => order.deliveryPersonId?.toString() === currentDeliveryPersonId)
+		if (currentLocationId) items = items.filter((order) => order.currentLocationId?.toString() === currentLocationId)
+		if (currentStatus) items = items.filter((order) => order.currentStatusCode === currentStatus)
+		if (receiverId) items = items.filter((order) => order.receiverId.toString() === receiverId)
+
+		if (updatedFrom && updatedUntil) {
+			items = items.filter((order) => {
+				const orderDate = dayjs(order.updatedAt).startOf('day')
+				const paramStartDate = dayjs(updatedFrom).startOf('day')
+				const paramEndDate = dayjs(updatedUntil).startOf('day')
+
+				return dayjs(orderDate).isSameOrAfter(paramStartDate) && dayjs(orderDate).isSameOrBefore(paramEndDate)
+			})
+		}
+
+		if (updatedFrom && !updatedUntil) {
+			items = items.filter((order) => {
+				const orderDate = dayjs(order.updatedAt).startOf('day')
+				const paramStartDate = dayjs(updatedFrom).startOf('day')
+
+				return dayjs(orderDate).isSameOrAfter(paramStartDate)
+			})
+		}
+
+		if (updatedUntil && !updatedFrom) {
+			items = items.filter((order) => {
+				const orderDate = dayjs(order.updatedAt).startOf('day')
+				const paramEndDate = dayjs(updatedUntil).startOf('day')
+
+				return dayjs(orderDate).isSameOrBefore(paramEndDate)
+			})
+		}
+
+		items = items.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+
+		return {
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			perPage,
+			totalPages: Math.ceil(items.length / perPage),
+			totalItems: items.length,
+		}
 	}
 
 	async create(data: Order) {

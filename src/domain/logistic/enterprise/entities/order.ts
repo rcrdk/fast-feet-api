@@ -73,10 +73,10 @@ export class Order extends Entity<OrderProps> {
 		const order = new Order(
 			{
 				...props,
-				currentLocationId: props.originLocationId,
+				currentLocationId: props.currentLocationId ?? props.originLocationId,
 				currentStatusCode: props.currentStatusCode ?? 'POSTED',
 				postedAt: props.postedAt ?? new Date(),
-				updatedAt: props.postedAt ?? new Date(),
+				updatedAt: props.updatedAt ?? props.postedAt ?? new Date(),
 			},
 			id,
 		)

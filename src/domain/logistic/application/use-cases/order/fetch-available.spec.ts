@@ -38,17 +38,17 @@ describe('fetch available orders to pickup', () => {
 		await inMemoryDistributionCenterRepository.create(distributionCenterTwo)
 
 		const newOrderOne = makeOrder({
-			originLocationId: distributionCenterOne.id,
+			currentLocationId: new UniqueEntityId('dc-01'),
 			deliveryPersonId: new UniqueEntityId('teste'),
 		}, new UniqueEntityId('order-01'))
 
 		const newOrderTwo = makeOrder({
-			originLocationId: distributionCenterTwo.id,
+			currentLocationId: new UniqueEntityId('dc-02'),
 			deliveryPersonId: undefined,
 		}, new UniqueEntityId('order-02'))
 
 		const newOrderThree = makeOrder({
-			originLocationId: distributionCenterOne.id,
+			currentLocationId: new UniqueEntityId('dc-01'),
 			deliveryPersonId: undefined,
 		}, new UniqueEntityId('order-03'))
 
@@ -83,17 +83,17 @@ describe('fetch available orders to pickup', () => {
 		await inMemoryDistributionCenterRepository.create(distributionCenterOne)
 
 		const newOrderOne = makeOrder({
-			originLocationId: distributionCenterOne.id,
+			currentLocationId: distributionCenterOne.id,
 			deliveryPersonId: undefined,
 		}, new UniqueEntityId('order-01'))
 
 		const newOrderTwo = makeOrder({
-			originLocationId: distributionCenterOne.id,
+			currentLocationId: distributionCenterOne.id,
 			deliveryPersonId: undefined,
 		}, new UniqueEntityId('order-02'))
 
 		const newOrderThree = makeOrder({
-			originLocationId: distributionCenterOne.id,
+			currentLocationId: distributionCenterOne.id,
 			deliveryPersonId: undefined,
 		}, new UniqueEntityId('order-03'))
 
