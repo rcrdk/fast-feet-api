@@ -46,4 +46,5 @@ export abstract class OrderRepository {
 	abstract create(data: Order): Promise<void>
 	abstract updateDeliveryPerson(props: UpdateDeliveryPersonParams): Promise<void>
 	abstract delete(data: Order): Promise<void>
+	abstract setStatusPicked(data: Order): Promise<void>
 }

@@ -216,4 +216,18 @@ export class InMemoryOrderRepository implements OrderRepository {
 		const orderId = data.id.toString()
 		this.orderStatusRepository.deleteMany(orderId)
 	}
+
+	async setStatusPicked(data: Order) {
+		const index = this.items.findIndex((item) => item.id === data.id)
+		this.items[index] = data
+
+		this.orderStatusRepository.create(
+			OrderStatus.create({
+				orderId: data.id,
+				creatorId: data.deliveryPersonId ?? data.creatorId,
+				currentLocationId: data.currentLocationId,
+				statusCode: 'PICKED',
+			})
+		)
+	}
 }
