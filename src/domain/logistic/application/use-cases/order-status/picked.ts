@@ -32,18 +32,18 @@ export class SetOrderStatusPickedUseCase {
 	}: SetOrderStatusPickedUseCaseRequest): Promise<SetOrderStatusPickedUseCaseResponse> {
 		const order = await this.orderRepository.findById(orderId)
 		
-		if (!order || !order.deliveryPersonId) {
+		if (!order) {
 			return left(new ResourceNotFoundError())
+		}
+
+		if (deliveryPersonId !== order.deliveryPersonId?.toString()) {
+			return left(new UnauthorizedError())
 		}
 		
 		const deliveryPerson = await this.deliveryPersonRepository.findById(deliveryPersonId)
 
 		if (!deliveryPerson) {
 			return left(new ResourceNotFoundError())
-		}
-
-		if (!deliveryPerson.id.equals(order.deliveryPersonId!)) {
-			return left(new UnauthorizedError())
 		}
 
 		order.deliveryPersonId = new UniqueEntityId(deliveryPersonId)
