@@ -36,6 +36,17 @@ export type FindManyByFiltersParams = PaginationParams & {
 	updatedUntil?: string | null
 }
 
+export interface OrderStatusWithReason {
+	data: Order
+	reason: string | null
+}
+
+export interface OrderStatusWithReasonAndAttachment {
+	data: Order
+	reason: string | null
+	attachment: string
+}
+
 export abstract class OrderRepository {
 	abstract findById(orderId: string): Promise<Order | null>
 	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<Order[]>>
@@ -51,4 +62,5 @@ export abstract class OrderRepository {
 	abstract setStatusTransferFinished(data: Order): Promise<void>
 	abstract setStatusOnRoute(data: Order): Promise<void>
 	abstract setStatusCanceled(data: Order): Promise<void>
+	abstract setStatusReturned(data: Order): Promise<void>
 }
