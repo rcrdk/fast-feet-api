@@ -42,6 +42,7 @@ describe('set status returned to a order', () => {
 		const result = await sut.execute({
 			deliveryPersonId: 'dp-01',
 			orderId: 'order-01',
+			details: 'Order return to its origin location.'
 		})
 
 		expect(result.isRight()).toBe(true)
@@ -59,6 +60,7 @@ describe('set status returned to a order', () => {
 				}),
 				expect.objectContaining({
 					statusCode: 'RETURNED',
+					details: 'Order return to its origin location.',
 					creatorId: new UniqueEntityId('dp-01'),
 				}),
 			])

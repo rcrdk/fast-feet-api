@@ -42,6 +42,7 @@ describe('set status canceled to a order', () => {
 		const result = await sut.execute({
 			deliveryPersonId: 'dp-01',
 			orderId: 'order-01',
+			details: 'Order canceled because of...'
 		})
 
 		expect(result.isRight()).toBe(true)
@@ -59,6 +60,7 @@ describe('set status canceled to a order', () => {
 				}),
 				expect.objectContaining({
 					statusCode: 'CANCELED',
+					details: 'Order canceled because of...',
 					creatorId: new UniqueEntityId('dp-01'),
 				}),
 			])

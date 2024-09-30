@@ -11,6 +11,7 @@ import { OrderRepository } from '../../repositories/order.repository'
 interface SetOrderStatusReturnedUseCaseRequest {
 	orderId: string
 	deliveryPersonId: string
+	details?: string | null
 }
 
 type SetOrderStatusReturnedUseCaseResponse = Either<
@@ -28,6 +29,7 @@ export class SetOrderStatusReturnedUseCase {
 	async execute({
 		orderId,
 		deliveryPersonId,
+		details,
 	}: SetOrderStatusReturnedUseCaseRequest): Promise<SetOrderStatusReturnedUseCaseResponse> {
 		const order = await this.orderRepository.findById(orderId)
 		
@@ -49,7 +51,10 @@ export class SetOrderStatusReturnedUseCase {
 		order.currentLocationId = order.originLocationId
 		order.currentStatusCode = 'RETURNED'
 		
-		await this.orderRepository.setStatusReturned(order)
+		await this.orderRepository.setStatusReturned({
+			order,
+			details: details ?? null
+		})
 
 		return right({})
 	}

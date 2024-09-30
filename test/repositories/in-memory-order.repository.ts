@@ -11,6 +11,7 @@ import {
 	FindManyByFiltersParams,
 	FindManyByReceiverParams,
 	OrderRepository,
+	OrderStatusWithDetails,
 	UpdateDeliveryPersonParams,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
@@ -259,44 +260,47 @@ export class InMemoryOrderRepository implements OrderRepository {
 		)
 	}
 
-	async setStatusOnRoute(data: Order) {
-		const index = this.items.findIndex((item) => item.id === data.id)
-		this.items[index] = data
+	async setStatusOnRoute({ order, details }: OrderStatusWithDetails) {
+		const index = this.items.findIndex((item) => item.id === order.id)
+		this.items[index] = order
 
 		this.orderStatusRepository.create(
 			OrderStatus.create({
-				orderId: data.id,
-				creatorId: data.deliveryPersonId ?? data.creatorId,
-				currentLocationId: data.currentLocationId,
+				orderId: order.id,
+				creatorId: order.deliveryPersonId ?? order.creatorId,
+				currentLocationId: order.currentLocationId,
 				statusCode: 'ON_ROUTE',
+				details,
 			})
 		)
 	}
 
-	async setStatusCanceled(data: Order) {
-		const index = this.items.findIndex((item) => item.id === data.id)
-		this.items[index] = data
+	async setStatusCanceled({ order, details }: OrderStatusWithDetails) {
+		const index = this.items.findIndex((item) => item.id === order.id)
+		this.items[index] = order
 
 		this.orderStatusRepository.create(
 			OrderStatus.create({
-				orderId: data.id,
-				creatorId: data.deliveryPersonId ?? data.creatorId,
-				currentLocationId: data.currentLocationId,
+				orderId: order.id,
+				creatorId: order.deliveryPersonId ?? order.creatorId,
+				currentLocationId: order.currentLocationId,
 				statusCode: 'CANCELED',
+				details,
 			})
 		)
 	}
 
-	async setStatusReturned(data: Order) {
-		const index = this.items.findIndex((item) => item.id === data.id)
-		this.items[index] = data
+	async setStatusReturned({ order, details }: OrderStatusWithDetails) {
+		const index = this.items.findIndex((item) => item.id === order.id)
+		this.items[index] = order
 
 		this.orderStatusRepository.create(
 			OrderStatus.create({
-				orderId: data.id,
-				creatorId: data.deliveryPersonId ?? data.creatorId,
-				currentLocationId: data.currentLocationId,
+				orderId: order.id,
+				creatorId: order.deliveryPersonId ?? order.creatorId,
+				currentLocationId: order.currentLocationId,
 				statusCode: 'RETURNED',
+				details,
 			})
 		)
 	}

@@ -42,6 +42,7 @@ describe('set status on route to a order', () => {
 		const result = await sut.execute({
 			deliveryPersonId: 'dp-01',
 			orderId: 'order-01',
+			details: 'Order on route to the other address...'
 		})
 
 		expect(result.isRight()).toBe(true)
@@ -59,6 +60,7 @@ describe('set status on route to a order', () => {
 				}),
 				expect.objectContaining({
 					statusCode: 'ON_ROUTE',
+					details: 'Order on route to the other address...',
 					creatorId: new UniqueEntityId('dp-01'),
 				}),
 			])

@@ -12,6 +12,7 @@ import { OrderRepository } from '../../repositories/order.repository'
 interface SetOrderStatusOnRouteUseCaseRequest {
 	orderId: string
 	deliveryPersonId: string
+	details?: string | null
 }
 
 type SetOrderStatusOnRouteUseCaseResponse = Either<
@@ -29,6 +30,7 @@ export class SetOrderStatusOnRouteUseCase {
 	async execute({
 		orderId,
 		deliveryPersonId,
+		details,
 	}: SetOrderStatusOnRouteUseCaseRequest): Promise<SetOrderStatusOnRouteUseCaseResponse> {
 		const order = await this.orderRepository.findById(orderId)
 		
@@ -49,7 +51,10 @@ export class SetOrderStatusOnRouteUseCase {
 		order.deliveryPersonId = new UniqueEntityId(deliveryPersonId)
 		order.currentStatusCode = 'ON_ROUTE'
 		
-		await this.orderRepository.setStatusOnRoute(order)
+		await this.orderRepository.setStatusOnRoute({
+			order,
+			details: details ?? null
+		})
 
 		return right({})
 	}
