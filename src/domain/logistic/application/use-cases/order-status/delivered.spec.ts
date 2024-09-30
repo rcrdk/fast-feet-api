@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { makeAttachment } from 'test/factories/make-attachment'
 import { makeDeliveryPerson } from 'test/factories/make-delivery-person'
 import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { makeOrder } from 'test/factories/make-order'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
 import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
@@ -16,6 +18,7 @@ let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let sut: SetOrderStatusDeliveredUseCase
 
 describe('set status delivered to a order', () => {
@@ -24,13 +27,18 @@ describe('set status delivered to a order', () => {
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryDistributionCenterRepository = new InMemoryDistributionCenterRepository()
 		inMemoryOrderRepository = new InMemoryOrderRepository(inMemoryOrderStatusRepository, inMemoryDistributionCenterRepository)
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		sut = new SetOrderStatusDeliveredUseCase(
 			inMemoryOrderRepository,
 			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository
 		)
 	})
 
 	it('it should be able to set status as delivered to a order', async () => {
+		const newAttachment = makeAttachment({}, new UniqueEntityId('file-01'))
+		inMemoryAttachmentsRepository.create(newAttachment)
+
 		const newDeliveryPerson = makeDeliveryPerson({}, new UniqueEntityId('dp-01'))
 		inMemoryDeliveryPersonRepository.create(newDeliveryPerson)
 
@@ -43,7 +51,7 @@ describe('set status delivered to a order', () => {
 		const result = await sut.execute({
 			deliveryPersonId: 'dp-01',
 			orderId: 'order-01',
-			attachmentId: 'attachment-01',
+			attachmentId: 'file-01',
 		})
 
 		expect(result.isRight()).toBe(true)
@@ -62,6 +70,7 @@ describe('set status delivered to a order', () => {
 				expect.objectContaining({
 					statusCode: 'DELIVERED',
 					creatorId: new UniqueEntityId('dp-01'),
+					attachmentId: new UniqueEntityId('file-01')
 				}),
 			])
 		)

@@ -6,6 +6,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 
+import { AttachmentsRepository } from '../../repositories/attachments.repository'
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { OrderRepository } from '../../repositories/order.repository'
 
@@ -26,6 +27,7 @@ export class SetOrderStatusDeliveredUseCase {
 	constructor(
 		private orderRepository: OrderRepository,
 		private deliveryPersonRepository: DeliveryPersonRepository,
+		private attachmentsRepository: AttachmentsRepository,
 	) {}
 
 	async execute({
@@ -54,11 +56,11 @@ export class SetOrderStatusDeliveredUseCase {
 			return left(new ResourceNotFoundError())
 		}
 
-		// const attachment = await this.attachmentsRepository.findById(attachmentId)
+		const attachment = await this.attachmentsRepository.findById(attachmentId)
 
-		// if (!attachment) {
-		// 	return left(new ResourceNotFoundError())
-		// }
+		if (!attachment) {
+			return left(new ResourceNotFoundError())
+		}
 
 		order.deliveryPersonId = new UniqueEntityId(deliveryPersonId)
 		order.currentStatusCode = 'DELIVERED'
