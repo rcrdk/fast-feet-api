@@ -7,9 +7,13 @@ async function main() {
 	await prisma.user.create({
 		data: {
 			name: 'John Doe',
+			documentNumber: '999.999.999-99',
+			role: 'ADMINISTRATOR',
+			phone: '(99) 9999-9999',
 			email: 'admin@admin.com',
 			password: await hash('12345', 8),
-			role: 'ADMIN',
+			city: 'Timbó',
+			state: 'SC',
 		},
 	})
 }

@@ -54,50 +54,51 @@ model DistributionCenter {
     @@map("distribution_centers")
 }
 
-enum OrderStatusCode {
-    POSTED
-    PICKED
-    TRANSFER_PROCESS
-    AWAITING_PICK_UP
-    TRANSFER_FINISHED
-    ON_ROUTE
-    DELIVERED
-    CANCELED
-    RETURNED
-}
+// enum OrderStatusCode {
+//     POSTED
+//     PICKED
+//     TRANSFER_PROCESS
+//     AWAITING_PICK_UP
+//     TRANSFER_FINISHED
+//     ON_ROUTE
+//     DELIVERED
+//     CANCELED
+//     RETURNED
+// }
 
-model Order {
-    id                String          @id @default(uuid())
-    currentStatusCode OrderStatusCode @default(POSTED)
-    state             String
-    city              String
-    postedAt          DateTime        @default(now())
-    updatedAt         DateTime        @default(now()) @updatedAt
+// model Order {
+//     id                String          @id @default(uuid())
+//     currentStatusCode OrderStatusCode @default(POSTED)
+//     state             String
+//     city              String
+//     postedAt          DateTime        @default(now())
+//     updatedAt         DateTime        @default(now()) @updatedAt
 
-    // deliveryPersonId: User
-    // receiverId: Receiver
-    // attachmentId: Attachment
+//     // deliveryPersonId: User
+//     // receiverId: Receiver
+//     // attachmentId: Attachment
 
-    @@map("orders")
-}
+//     @@map("orders")
+// }
 
-model OrderStatus {
-    id String @id @default(uuid())
+// model Status {
+//     id String @id @default(uuid())
 
-    statusCode OrderStatusCode @default(POSTED)
-    details    String?
-    updatedAt  DateTime        @default(now()) @updatedAt
+//     statusCode OrderStatusCode @default(POSTED)
+//     details    String?
+//     updatedAt  DateTime        @default(now()) @updatedAt
 
-    // orderId Order
-    // creatorId: User
+//     // orderId Order
+//     // creatorId: User
 
-    @@map("orders_statuses")
-}
+//     @@map("orders_statuses")
+// }
 
-model OrderAttachment {
-    id String @id @default(uuid())
+// model Attachment {
+//     id  String @id @default(uuid())
+//     url String
 
-    // orderStatusId OrderStatus
+//     // orderStatusId OrderStatus
 
-    @@map("orders_attachments")
-}
+//     @@map("orders_attachments")
+// }
