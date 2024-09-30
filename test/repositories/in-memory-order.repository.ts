@@ -12,6 +12,7 @@ import {
 	FindManyByReceiverParams,
 	OrderRepository,
 	OrderStatusWithDetails,
+	OrderStatusWithDetailsAndAttachment,
 	UpdateDeliveryPersonParams,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
@@ -300,6 +301,22 @@ export class InMemoryOrderRepository implements OrderRepository {
 				creatorId: order.deliveryPersonId ?? order.creatorId,
 				currentLocationId: order.currentLocationId,
 				statusCode: 'RETURNED',
+				details,
+			})
+		)
+	}
+
+	async setStatusDelivered({ order, details, attachmentId }: OrderStatusWithDetailsAndAttachment) {
+		const index = this.items.findIndex((item) => item.id === order.id)
+		this.items[index] = order
+
+		this.orderStatusRepository.create(
+			OrderStatus.create({
+				orderId: order.id,
+				creatorId: order.deliveryPersonId ?? order.creatorId,
+				currentLocationId: undefined,
+				statusCode: 'DELIVERED',
+				attachmentId: new UniqueEntityId(attachmentId),
 				details,
 			})
 		)

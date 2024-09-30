@@ -44,7 +44,7 @@ export interface OrderStatusWithDetails {
 export interface OrderStatusWithDetailsAndAttachment {
 	order: Order
 	details: string | null
-	attachment: string
+	attachmentId: string
 }
 
 export abstract class OrderRepository {
@@ -63,4 +63,5 @@ export abstract class OrderRepository {
 	abstract setStatusOnRoute(props: OrderStatusWithDetails): Promise<void>
 	abstract setStatusCanceled(props: OrderStatusWithDetails): Promise<void>
 	abstract setStatusReturned(props: OrderStatusWithDetails): Promise<void>
+	abstract setStatusDelivered(props: OrderStatusWithDetailsAndAttachment): Promise<void>
 }
