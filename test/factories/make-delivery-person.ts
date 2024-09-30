@@ -1,10 +1,13 @@
 import { faker, fakerPT_BR as fakerBrazilian } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	DeliveryPerson,
 	DeliveryPersonProps,
 } from '@/domain/logistic/enterprise/entities/delivery-person'
+import { PrismaDeliveryPersonMapper } from '@/infra/database/prisma/mappers/prisma-delivery-person.mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 /**
  *
@@ -33,17 +36,19 @@ export function makeDeliveryPerson(
 	return person
 }
 
-// @Injectable()
-// export class StudentFactory {
-// 	constructor(private prisma: PrismaService) {}
+@Injectable()
+export class DeliveryPersonFactory {
+	constructor(private prisma: PrismaService) {}
 
-// 	async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
-// 		const student = makeStudent(data)
+	async makeDeliveryPerson(
+		data: Partial<DeliveryPersonProps> = {},
+	): Promise<DeliveryPerson> {
+		const person = makeDeliveryPerson(data)
 
-// 		await this.prisma.user.create({
-// 			data: PrismaStudentMapper.toPrisma(student),
-// 		})
+		await this.prisma.user.create({
+			data: PrismaDeliveryPersonMapper.toPrisma(person),
+		})
 
-// 		return student
-// 	}
-// }
+		return person
+	}
+}
