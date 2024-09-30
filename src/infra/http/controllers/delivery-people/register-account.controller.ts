@@ -5,15 +5,11 @@ import {
 	Controller,
 	HttpCode,
 	Post,
-	UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
 
-import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { RegisterDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/register'
 import { UserAlreadyExistsError } from '@/domain/logistic/application/use-cases/errors/user-already-exists-error'
-import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { Roles } from '@/infra/auth/user-roles.decorator'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 
@@ -37,14 +33,10 @@ export class RegisterDeliveryPersonAccountController {
 	@Post()
 	@HttpCode(201)
 	@Roles('ADMINISTRATOR')
-	async handle(
-		@Body(bodyValidationPipe) body: CreateAccountBodySchema,
-		@CurrentUser() user: UserPayload,
-	) {
+	async handle(@Body(bodyValidationPipe) body: CreateAccountBodySchema) {
 		const { name, email, password, city, state, phone, documentNumber } = body
 
 		const result = await this.registerDeliveryPerson.execute({
-			authRole: user.role,
 			name,
 			email,
 			password,
@@ -60,8 +52,6 @@ export class RegisterDeliveryPersonAccountController {
 			switch (error.constructor) {
 				case UserAlreadyExistsError:
 					throw new ConflictException(error.message)
-				case UnauthorizedError:
-					throw new UnauthorizedException(error.message)
 				default:
 					throw new BadRequestException(error.message)
 			}

@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { UnauthorizedError } from '@/core/errors/unauthorized-error'
-import { UserRoles } from '@/core/repositories/roles'
 import { Administrator } from '@/domain/logistic/enterprise/entities/administrator'
 
 import { HashGenerator } from '../../cryptography/hash-generator'
@@ -10,7 +8,6 @@ import { AdministratorRepository } from '../../repositories/administrator.reposi
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
 interface RegisterAdministratorUseCaseRequest {
-	authRole: UserRoles
 	name: string
 	documentNumber: string
 	password: string
@@ -35,7 +32,7 @@ export class RegisterAdministratorUseCase {
 	) {}
 
 	async execute({
-		authRole,
+		// authRole,
 		name,
 		documentNumber,
 		password,
@@ -44,17 +41,14 @@ export class RegisterAdministratorUseCase {
 		city,
 		state,
 	}: RegisterAdministratorUseCaseRequest): Promise<RegisterAdministratorUseCaseResponse> {
-		if (authRole !== 'ADMINISTRATOR') {
-			return left(new UnauthorizedError())
-		}
-
 		const personWithSameData = await this.administratorRepository.findByUnique(
 			documentNumber,
 			email,
 		)
 
 		if (personWithSameData) {
-			return left(new UserAlreadyExistsError(personWithSameData.documentNumber))
+			// eslint-disable-next-line prettier/prettier
+			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' and '${personWithSameData.email}'`))
 		}
 
 		const hashedPassword = await this.hashGenerator.hash(password)

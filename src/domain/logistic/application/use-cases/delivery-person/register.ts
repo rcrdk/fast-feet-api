@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { UnauthorizedError } from '@/core/errors/unauthorized-error'
-import { UserRoles } from '@/core/repositories/roles'
 import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 
 import { HashGenerator } from '../../cryptography/hash-generator'
@@ -10,7 +8,6 @@ import { DeliveryPersonRepository } from '../../repositories/delivery-person.rep
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
 interface RegisterDeliveryPersonUseCaseRequest {
-	authRole: UserRoles
 	name: string
 	documentNumber: string
 	password: string
@@ -35,7 +32,6 @@ export class RegisterDeliveryPersonUseCase {
 	) {}
 
 	async execute({
-		authRole,
 		name,
 		documentNumber,
 		password,
@@ -44,17 +40,14 @@ export class RegisterDeliveryPersonUseCase {
 		city,
 		state,
 	}: RegisterDeliveryPersonUseCaseRequest): Promise<RegisterDeliveryPersonUseCaseResponse> {
-		if (authRole !== 'ADMINISTRATOR') {
-			return left(new UnauthorizedError())
-		}
-
 		const personWithSameData = await this.deliveryPersonRepository.findByUnique(
 			documentNumber,
 			email,
 		)
 
 		if (personWithSameData) {
-			return left(new UserAlreadyExistsError(personWithSameData.documentNumber))
+			// eslint-disable-next-line prettier/prettier
+			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' and '${personWithSameData.email}'`))
 		}
 
 		const hashedPassword = await this.hashGenerator.hash(password)

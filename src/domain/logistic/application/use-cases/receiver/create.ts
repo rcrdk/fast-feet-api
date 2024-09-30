@@ -48,7 +48,8 @@ export class CreateReceiverUseCase {
 		})
 
 		if (personWithSameData) {
-			return left(new UserAlreadyExistsError(personWithSameData.documentNumber))
+			// eslint-disable-next-line prettier/prettier
+			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' and '${personWithSameData.email}'`))
 		}
 
 		const receiver = Receiver.create({

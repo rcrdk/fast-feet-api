@@ -5,15 +5,11 @@ import {
 	Controller,
 	HttpCode,
 	Post,
-	UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
 
-import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { RegisterAdministratorUseCase } from '@/domain/logistic/application/use-cases/administrator/register'
 import { UserAlreadyExistsError } from '@/domain/logistic/application/use-cases/errors/user-already-exists-error'
-import { CurrentUser } from '@/infra/auth/current-user.decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { Roles } from '@/infra/auth/user-roles.decorator'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 
@@ -37,14 +33,10 @@ export class RegisterAdministratorAccountController {
 	@Post()
 	@HttpCode(201)
 	@Roles('ADMINISTRATOR')
-	async handle(
-		@Body(bodyValidationPipe) body: CreateAccountBodySchema,
-		@CurrentUser() user: UserPayload,
-	) {
+	async handle(@Body(bodyValidationPipe) body: CreateAccountBodySchema) {
 		const { name, email, password, city, state, phone, documentNumber } = body
 
 		const result = await this.registerAdministrator.execute({
-			authRole: user.role,
 			name,
 			email,
 			password,
@@ -58,8 +50,6 @@ export class RegisterAdministratorAccountController {
 			const error = result.value
 
 			switch (error.constructor) {
-				case UnauthorizedError:
-					throw new UnauthorizedException(error.message)
 				case UserAlreadyExistsError:
 					throw new ConflictException(error.message)
 				default:
