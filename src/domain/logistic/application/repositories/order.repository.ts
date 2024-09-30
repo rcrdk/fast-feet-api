@@ -48,4 +48,5 @@ export abstract class OrderRepository {
 	abstract delete(data: Order): Promise<void>
 	abstract setStatusPicked(data: Order): Promise<void>
 	abstract setStatusTransferProgress(data: Order): Promise<void>
+	abstract setStatusTransferFinished(data: Order): Promise<void>
 }
