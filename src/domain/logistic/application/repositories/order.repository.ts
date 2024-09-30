@@ -50,4 +50,5 @@ export abstract class OrderRepository {
 	abstract setStatusTransferProgress(data: Order): Promise<void>
 	abstract setStatusTransferFinished(data: Order): Promise<void>
 	abstract setStatusOnRoute(data: Order): Promise<void>
+	abstract setStatusCanceled(data: Order): Promise<void>
 }

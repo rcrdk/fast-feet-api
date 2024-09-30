@@ -272,4 +272,18 @@ export class InMemoryOrderRepository implements OrderRepository {
 			})
 		)
 	}
+
+	async setStatusCanceled(data: Order) {
+		const index = this.items.findIndex((item) => item.id === data.id)
+		this.items[index] = data
+
+		this.orderStatusRepository.create(
+			OrderStatus.create({
+				orderId: data.id,
+				creatorId: data.deliveryPersonId ?? data.creatorId,
+				currentLocationId: data.currentLocationId,
+				statusCode: 'CANCELED',
+			})
+		)
+	}
 }
