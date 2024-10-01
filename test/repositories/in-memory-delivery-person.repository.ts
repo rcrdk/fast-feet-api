@@ -73,9 +73,23 @@ export class InMemoryDeliveryPersonRepository
 		if (state) items = items.filter((item) => normalizeSearch(state, item.state))
 
 		items = items.filter((item) => deleted ? !!item.deletedAt : !item.deletedAt)
+
+		
 		
 		return {
-			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END).map((person) => {
+				return DeliveryPersonDetails.create({
+					personId: person.id,
+					role: person.role,
+					name: person.name,
+					documentNumber: person.documentNumber,
+					email: person.email,
+					phone: person.phone,
+					city: person.city,
+					state: person.state,
+					deletedAt: person.deletedAt ?? null,
+				})
+			}),
 			perPage,
 			totalPages: Math.ceil(items.length / perPage),
 			totalItems: items.length,

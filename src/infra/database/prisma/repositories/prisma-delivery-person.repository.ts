@@ -90,9 +90,18 @@ export class PrismaDeliveryPersonRepository
 		const people = await this.prisma.user.findMany({
 			where: {
 				deletedAt: deleted ? { not: null } : null,
-				name: name ?? undefined,
-				city: city ?? undefined,
-				state: state ?? undefined,
+				name: {
+					contains: name,
+					mode: 'insensitive',
+				},
+				city: {
+					contains: city,
+					mode: 'insensitive',
+				},
+				state: {
+					contains: state,
+					mode: 'insensitive',
+				},
 				role: 'DELIVERY_PERSON',
 			},
 			take: perPage,
@@ -102,16 +111,25 @@ export class PrismaDeliveryPersonRepository
 		const countPeople = await this.prisma.user.count({
 			where: {
 				deletedAt: deleted ? { not: null } : null,
-				name: name ?? undefined,
-				city: city ?? undefined,
-				state: state ?? undefined,
+				name: {
+					contains: name,
+					mode: 'insensitive',
+				},
+				city: {
+					contains: city,
+					mode: 'insensitive',
+				},
+				state: {
+					contains: state,
+					mode: 'insensitive',
+				},
+				role: 'DELIVERY_PERSON',
 			},
 		})
 
 		return {
 			data: people.map((item) => {
-				item.password = ''
-				return PrismaDeliveryPersonMapper.toDomain(item)
+				return PrismaDeliveryPersonDetailsMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countPeople / perPage),

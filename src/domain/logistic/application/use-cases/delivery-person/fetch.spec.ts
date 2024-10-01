@@ -28,8 +28,8 @@ describe('fetch delivery people', () => {
 		inMemoryDeliveryPersonRepository.items.push(newPersonThree)
 
 		const result = await sut.execute({
-			// name: '',
-			// city: '',
+			name: '',
+			city: '',
 			state: 'SC',
 			deleted: false,
 			page: 1,
@@ -40,10 +40,10 @@ describe('fetch delivery people', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-01')
+					personId: new UniqueEntityId('person-01')
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					personId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 2,
@@ -63,8 +63,8 @@ describe('fetch delivery people', () => {
 		inMemoryDeliveryPersonRepository.items.push(newPersonThree)
 
 		const result = await sut.execute({
-			// name: '',
-			// city: '',
+			name: '',
+			city: '',
 			state: 'SC',
 			deleted: true,
 			page: 1,
@@ -75,10 +75,10 @@ describe('fetch delivery people', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-01')
+					personId: new UniqueEntityId('person-01')
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					personId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 2,
