@@ -10,6 +10,7 @@ export class PrismaDistributionCenterMapper {
 				name: raw.name,
 				city: raw.city,
 				state: raw.state,
+				deletedAt: raw.deletedAt,
 			},
 			new UniqueEntityId(raw.id),
 		)
@@ -23,6 +24,7 @@ export class PrismaDistributionCenterMapper {
 			name: dc.name,
 			city: dc.city,
 			state: dc.state,
+			deletedAt: dc.deletedAt,
 		}
 	}
 }
