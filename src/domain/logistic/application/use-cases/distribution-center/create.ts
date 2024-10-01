@@ -26,7 +26,6 @@ export class CreateDistributionCenterUseCase {
 
 	async execute({
 		name,
-
 		city,
 		state,
 	}: CreateDistributionCenterUseCaseRequest): Promise<CreateDistributionCenterUseCaseResponse> {

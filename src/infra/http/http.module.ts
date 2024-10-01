@@ -10,6 +10,7 @@ import { RecoverDeliveryPersonUseCase } from '@/domain/logistic/application/use-
 import { RegisterDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/register'
 import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-cases/delivery-person/search'
 import { ViewDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/view'
+import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/create'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -24,6 +25,7 @@ import { RecoverDeliveryPersonAccountController } from './controllers/delivery-p
 import { RegisterDeliveryPersonAccountController } from './controllers/delivery-people/register-account.controller'
 import { SearchDeliveryPeopleAccountController } from './controllers/delivery-people/search.controller'
 import { ViewDeliveryPersonAccountController } from './controllers/delivery-people/view.controller'
+import { CreateDistributionCenterController } from './controllers/distribution-center/create.controller'
 
 @Module({
 	imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -39,6 +41,8 @@ import { ViewDeliveryPersonAccountController } from './controllers/delivery-peop
 		ViewDeliveryPersonAccountController,
 		SearchDeliveryPeopleAccountController,
 		FetchDeliveryPeopleAccountController,
+
+		CreateDistributionCenterController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -52,6 +56,8 @@ import { ViewDeliveryPersonAccountController } from './controllers/delivery-peop
 		ViewDeliveryPersonUseCase,
 		SearchDeliveryPeopleUseCase,
 		FetchDeliveryPeopleUseCase,
+
+		CreateDistributionCenterUseCase,
 	],
 })
 export class HttpModule {}
