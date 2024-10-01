@@ -71,7 +71,7 @@ export class PrismaDistributionCenterRepository
 		page,
 		perPage,
 	}: FindManyByFiltersParams) {
-		const people = await this.prisma.user.findMany({
+		const people = await this.prisma.distributionCenter.findMany({
 			where: {
 				OR: [
 					{
@@ -101,7 +101,7 @@ export class PrismaDistributionCenterRepository
 			skip: (page - 1) * perPage,
 		})
 
-		const countPeople = await this.prisma.user.count({
+		const countPeople = await this.prisma.distributionCenter.count({
 			where: {
 				OR: [
 					{

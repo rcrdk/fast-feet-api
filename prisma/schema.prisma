@@ -37,7 +37,7 @@ model Receiver {
     state          String
     city           String
     neighborhood   String
-    zipZode        String    @map("zip_code")
+    zipCode        String    @map("zip_code")
     reference      String?
     deletedAt      DateTime? @map("deleted_at")
 
