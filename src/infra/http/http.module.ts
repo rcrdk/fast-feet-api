@@ -16,6 +16,7 @@ import { EditDistributionCenterUseCase } from '@/domain/logistic/application/use
 import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
+import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
 import { RecoverReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/recover'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
@@ -37,6 +38,7 @@ import { EditDistributionCenterController } from './controllers/distribution-cen
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
+import { EditReceiverController } from './controllers/receiver/edit.controller'
 import { RecoverReceiverController } from './controllers/receiver/recover.controller'
 
 @Module({
@@ -60,6 +62,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		RecoverDistributionCenterController,
 
 		CreateReceiverController,
+		EditReceiverController,
 		DeleteReceiverController,
 		RecoverReceiverController,
 	],
@@ -82,6 +85,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		RecoverDistributionCenterUseCase,
 
 		CreateReceiverUseCase,
+		EditReceiverUseCase,
 		DeleteReceiverUseCase,
 		RecoverReceiverUseCase,
 	],

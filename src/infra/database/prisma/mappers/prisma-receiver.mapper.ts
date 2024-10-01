@@ -16,6 +16,7 @@ export class PrismaReceiverMapper {
 				state: raw.state,
 				neighborhood: raw.neighborhood,
 				zipCode: raw.zipCode,
+				reference: raw.reference,
 				deletedAt: raw.deletedAt,
 			},
 			new UniqueEntityId(raw.id),
@@ -34,6 +35,7 @@ export class PrismaReceiverMapper {
 			state: receiver.state,
 			neighborhood: receiver.neighborhood,
 			zipCode: receiver.zipCode,
+			reference: receiver.reference,
 			deletedAt: receiver.deletedAt,
 		}
 	}

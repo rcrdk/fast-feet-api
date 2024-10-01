@@ -15,6 +15,7 @@ const createReceiverBodySchema = z.object({
 	state: z.string(),
 	neighborhood: z.string(),
 	zipCode: z.string(),
+	reference: z.string().optional(),
 })
 
 type CreateReceiverBodySchema = z.infer<typeof createReceiverBodySchema>
@@ -38,6 +39,7 @@ export class CreateReceiverController {
 			state,
 			neighborhood,
 			zipCode,
+			reference,
 		} = body
 
 		await this.createReceiver.execute({
@@ -50,6 +52,7 @@ export class CreateReceiverController {
 			state,
 			neighborhood,
 			zipCode,
+			reference,
 		})
 	}
 }
