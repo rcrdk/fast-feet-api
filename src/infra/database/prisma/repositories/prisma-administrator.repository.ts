@@ -12,7 +12,10 @@ export class PrismaAdministratorRepository implements AdministratorRepository {
 
 	async findByDocumentNumber(documentNumber: string) {
 		const user = await this.prisma.user.findUnique({
-			where: { documentNumber },
+			where: {
+				documentNumber,
+				role: 'ADMINISTRATOR',
+			},
 		})
 
 		if (!user) {
@@ -26,6 +29,9 @@ export class PrismaAdministratorRepository implements AdministratorRepository {
 		const user = await this.prisma.user.findFirst({
 			where: {
 				OR: [{ email }, { documentNumber }],
+				AND: {
+					role: 'ADMINISTRATOR',
+				},
 			},
 		})
 

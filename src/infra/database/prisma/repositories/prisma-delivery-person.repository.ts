@@ -18,7 +18,10 @@ export class PrismaDeliveryPersonRepository
 
 	async findById(id: string) {
 		const user = await this.prisma.user.findUnique({
-			where: { id },
+			where: {
+				id,
+				role: 'DELIVERY_PERSON',
+			},
 		})
 
 		if (!user) {
@@ -30,7 +33,10 @@ export class PrismaDeliveryPersonRepository
 
 	async findByDocumentNumber(documentNumber: string) {
 		const user = await this.prisma.user.findUnique({
-			where: { documentNumber },
+			where: {
+				documentNumber,
+				role: 'DELIVERY_PERSON',
+			},
 		})
 
 		if (!user) {
@@ -44,6 +50,9 @@ export class PrismaDeliveryPersonRepository
 		const user = await this.prisma.user.findFirst({
 			where: {
 				OR: [{ email }, { documentNumber }],
+				AND: {
+					role: 'DELIVERY_PERSON',
+				},
 			},
 		})
 
@@ -68,6 +77,7 @@ export class PrismaDeliveryPersonRepository
 				name: name ?? undefined,
 				city: city ?? undefined,
 				state: state ?? undefined,
+				role: 'DELIVERY_PERSON',
 			},
 			take: perPage,
 			skip: (page - 1) * perPage,
@@ -121,6 +131,7 @@ export class PrismaDeliveryPersonRepository
 				],
 				AND: {
 					deletedAt: null,
+					role: 'DELIVERY_PERSON',
 				},
 			},
 			take: limit,
@@ -143,6 +154,7 @@ export class PrismaDeliveryPersonRepository
 		await this.prisma.user.update({
 			where: {
 				id: data.id,
+				role: 'DELIVERY_PERSON',
 			},
 			data,
 		})
@@ -156,6 +168,7 @@ export class PrismaDeliveryPersonRepository
 		await this.prisma.user.update({
 			where: {
 				id: data.id,
+				role: 'DELIVERY_PERSON',
 			},
 			data,
 		})
@@ -169,6 +182,7 @@ export class PrismaDeliveryPersonRepository
 		await this.prisma.user.update({
 			where: {
 				id: data.id,
+				role: 'DELIVERY_PERSON',
 			},
 			data,
 		})

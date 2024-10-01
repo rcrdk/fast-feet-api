@@ -5,6 +5,7 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 import { HashGenerator } from '../../cryptography/hash-generator'
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
 interface EditDeliveryPersonUseCaseRequest {
 	personId: string
@@ -40,6 +41,16 @@ export class EditDeliveryPersonUseCase {
 
 		if (!person) {
 			return left(new ResourceNotFoundError())
+		}
+
+		const personWithSameData = await this.deliveryPersonRepository.findByUnique(
+			documentNumber,
+			email,
+		)
+
+		if (personWithSameData && !personWithSameData?.id.equals(person.id)) {
+			// eslint-disable-next-line prettier/prettier
+			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' or '${personWithSameData.email}'`))
 		}
 
 		const hashedPassword = password

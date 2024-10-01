@@ -21,7 +21,7 @@ export function makeAdministrator(
 	const person = Administrator.create(
 		{
 			name: fakerBrazilian.person.fullName(),
-			documentNumber: '000.000.000-00',
+			documentNumber: fakerBrazilian.phone.imei(),
 			password: faker.internet.password(),
 			email: fakerBrazilian.internet.email(),
 			phone: fakerBrazilian.phone.number(),

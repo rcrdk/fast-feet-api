@@ -48,7 +48,7 @@ export class RegisterAdministratorUseCase {
 
 		if (personWithSameData) {
 			// eslint-disable-next-line prettier/prettier
-			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' and '${personWithSameData.email}'`))
+			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' or '${personWithSameData.email}'`))
 		}
 
 		const hashedPassword = await this.hashGenerator.hash(password)
