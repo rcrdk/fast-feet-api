@@ -12,6 +12,7 @@ import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-c
 import { ViewDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/view'
 import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/create'
 import { DeleteDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/delete'
+import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -28,6 +29,7 @@ import { SearchDeliveryPeopleAccountController } from './controllers/delivery-pe
 import { ViewDeliveryPersonAccountController } from './controllers/delivery-people/view.controller'
 import { CreateDistributionCenterController } from './controllers/distribution-center/create.controller'
 import { DeleteDistributionCenterController } from './controllers/distribution-center/delete.controller'
+import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
 
 @Module({
 	imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -46,6 +48,7 @@ import { DeleteDistributionCenterController } from './controllers/distribution-c
 
 		CreateDistributionCenterController,
 		DeleteDistributionCenterController,
+		RecoverDistributionCenterController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -62,6 +65,7 @@ import { DeleteDistributionCenterController } from './controllers/distribution-c
 
 		CreateDistributionCenterUseCase,
 		DeleteDistributionCenterUseCase,
+		RecoverDistributionCenterUseCase,
 	],
 })
 export class HttpModule {}
