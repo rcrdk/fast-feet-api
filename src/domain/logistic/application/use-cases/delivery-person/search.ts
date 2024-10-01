@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
+import { DeliveryPersonDetails } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-details'
 
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
@@ -14,7 +14,7 @@ interface SearchDeliveryPeopleUseCaseRequest {
 type SearchDeliveryPeopleUseCaseResponse = Either<
 	InvalidQueryLengthError,
 	{
-		deliveryPeople: DeliveryPerson[]
+		deliveryPeople: DeliveryPersonDetails[]
 	}
 >
 

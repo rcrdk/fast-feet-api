@@ -157,8 +157,7 @@ export class PrismaDeliveryPersonRepository
 		})
 
 		return people.map((item) => {
-			item.password = ''
-			return PrismaDeliveryPersonMapper.toDomain(item)
+			return PrismaDeliveryPersonDetailsMapper.toDomain(item)
 		})
 	}
 

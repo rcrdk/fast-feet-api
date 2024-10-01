@@ -19,7 +19,7 @@ export abstract class DeliveryPersonRepository {
 	abstract findByDocumentNumber(documentNumber: string): Promise<DeliveryPerson | null>
 	abstract findByUnique(documentNumber: string, email: string): Promise<DeliveryPerson | null>
 	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<DeliveryPerson[]>>
-	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<DeliveryPerson[]>
+	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<DeliveryPersonDetails[]>
 	abstract create(data: DeliveryPerson): Promise<void>
 	abstract edit(data: DeliveryPerson): Promise<void>
 	abstract delete(data: DeliveryPerson): Promise<void>

@@ -36,10 +36,10 @@ describe('search for delivery people', () => {
 		expect(result.value).toMatchObject({
 			deliveryPeople: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-01')
+					personId: new UniqueEntityId('person-01')
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					personId: new UniqueEntityId('person-03')
 				}),
 			],
 		})
@@ -75,7 +75,7 @@ describe('search for delivery people', () => {
 		expect(result.value).toMatchObject({
 			deliveryPeople: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-01')
+					personId: new UniqueEntityId('person-01')
 				}),
 			],
 		})

@@ -93,7 +93,19 @@ export class InMemoryDeliveryPersonRepository
 			return (name || city || state || documentNumber) && nonDeletedReceiver
 		})
 
-		return filter.slice(0, limit)
+		return filter.slice(0, limit).map((person) => {
+			return DeliveryPersonDetails.create({
+				personId: person.id,
+				role: person.role,
+				name: person.name,
+				documentNumber: person.documentNumber,
+				email: person.email,
+				phone: person.phone,
+				city: person.city,
+				state: person.state,
+				deletedAt: person.deletedAt ?? null,
+			})
+		})
 	}
 
 	async create(data: DeliveryPerson) {

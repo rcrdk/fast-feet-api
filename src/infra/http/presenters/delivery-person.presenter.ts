@@ -11,7 +11,7 @@ export class DeliveryPersonDetailsPresenter {
 			phone: details.phone,
 			city: details.city,
 			state: details.state,
-			detetedAt: details.deletedAt,
+			deletedAt: details.deletedAt,
 		}
 	}
 }

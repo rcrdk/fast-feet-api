@@ -7,6 +7,7 @@ import { DeleteDeliveryPersonUseCase } from '@/domain/logistic/application/use-c
 import { EditDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/edit'
 import { RecoverDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/recover'
 import { RegisterDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/register'
+import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-cases/delivery-person/search'
 import { ViewDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/view'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
@@ -19,6 +20,7 @@ import { DeleteDeliveryPersonAccountController } from './controllers/delivery-pe
 import { EditDeliveryPersonAccountController } from './controllers/delivery-people/edit.controller'
 import { RecoverDeliveryPersonAccountController } from './controllers/delivery-people/recover.controller'
 import { RegisterDeliveryPersonAccountController } from './controllers/delivery-people/register-account.controller'
+import { SearchDeliveryPeopleAccountController } from './controllers/delivery-people/search.controller'
 import { ViewDeliveryPersonAccountController } from './controllers/delivery-people/view.controller'
 
 @Module({
@@ -33,6 +35,7 @@ import { ViewDeliveryPersonAccountController } from './controllers/delivery-peop
 		DeleteDeliveryPersonAccountController,
 		RecoverDeliveryPersonAccountController,
 		ViewDeliveryPersonAccountController,
+		SearchDeliveryPeopleAccountController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -44,6 +47,7 @@ import { ViewDeliveryPersonAccountController } from './controllers/delivery-peop
 		DeleteDeliveryPersonUseCase,
 		RecoverDeliveryPersonUseCase,
 		ViewDeliveryPersonUseCase,
+		SearchDeliveryPeopleUseCase,
 	],
 })
 export class HttpModule {}

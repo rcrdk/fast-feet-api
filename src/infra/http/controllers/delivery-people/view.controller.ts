@@ -12,7 +12,7 @@ import { Roles } from '@/infra/auth/user-roles.decorator'
 
 import { DeliveryPersonDetailsPresenter } from '../../presenters/delivery-person.presenter'
 
-@Controller('/delivery-people/:personId')
+@Controller('/delivery-people/view/:personId')
 export class ViewDeliveryPersonAccountController {
 	constructor(private viewDeliveryPerson: ViewDeliveryPersonUseCase) {}
 
