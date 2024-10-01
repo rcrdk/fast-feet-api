@@ -1,10 +1,13 @@
 import { faker, fakerPT_BR as fakerBrazilian } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	Receiver,
 	ReceiverProps,
 } from '@/domain/logistic/enterprise/entities/receiver'
+import { PrismaReceiverMapper } from '@/infra/database/prisma/mappers/prisma-receiver.mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeReceiver(
 	override: Partial<ReceiverProps> = {},
@@ -30,17 +33,19 @@ export function makeReceiver(
 	return person
 }
 
-// @Injectable()
-// export class StudentFactory {
-// 	constructor(private prisma: PrismaService) {}
+@Injectable()
+export class ReceiverFactory {
+	constructor(private prisma: PrismaService) {}
 
-// 	async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
-// 		const student = makeStudent(data)
+	async makePrismaReceiver(
+		data: Partial<ReceiverProps> = {},
+	): Promise<Receiver> {
+		const student = makeReceiver(data)
 
-// 		await this.prisma.user.create({
-// 			data: PrismaStudentMapper.toPrisma(student),
-// 		})
+		await this.prisma.receiver.create({
+			data: PrismaReceiverMapper.toPrisma(student),
+		})
 
-// 		return student
-// 	}
-// }
+		return student
+	}
+}
