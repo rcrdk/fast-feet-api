@@ -93,7 +93,10 @@ export class PrismaDeliveryPersonRepository
 		})
 
 		return {
-			data: people.map((item) => PrismaDeliveryPersonMapper.toDomain(item)),
+			data: people.map((item) => {
+				item.password = ''
+				return PrismaDeliveryPersonMapper.toDomain(item)
+			}),
 			perPage,
 			totalPages: Math.ceil(countPeople / perPage),
 			totalItems: countPeople,
@@ -137,7 +140,10 @@ export class PrismaDeliveryPersonRepository
 			take: limit,
 		})
 
-		return people.map((item) => PrismaDeliveryPersonMapper.toDomain(item))
+		return people.map((item) => {
+			item.password = ''
+			return PrismaDeliveryPersonMapper.toDomain(item)
+		})
 	}
 
 	async create(person: DeliveryPerson) {
