@@ -4,6 +4,7 @@ import { PaginationParams } from "@/core/repositories/pagination-params";
 import { QueryDataLimitParams } from "@/core/repositories/query-data-limit";
 
 import { DeliveryPerson } from "../../enterprise/entities/delivery-person";
+import { DeliveryPersonDetails } from "../../enterprise/entities/value-objects/delivery-person-details";
 
 export type FindManyByFiltersParams = PaginationParams & {
 	name?: string
@@ -14,6 +15,7 @@ export type FindManyByFiltersParams = PaginationParams & {
 
 export abstract class DeliveryPersonRepository {
 	abstract findById(id: string): Promise<DeliveryPerson | null>
+	abstract findByIdWithDetails(id: string): Promise<DeliveryPersonDetails | null>
 	abstract findByDocumentNumber(documentNumber: string): Promise<DeliveryPerson | null>
 	abstract findByUnique(documentNumber: string, email: string): Promise<DeliveryPerson | null>
 	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<DeliveryPerson[]>>

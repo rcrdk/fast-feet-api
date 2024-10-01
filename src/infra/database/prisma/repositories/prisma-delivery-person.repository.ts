@@ -8,6 +8,7 @@ import {
 import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 
 import { PrismaDeliveryPersonMapper } from '../mappers/prisma-delivery-person.mapper'
+import { PrismaDeliveryPersonDetailsMapper } from '../mappers/prisma-delivery-person-details.mapper'
 import { PrismaService } from '../prisma.service'
 
 @Injectable()
@@ -29,6 +30,21 @@ export class PrismaDeliveryPersonRepository
 		}
 
 		return PrismaDeliveryPersonMapper.toDomain(user)
+	}
+
+	async findByIdWithDetails(id: string) {
+		const user = await this.prisma.user.findUnique({
+			where: {
+				id,
+				role: 'DELIVERY_PERSON',
+			},
+		})
+
+		if (!user) {
+			return null
+		}
+
+		return PrismaDeliveryPersonDetailsMapper.toDomain(user)
 	}
 
 	async findByDocumentNumber(documentNumber: string) {

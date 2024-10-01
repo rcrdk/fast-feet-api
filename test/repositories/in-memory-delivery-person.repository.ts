@@ -5,6 +5,7 @@ import {
 	FindManyByFiltersParams,
 } from '@/domain/logistic/application/repositories/delivery-person.repository'
 import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
+import { DeliveryPersonDetails } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-details'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryDeliveryPersonRepository
@@ -16,6 +17,26 @@ export class InMemoryDeliveryPersonRepository
 		const person = this.items.find((person) => person.id.toString() === id)
 
 		return person ?? null
+	}
+	
+	async findByIdWithDetails(id: string) {
+		const person = this.items.find((person) => person.id.toString() === id)
+
+		if (!person) { 
+			return null
+		}
+
+		return DeliveryPersonDetails.create({
+			personId: person.id,
+			role: person.role,
+			name: person.name,
+			documentNumber: person.documentNumber,
+			email: person.email,
+			phone: person.phone,
+			city: person.city,
+			state: person.state,
+			deletedAt: person.deletedAt ?? null,
+		})
 	}
 
 	async findByDocumentNumber(documentNumber: string) {

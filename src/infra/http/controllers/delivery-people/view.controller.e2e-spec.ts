@@ -51,7 +51,7 @@ describe('view delivery person (e2e)', () => {
 			.set('Authorization', `Bearer ${accessToken}`)
 			.send()
 
-		expect(response.statusCode).toEqual(204)
+		expect(response.statusCode).toEqual(200)
 
 		const userOnDatabase = await prisma.user.findUnique({
 			where: {

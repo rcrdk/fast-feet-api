@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
+import { DeliveryPersonDetails } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-details'
 
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 
@@ -13,7 +13,7 @@ interface ViewDeliveryPersonUseCaseRequest {
 type ViewDeliveryPersonUseCaseResponse = Either<
 	ResourceNotFoundError,
 	{
-		person: DeliveryPerson
+		deliveryPerson: DeliveryPersonDetails
 	}
 >
 
@@ -24,14 +24,13 @@ export class ViewDeliveryPersonUseCase {
 	async execute({
 		personId,
 	}: ViewDeliveryPersonUseCaseRequest): Promise<ViewDeliveryPersonUseCaseResponse> {
-		const person = await this.deliveryPersonRepository.findById(personId)
+		// eslint-disable-next-line prettier/prettier
+		const deliveryPerson = await this.deliveryPersonRepository.findByIdWithDetails(personId)
 
-		if (!person) {
+		if (!deliveryPerson) {
 			return left(new ResourceNotFoundError())
 		}
 
-		person.password = ''
-
-		return right({ person })
+		return right({ deliveryPerson })
 	}
 }

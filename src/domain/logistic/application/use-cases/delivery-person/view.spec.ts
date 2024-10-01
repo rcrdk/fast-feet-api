@@ -25,8 +25,8 @@ describe('view delivery person', () => {
 
 		expect(response.isRight()).toBe(true)
 		expect(response.value).toEqual({
-			person: expect.objectContaining({
-				id: expect.any(UniqueEntityId),
+			deliveryPerson: expect.objectContaining({
+				personId: expect.any(UniqueEntityId),
 			}),
 		})
 	})
