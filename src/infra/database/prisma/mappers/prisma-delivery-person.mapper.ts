@@ -15,6 +15,7 @@ export class PrismaDeliveryPersonMapper {
 				city: raw.city,
 				state: raw.state,
 				role: 'DELIVERY_PERSON',
+				deletedAt: raw.deletedAt,
 			},
 			new UniqueEntityId(raw.id),
 		)
@@ -31,6 +32,7 @@ export class PrismaDeliveryPersonMapper {
 			documentNumber: person.documentNumber,
 			phone: person.phone,
 			role: person.role,
+			deletedAt: person.deletedAt,
 		}
 	}
 }
