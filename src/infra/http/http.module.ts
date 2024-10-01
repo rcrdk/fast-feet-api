@@ -12,6 +12,7 @@ import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-c
 import { ViewDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/view'
 import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/create'
 import { DeleteDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/delete'
+import { EditDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/edit'
 import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
@@ -29,6 +30,7 @@ import { SearchDeliveryPeopleAccountController } from './controllers/delivery-pe
 import { ViewDeliveryPersonAccountController } from './controllers/delivery-people/view.controller'
 import { CreateDistributionCenterController } from './controllers/distribution-center/create.controller'
 import { DeleteDistributionCenterController } from './controllers/distribution-center/delete.controller'
+import { EditDistributionCenterController } from './controllers/distribution-center/edit.controller'
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
 
 @Module({
@@ -47,6 +49,7 @@ import { RecoverDistributionCenterController } from './controllers/distribution-
 		FetchDeliveryPeopleAccountController,
 
 		CreateDistributionCenterController,
+		EditDistributionCenterController,
 		DeleteDistributionCenterController,
 		RecoverDistributionCenterController,
 	],
@@ -64,6 +67,7 @@ import { RecoverDistributionCenterController } from './controllers/distribution-
 		FetchDeliveryPeopleUseCase,
 
 		CreateDistributionCenterUseCase,
+		EditDistributionCenterUseCase,
 		DeleteDistributionCenterUseCase,
 		RecoverDistributionCenterUseCase,
 	],
