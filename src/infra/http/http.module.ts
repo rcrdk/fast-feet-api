@@ -14,6 +14,7 @@ import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/u
 import { DeleteDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/delete'
 import { EditDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/edit'
 import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
+import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -32,6 +33,7 @@ import { CreateDistributionCenterController } from './controllers/distribution-c
 import { DeleteDistributionCenterController } from './controllers/distribution-center/delete.controller'
 import { EditDistributionCenterController } from './controllers/distribution-center/edit.controller'
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
+import { CreateReceiverController } from './controllers/receiver/create.controller'
 
 @Module({
 	imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -52,6 +54,8 @@ import { RecoverDistributionCenterController } from './controllers/distribution-
 		EditDistributionCenterController,
 		DeleteDistributionCenterController,
 		RecoverDistributionCenterController,
+
+		CreateReceiverController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -70,6 +74,8 @@ import { RecoverDistributionCenterController } from './controllers/distribution-
 		EditDistributionCenterUseCase,
 		DeleteDistributionCenterUseCase,
 		RecoverDistributionCenterUseCase,
+
+		CreateReceiverUseCase,
 	],
 })
 export class HttpModule {}
