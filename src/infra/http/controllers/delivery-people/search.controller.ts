@@ -10,6 +10,7 @@ import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-c
 import { InvalidQueryLengthError } from '@/domain/logistic/application/use-cases/errors/invalid-query-length-error'
 import { Roles } from '@/infra/auth/user-roles.decorator'
 
+import { ZodValidationLimitPipe } from '../../pipes/zod-validation-limit.pipe'
 import { DeliveryPersonDetailsPresenter } from '../../presenters/delivery-person.presenter'
 
 @Controller('/delivery-people/search')
@@ -19,10 +20,13 @@ export class SearchDeliveryPeopleAccountController {
 	@Get()
 	@HttpCode(200)
 	@Roles('ADMINISTRATOR')
-	async handle(@Query('query') query: string, @Query('limit') limit: number) {
+	async handle(
+		@Query('query') query: string,
+		@Query('limit', ZodValidationLimitPipe) limit: number,
+	) {
 		const result = await this.searchDeliveryPeople.execute({
 			query,
-			limit: Number(limit) ?? 15,
+			limit,
 		})
 
 		if (result.isLeft()) {

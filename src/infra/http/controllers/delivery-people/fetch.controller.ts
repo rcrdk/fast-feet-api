@@ -10,6 +10,9 @@ import { FetchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-ca
 import { MinQuerySearchNotProviedError } from '@/domain/logistic/application/use-cases/errors/expected-one-search-param-error'
 import { Roles } from '@/infra/auth/user-roles.decorator'
 
+import { ZodValidationBooleanPipe } from '../../pipes/zod-validation-boolean.pipe'
+import { ZodValidationPagePipe } from '../../pipes/zod-validation-page.pipe'
+import { ZodValidationPerPagePipe } from '../../pipes/zod-validation-per-page.pipe'
 import { DeliveryPersonDetailsPresenter } from '../../presenters/delivery-person.presenter'
 
 @Controller('/delivery-people/fetch')
@@ -23,17 +26,17 @@ export class FetchDeliveryPeopleAccountController {
 		@Query('name') name: string,
 		@Query('city') city: string,
 		@Query('state') state: string,
-		@Query('deleted') deleted: string,
-		@Query('page') page: number,
-		@Query('perPage') perPage: number,
+		@Query('deleted', ZodValidationBooleanPipe) deleted: boolean,
+		@Query('page', ZodValidationPagePipe) page: number,
+		@Query('perPage', ZodValidationPerPagePipe) perPage: number,
 	) {
 		const result = await this.fetchDeliveryPeople.execute({
 			name,
 			city,
 			state,
-			deleted: deleted === 'true',
-			page: Number(page) ?? 1,
-			perPage: Number(perPage) ?? 20,
+			deleted,
+			page,
+			perPage,
 		})
 
 		if (result.isLeft()) {
