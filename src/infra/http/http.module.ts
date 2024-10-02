@@ -13,6 +13,7 @@ import { ViewDeliveryPersonUseCase } from '@/domain/logistic/application/use-cas
 import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/create'
 import { DeleteDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/delete'
 import { EditDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/edit'
+import { FetchDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/fetch'
 import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
 import { SearchDistributionCentersUseCase } from '@/domain/logistic/application/use-cases/distribution-center/search'
 import { ViewDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/view'
@@ -40,8 +41,9 @@ import { ViewDeliveryPersonAccountController } from './controllers/delivery-peop
 import { CreateDistributionCenterController } from './controllers/distribution-center/create.controller'
 import { DeleteDistributionCenterController } from './controllers/distribution-center/delete.controller'
 import { EditDistributionCenterController } from './controllers/distribution-center/edit.controller'
+import { FetchDistributionCenterController } from './controllers/distribution-center/fetch.controller'
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
-import { SearchDistributionCenterAccountController } from './controllers/distribution-center/search.controller'
+import { SearchDistributionCenterController } from './controllers/distribution-center/search.controller'
 import { ViewDistributionCenterController } from './controllers/distribution-center/view.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
@@ -71,7 +73,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		DeleteDistributionCenterController,
 		RecoverDistributionCenterController,
 		ViewDistributionCenterController,
-		SearchDistributionCenterAccountController,
+		SearchDistributionCenterController,
+		FetchDistributionCenterController,
 
 		CreateReceiverController,
 		EditReceiverController,
@@ -100,6 +103,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		RecoverDistributionCenterUseCase,
 		ViewDistributionCenterUseCase,
 		SearchDistributionCentersUseCase,
+		FetchDistributionCenterUseCase,
 
 		CreateReceiverUseCase,
 		EditReceiverUseCase,

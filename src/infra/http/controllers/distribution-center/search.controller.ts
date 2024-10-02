@@ -14,7 +14,7 @@ import { ZodValidationLimitPipe } from '../../pipes/zod-validation-limit.pipe'
 import { DistributionCenterDetailsPresenter } from '../../presenters/distribution-center.presenter'
 
 @Controller('/distribution-centers/search')
-export class SearchDistributionCenterAccountController {
+export class SearchDistributionCenterController {
 	constructor(
 		private searchDistributionCenter: SearchDistributionCentersUseCase,
 	) {}
