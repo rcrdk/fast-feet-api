@@ -74,7 +74,15 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 		})
 
 		return {
-			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END).map((item) => {
+				return DistributionCenterDetails.create({
+					distributionCenterId: item.id,
+					name: item.name,
+					city: item.city,
+					state: item.state,
+					deletedAt: item.deletedAt ?? null,
+				})
+			}),
 			perPage,
 			totalPages: Math.ceil(items.length / perPage),
 			totalItems: items.length,

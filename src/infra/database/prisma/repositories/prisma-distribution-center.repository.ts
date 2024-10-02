@@ -146,7 +146,7 @@ export class PrismaDistributionCenterRepository
 
 		return {
 			data: people.map((item) => {
-				return PrismaDistributionCenterMapper.toDomain(item)
+				return PrismaDistributionCenterDetailsMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countPeople / perPage),

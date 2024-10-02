@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
-import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
+import { DistributionCenterDetails } from '@/domain/logistic/enterprise/entities/value-objects/distribution-center-details'
 
 import { DistributionCenterRepository } from '../../repositories/distribution-center.repository'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
@@ -16,7 +16,7 @@ interface FetchDistributionCenterUseCaseRequest {
 
 type FetchDistributionCenterUseCaseResponse = Either<
 	InvalidQueryLengthError,
-	PaginationData<DistributionCenter[]>
+	PaginationData<DistributionCenterDetails[]>
 >
 
 @Injectable()

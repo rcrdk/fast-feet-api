@@ -49,10 +49,10 @@ describe('fetch distribution centers', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-02')
+					distributionCenterId: new UniqueEntityId('person-02')
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					distributionCenterId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 2,
@@ -95,7 +95,7 @@ describe('fetch distribution centers', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					distributionCenterId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 1,
