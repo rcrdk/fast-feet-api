@@ -95,11 +95,11 @@ npm run start:dev
 
 - [x] This app should have only two kinds of user: admin or delivery person;
 - [x] It should be able to authenticate with document number and password;
-- [ ] It should be able to make the create another administrators;
-- [ ] It should be able to make the CRUD of delivery person;
+- [x] It should be able to create another administrators;
+- [x] It should be able to make the CRUD of delivery person;
 - [ ] It should be able to make the CRUD of orders;
-- [ ] It should be able to make the CRUD of receivers;
-- [ ] It should be able to make the CRUD of distribution centers;
+- [x] It should be able to make the CRUD of receivers;
+- [x] It should be able to make the CRUD of distribution centers;
 - [ ] It should be able to mark a order as "posted" (available to pick up);
 - [ ] It should be able to pick up a order;
 - [ ] It should be able to mark a order as delivered;
@@ -108,28 +108,28 @@ npm run start:dev
 - [ ] It should be able to change the password of a user;
 - [ ] It should be able to fetch orders by a user;
 - [ ] It should be able to notificate the receipient on each order status change;
-- [ ] It should be able to allo receivers to track their recent orders;
+- [ ] It should be able to allow receivers to track their recent orders;
 
 ### Business Rules
 
 - [x] Only the admin user can make CRUD operations on another admin;
 - [x] Only the admin user can make CRUD operations on delivery persons;
 - [ ] Only the admin user can make CRUD operations on orders;
-- [ ] Only the admin user can make CRUD operations on receivers;
-- [ ] Only the admin user can make CRUD operations on distribution centers;
+- [x] Only the admin user can make CRUD operations on receivers;
+- [x] Only the admin user can make CRUD operations on distribution centers;
 - [ ] To make a order as shipped it must have to send a picture;
 - [ ] Only the delivery person who pick up the order can mark it as shipped;
 - [ ] Only a admin user can change a delivery person password;
 - [ ] Only a admin user can change delivery person of an order;
 - [ ] A delivery person can only fetch their own orders;
 - [ ] A receiver should be able to track and see details of their orders;
-- [ ] It should be used soft deletes on all entities except on orders;
+- [x] It should be used soft deletes on all entities except on orders;
 
 ### Non Functional Requirements
 
 - [x] The user password must be encypted;
 - [x] All application data must be persisted on a postgreSQL database;
 - [ ] All files should be stored on Cloudflare R2 bucket;
-- [ ] All data listed should be paginated with 20 itens by page;
-- [ ] All data searched should limit its results to 15 items;
+- [x] All data listed should be paginated with 20 itens by page;
+- [x] All data searched should limit its results to 15 items;
 - [x] The user must be identified by a JWT (JSON Web Token);
