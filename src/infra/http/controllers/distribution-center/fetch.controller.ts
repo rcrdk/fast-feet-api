@@ -13,6 +13,7 @@ import { Roles } from '@/infra/auth/user-roles.decorator'
 import { ZodValidationBooleanPipe } from '../../pipes/zod-validation-boolean.pipe'
 import { ZodValidationPagePipe } from '../../pipes/zod-validation-page.pipe'
 import { ZodValidationPerPagePipe } from '../../pipes/zod-validation-per-page.pipe'
+import { ZodValidationQueryPipe } from '../../pipes/zod-validation-query.pipe'
 import { DistributionCenterDetailsPresenter } from '../../presenters/distribution-center.presenter'
 
 @Controller('/distribution-centers/fetch')
@@ -25,7 +26,7 @@ export class FetchDistributionCenterController {
 	@HttpCode(200)
 	@Roles('ADMINISTRATOR')
 	async handle(
-		@Query('query') query: string,
+		@Query('query', ZodValidationQueryPipe) query: string,
 		@Query('deleted', ZodValidationBooleanPipe) deleted: boolean,
 		@Query('page', ZodValidationPagePipe) page: number,
 		@Query('perPage', ZodValidationPerPagePipe) perPage: number,

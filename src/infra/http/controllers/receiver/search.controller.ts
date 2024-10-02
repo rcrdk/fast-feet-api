@@ -11,6 +11,7 @@ import { SearchReceiversUseCase } from '@/domain/logistic/application/use-cases/
 import { Roles } from '@/infra/auth/user-roles.decorator'
 
 import { ZodValidationLimitPipe } from '../../pipes/zod-validation-limit.pipe'
+import { ZodValidationQueryPipe } from '../../pipes/zod-validation-query.pipe'
 import { ReceiverDetailsPresenter } from '../../presenters/receiver.presenter'
 
 @Controller('/receivers/search')
@@ -21,7 +22,7 @@ export class SearchReceiversController {
 	@HttpCode(200)
 	@Roles('ADMINISTRATOR')
 	async handle(
-		@Query('query') query: string,
+		@Query('query', ZodValidationQueryPipe) query: string,
 		@Query('limit', ZodValidationLimitPipe) limit: number,
 	) {
 		const result = await this.searchReceivers.execute({

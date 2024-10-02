@@ -17,7 +17,7 @@ export class ZodValidationPagePipe implements PipeTransform {
 		} catch (error) {
 			if (error instanceof ZodError) {
 				throw new BadRequestException({
-					message: "Invalid 'page' value, inform a value starting from 1.",
+					message: "Invalid 'page' value.",
 					statusCode: 400,
 					errors: fromZodError(error),
 				})

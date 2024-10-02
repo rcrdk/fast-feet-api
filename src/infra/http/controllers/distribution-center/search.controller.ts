@@ -11,6 +11,7 @@ import { InvalidQueryLengthError } from '@/domain/logistic/application/use-cases
 import { Roles } from '@/infra/auth/user-roles.decorator'
 
 import { ZodValidationLimitPipe } from '../../pipes/zod-validation-limit.pipe'
+import { ZodValidationQueryPipe } from '../../pipes/zod-validation-query.pipe'
 import { DistributionCenterDetailsPresenter } from '../../presenters/distribution-center.presenter'
 
 @Controller('/distribution-centers/search')
@@ -23,7 +24,7 @@ export class SearchDistributionCenterController {
 	@HttpCode(200)
 	@Roles('ADMINISTRATOR')
 	async handle(
-		@Query('query') query: string,
+		@Query('query', ZodValidationQueryPipe) query: string,
 		@Query('limit', ZodValidationLimitPipe) limit: number,
 	) {
 		const result = await this.searchDistributionCenter.execute({

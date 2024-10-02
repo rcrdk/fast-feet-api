@@ -17,7 +17,7 @@ export class ZodValidationLimitPipe implements PipeTransform {
 		} catch (error) {
 			if (error instanceof ZodError) {
 				throw new BadRequestException({
-					message: "Invalid 'limit' value, inform a number between 1 and 50.",
+					message: "Invalid 'limit' value.",
 					statusCode: 400,
 					errors: fromZodError(error),
 				})
