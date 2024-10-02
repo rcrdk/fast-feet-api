@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
-import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 
 import { ReceiverRepository } from '../../repositories/receiver.repository'
 
@@ -13,7 +13,7 @@ interface ViewReceiverUseCaseRequest {
 type ViewReceiverUseCaseResponse = Either<
 	ResourceNotFoundError,
 	{
-		receiver: Receiver
+		receiver: ReceiverDetails
 	}
 >
 
@@ -24,7 +24,7 @@ export class ViewReceiverUseCase {
 	async execute({
 		personId,
 	}: ViewReceiverUseCaseRequest): Promise<ViewReceiverUseCaseResponse> {
-		const receiver = await this.receiverRepository.findById(personId)
+		const receiver = await this.receiverRepository.findByIdWithDetails(personId)
 
 		if (!receiver) {
 			return left(new ResourceNotFoundError())

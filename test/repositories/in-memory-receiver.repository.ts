@@ -5,6 +5,7 @@ import {
 	ReceiverRepository,
 } from '@/domain/logistic/application/repositories/receiver.repository'
 import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 export class InMemoryReceiverRepository implements ReceiverRepository {
@@ -14,6 +15,29 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		const person = this.items.find((person) => person.id.toString() === id)
 
 		return person ?? null
+	}
+
+	async findByIdWithDetails(id: string) {
+		const person = this.items.find((person) => person.id.toString() === id)
+
+		if (!person) {
+			return null
+		}
+
+		return ReceiverDetails.create({
+			receiverId: person.id,
+			name: person.name,
+			documentNumber: person.documentNumber,
+			phone: person.phone,
+			email: person.email,
+			address: person.address,
+			city: person.city,
+			state: person.state,
+			neighborhood: person.neighborhood,
+			zipCode: person.zipCode,
+			reference: person.reference ?? null,
+			deletedAt: person.deletedAt ?? null,
+		})
 	}
 
 	async findByUnique({ documentNumber, email }: FindByUnique) {

@@ -26,7 +26,7 @@ describe('view receiver', () => {
 		expect(response.isRight()).toBe(true)
 		expect(response.value).toEqual({
 			receiver: expect.objectContaining({
-				id: expect.any(UniqueEntityId),
+				receiverId: expect.any(UniqueEntityId),
 			}),
 		})
 	})

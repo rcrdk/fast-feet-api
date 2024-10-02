@@ -9,6 +9,7 @@ import {
 import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 
 import { PrismaReceiverMapper } from '../mappers/prisma-receiver.mapper'
+import { PrismaReceiverDetailsMapper } from '../mappers/prisma-receiver-details.mapper'
 import { PrismaService } from '../prisma.service'
 
 @Injectable()
@@ -27,6 +28,20 @@ export class PrismaReceiverRepository implements ReceiverRepository {
 		}
 
 		return PrismaReceiverMapper.toDomain(receiver)
+	}
+
+	async findByIdWithDetails(id: string) {
+		const receiver = await this.prisma.receiver.findUnique({
+			where: {
+				id,
+			},
+		})
+
+		if (!receiver) {
+			return null
+		}
+
+		return PrismaReceiverDetailsMapper.toDomain(receiver)
 	}
 
 	async findByUnique({ documentNumber, email }: FindByUnique) {

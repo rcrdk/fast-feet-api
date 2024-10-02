@@ -4,6 +4,7 @@ import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QueryDataLimitParams } from '@/core/repositories/query-data-limit'
 
 import { Receiver } from '../../enterprise/entities/receiver'
+import { ReceiverDetails } from '../../enterprise/entities/value-objects/receiver-details'
 
 export interface FindByUnique {
 	documentNumber: string
@@ -17,6 +18,7 @@ export type FindManyByFiltersParams = PaginationParams & {
 
 export abstract class ReceiverRepository {
 	abstract findById(id: string): Promise<Receiver | null>
+	abstract findByIdWithDetails(id: string): Promise<ReceiverDetails | null>
 	abstract findByUnique(props: FindByUnique): Promise<Receiver | null>
 	abstract findByDocumentNumber(documentNumber: string): Promise<Receiver | null>
 	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<Receiver[]>
