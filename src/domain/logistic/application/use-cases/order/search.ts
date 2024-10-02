@@ -4,6 +4,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
+import { OrderStatusCode } from '@/core/repositories/statuses'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 
 import { OrderRepository } from '../../repositories/order.repository'
@@ -15,7 +16,7 @@ dayjs.extend(isSameOrBefore)
 interface SearchOrdersUseCaseRequest {
 	currentDeliveryPersonId?: string | null
 	currentLocationId?: string | null
-	currentStatus?: string | null
+	currentStatus?: OrderStatusCode | null
 	receiverId?: string | null
 	updatedFrom?: string | null
 	updatedUntil?: string | null

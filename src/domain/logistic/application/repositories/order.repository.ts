@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { PaginationData } from '@/core/repositories/pagination-data'
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { OrderStatusCode } from '@/core/repositories/statuses'
 
 import { Order } from '../../enterprise/entities/order'
 
@@ -30,7 +31,7 @@ export interface UpdateDeliveryPersonParams {
 export type FindManyByFiltersParams = PaginationParams & {
 	currentDeliveryPersonId?: string | null
 	currentLocationId?: string | null
-	currentStatus?: string | null
+	currentStatus?: OrderStatusCode | null
 	receiverId?: string | null
 	updatedFrom?: string | null
 	updatedUntil?: string | null

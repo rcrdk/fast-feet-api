@@ -24,6 +24,10 @@ model User {
     role           UserRole? @default(DELIVERY_PERSON)
     deletedAt      DateTime? @map("deleted_at")
 
+    status              Status[]
+    orderCreator        Order[]  @relation("creator")
+    orderDeliveryPerson Order[]  @relation("delivery")
+
     @@map("users")
 }
 
@@ -41,6 +45,8 @@ model Receiver {
     reference      String?
     deletedAt      DateTime? @map("deleted_at")
 
+    order Order[]
+
     @@map("receivers")
 }
 
@@ -51,54 +57,80 @@ model DistributionCenter {
     city      String
     deletedAt DateTime? @map("deleted_at")
 
+    orderStatus     Status[]
+    originLocation  Order[]  @relation("origin")
+    currentLocation Order[]  @relation("current")
+
     @@map("distribution_centers")
 }
 
-// enum OrderStatusCode {
-//     POSTED
-//     PICKED
-//     TRANSFER_PROCESS
-//     AWAITING_PICK_UP
-//     TRANSFER_FINISHED
-//     ON_ROUTE
-//     DELIVERED
-//     CANCELED
-//     RETURNED
-// }
+enum OrderStatusCode {
+    POSTED
+    PICKED
+    TRANSFER_PROCESS
+    AWAITING_PICK_UP
+    TRANSFER_FINISHED
+    ON_ROUTE
+    DELIVERED
+    CANCELED
+    RETURNED
+}
 
-// model Order {
-//     id                String          @id @default(uuid())
-//     currentStatusCode OrderStatusCode @default(POSTED)
-//     state             String
-//     city              String
-//     postedAt          DateTime        @default(now())
-//     updatedAt         DateTime        @default(now()) @updatedAt
+model Order {
+    id                String          @id @default(uuid())
+    currentStatusCode OrderStatusCode @default(POSTED)
+    postedAt          DateTime        @default(now())
+    updatedAt         DateTime        @default(now()) @updatedAt
 
-//     // deliveryPersonId: User
-//     // receiverId: Receiver
-//     // attachmentId: Attachment
+    creatorId         String  @map("creator_id")
+    deliveryPersonId  String? @map("delivery_person_id")
+    receiverId        String  @map("receiver_id")
+    originLocationId  String  @map("origin_location_id")
+    currentLocationId String  @map("current_location_id")
 
-//     @@map("orders")
-// }
+    creator         User               @relation(name: "creator", fields: [creatorId], references: [id])
+    deliveryPerson  User?              @relation(name: "delivery", fields: [deliveryPersonId], references: [id])
+    receiver        Receiver           @relation(fields: [receiverId], references: [id])
+    originLocation  DistributionCenter @relation(name: "origin", fields: [originLocationId], references: [id])
+    currentLocation DistributionCenter @relation(name: "current", fields: [currentLocationId], references: [id])
 
-// model Status {
-//     id String @id @default(uuid())
+    orderStatus Status[]
 
-//     statusCode OrderStatusCode @default(POSTED)
-//     details    String?
-//     updatedAt  DateTime        @default(now()) @updatedAt
+    @@map("orders")
+}
 
-//     // orderId Order
-//     // creatorId: User
+model Status {
+    id         String          @id @default(uuid())
+    statusCode OrderStatusCode @default(POSTED)
+    details    String?
+    updatedAt  DateTime        @default(now()) @updatedAt
 
-//     @@map("orders_statuses")
-// }
+    orderId           String  @map("order_id")
+    creatorId         String  @map("creator_id")
+    currentLocationId String  @map("current_location_id")
+    attachmentId      String? @map("attachment_id")
 
-// model Attachment {
+    order         Order              @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    creator       User               @relation(fields: [creatorId], references: [id])
+    location      DistributionCenter @relation(fields: [currentLocationId], references: [id])
+    attachmentOne Attachment?        @relation(name: "attachment_one", fields: [attachmentId], references: [id], onDelete: Cascade)
+    attachmentTwo Attachment[]       @relation("attachment_two")
+
+    @@map("orders_statuses")
+}
+
+model Attachment {
+    id            String  @id @default(uuid())
+    url           String
+    orderStatusId String? @map("order_status_id")
+
+    orderStatuses Status[] @relation("attachment_one")
+    orderStatus   Status?  @relation(name: "attachment_two", fields: [orderStatusId], references: [id], onDelete: Cascade)
+
+    @@map("orders_attachments")
+}
+
+// model Notification {
 //     id  String @id @default(uuid())
-//     url String
-
-//     // orderStatusId OrderStatus
-
 //     @@map("orders_attachments")
 // }

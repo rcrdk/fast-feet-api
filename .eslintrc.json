@@ -8,8 +8,9 @@
     ],
     "rules": {
         "simple-import-sort/imports": "error",
-        "no-useless-constructor": "off"
-		// "@typescript-eslint/no-explicit-any": "off"
+        "no-useless-constructor": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"no-unused-vars": "off"
     },
 	"env": {
 		"vitest-globals/env": true
