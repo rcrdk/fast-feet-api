@@ -76,7 +76,7 @@ export class PrismaDistributionCenterRepository
 		})
 
 		return people.map((item) => {
-			return PrismaDistributionCenterMapper.toDomain(item)
+			return PrismaDistributionCenterDetailsMapper.toDomain(item)
 		})
 	}
 

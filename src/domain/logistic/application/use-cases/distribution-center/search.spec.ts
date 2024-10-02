@@ -1,7 +1,7 @@
 import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 
-import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
+import { DistributionCenterDetails } from '@/domain/logistic/enterprise/entities/value-objects/distribution-center-details'
 
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 import { SearchDistributionCentersUseCase } from './search'
@@ -49,7 +49,7 @@ describe('search distribution center', () => {
 
 		expect(responseOne.isRight()).toBe(true)
 		expect(responseOne.value).toMatchObject({
-			distributionCenters: [expect.any(DistributionCenter)],
+			distributionCenters: [expect.any(DistributionCenterDetails)],
 		})
 
 		const responseTwo = await sut.execute({
@@ -60,8 +60,8 @@ describe('search distribution center', () => {
 		expect(responseTwo.isRight()).toBe(true)
 		expect(responseTwo.value).toMatchObject({
 			distributionCenters: [
-				expect.any(DistributionCenter),
-				expect.any(DistributionCenter),
+				expect.any(DistributionCenterDetails),
+				expect.any(DistributionCenterDetails),
 			],
 		})
 
@@ -72,7 +72,7 @@ describe('search distribution center', () => {
 
 		expect(responseThree.isRight()).toBe(true)
 		expect(responseThree.value).toMatchObject({
-			distributionCenters: [expect.any(DistributionCenter)],
+			distributionCenters: [expect.any(DistributionCenterDetails)],
 		})
 	})
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
+import { DistributionCenterDetails } from '@/domain/logistic/enterprise/entities/value-objects/distribution-center-details'
 
 import { DistributionCenterRepository } from '../../repositories/distribution-center.repository'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
@@ -14,7 +14,7 @@ interface SearchDistributionCentersUseCaseRequest {
 type SearchDistributionCentersUseCaseResponse = Either<
 	InvalidQueryLengthError,
 	{
-		distributionCenters: DistributionCenter[]
+		distributionCenters: DistributionCenterDetails[]
 	}
 >
 

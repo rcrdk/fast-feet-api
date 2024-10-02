@@ -43,7 +43,15 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 			return (name || city || state) && nonDeletedPlace
 		})
 
-		return filter.slice(0, limit)
+		return filter.slice(0, limit).map((item) => {
+			return DistributionCenterDetails.create({
+				distributionCenterId: item.id,
+				name: item.name,
+				city: item.city,
+				state: item.state,
+				deletedAt: item.deletedAt ?? null,
+			})
+		})
 	}
 
 	async findManyByFilters({
