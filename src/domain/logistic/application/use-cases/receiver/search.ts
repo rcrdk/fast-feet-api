@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 
 import { ReceiverRepository } from '../../repositories/receiver.repository'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
@@ -14,7 +14,7 @@ interface SearchReceiversUseCaseRequest {
 type SearchReceiversUseCaseResponse = Either<
 	InvalidQueryLengthError,
 	{
-		receivers: Receiver[]
+		receivers: ReceiverDetails[]
 	}
 >
 

@@ -21,7 +21,7 @@ export abstract class ReceiverRepository {
 	abstract findByIdWithDetails(id: string): Promise<ReceiverDetails | null>
 	abstract findByUnique(props: FindByUnique): Promise<Receiver | null>
 	abstract findByDocumentNumber(documentNumber: string): Promise<Receiver | null>
-	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<Receiver[]>
+	abstract findManyBySearchQueries(params: QueryDataLimitParams): Promise<ReceiverDetails[]>
 	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<Receiver[]>>
 	abstract create(data: Receiver): Promise<void>
 	abstract edit(data: Receiver): Promise<void>

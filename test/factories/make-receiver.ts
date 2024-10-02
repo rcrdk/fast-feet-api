@@ -16,13 +16,13 @@ export function makeReceiver(
 	const person = Receiver.create(
 		{
 			name: fakerBrazilian.person.fullName(),
-			documentNumber: '000.000.000-00',
+			documentNumber: fakerBrazilian.phone.imei(),
 			email: fakerBrazilian.internet.email(),
 			phone: fakerBrazilian.phone.number(),
 			address: fakerBrazilian.location.streetAddress(),
 			city: fakerBrazilian.location.city(),
 			state: fakerBrazilian.location.state({ abbreviated: true }),
-			neighborhood: 'Centro',
+			neighborhood: fakerBrazilian.location.streetAddress(),
 			zipCode: fakerBrazilian.location.zipCode(),
 			reference: faker.lorem.sentence(),
 			...override,

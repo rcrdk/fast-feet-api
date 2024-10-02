@@ -1,7 +1,7 @@
 import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryReceiverRepository } from 'test/repositories/in-memory-receiver.repository'
 
-import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
 import { SearchReceiversUseCase } from './search'
@@ -36,7 +36,7 @@ describe('search receivers', () => {
 
 		expect(responseOne.isRight()).toBe(true)
 		expect(responseOne.value).toMatchObject({
-			receivers: [expect.any(Receiver)],
+			receivers: [expect.any(ReceiverDetails)],
 		})
 
 		const responseTwo = await sut.execute({
@@ -46,7 +46,7 @@ describe('search receivers', () => {
 
 		expect(responseTwo.isRight()).toBe(true)
 		expect(responseTwo.value).toMatchObject({
-			receivers: [expect.any(Receiver)],
+			receivers: [expect.any(ReceiverDetails)],
 		})
 	})
 

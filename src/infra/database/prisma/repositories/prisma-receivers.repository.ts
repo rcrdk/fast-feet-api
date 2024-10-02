@@ -97,7 +97,7 @@ export class PrismaReceiverRepository implements ReceiverRepository {
 		})
 
 		return receivers.map((item) => {
-			return PrismaReceiverMapper.toDomain(item)
+			return PrismaReceiverDetailsMapper.toDomain(item)
 		})
 	}
 

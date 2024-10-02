@@ -20,6 +20,7 @@ import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/r
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
 import { RecoverReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/recover'
+import { SearchReceiversUseCase } from '@/domain/logistic/application/use-cases/receiver/search'
 import { ViewReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/view'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
@@ -45,6 +46,7 @@ import { CreateReceiverController } from './controllers/receiver/create.controll
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
 import { RecoverReceiverController } from './controllers/receiver/recover.controller'
+import { SearchReceiversController } from './controllers/receiver/search.controller'
 import { ViewReceiverController } from './controllers/receiver/view.controller'
 
 @Module({
@@ -74,6 +76,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		DeleteReceiverController,
 		RecoverReceiverController,
 		ViewReceiverController,
+		SearchReceiversController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -100,6 +103,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		DeleteReceiverUseCase,
 		RecoverReceiverUseCase,
 		ViewReceiverUseCase,
+		SearchReceiversUseCase,
 	],
 })
 export class HttpModule {}
