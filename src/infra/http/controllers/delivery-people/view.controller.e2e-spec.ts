@@ -7,13 +7,11 @@ import { DeliveryPersonFactory } from 'test/factories/make-delivery-person'
 
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 describe('view delivery person (e2e)', () => {
 	let app: INestApplication
 	let administratorFactory: AdministratorFactory
 	let deliveryPersonFactory: DeliveryPersonFactory
-	let prisma: PrismaService
 	let jwt: JwtService
 
 	beforeAll(async () => {
@@ -27,7 +25,6 @@ describe('view delivery person (e2e)', () => {
 		administratorFactory = moduleRef.get(AdministratorFactory)
 		deliveryPersonFactory = moduleRef.get(DeliveryPersonFactory)
 
-		prisma = moduleRef.get(PrismaService)
 		jwt = moduleRef.get(JwtService)
 
 		await app.init()
@@ -52,15 +49,8 @@ describe('view delivery person (e2e)', () => {
 			.send()
 
 		expect(response.statusCode).toEqual(200)
-
-		const userOnDatabase = await prisma.user.findUnique({
-			where: {
-				documentNumber: newPerson.documentNumber,
-				email: newPerson.email,
-			},
-		})
-
-		expect(userOnDatabase).toMatchObject({
+		expect(response.body.deliveryPerson).toMatchObject({
+			personId: newPerson.id.toString(),
 			name: 'John Doe',
 			documentNumber: '999.999.999-99',
 			email: 'john@doe.com',
