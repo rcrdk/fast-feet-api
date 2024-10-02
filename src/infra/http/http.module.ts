@@ -19,6 +19,7 @@ import { ViewDistributionCenterUseCase } from '@/domain/logistic/application/use
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
+import { FetchReceiversUseCase } from '@/domain/logistic/application/use-cases/receiver/fetch'
 import { RecoverReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/recover'
 import { SearchReceiversUseCase } from '@/domain/logistic/application/use-cases/receiver/search'
 import { ViewReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/view'
@@ -45,6 +46,7 @@ import { ViewDistributionCenterController } from './controllers/distribution-cen
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
+import { FetchReceiversController } from './controllers/receiver/fetch.controller'
 import { RecoverReceiverController } from './controllers/receiver/recover.controller'
 import { SearchReceiversController } from './controllers/receiver/search.controller'
 import { ViewReceiverController } from './controllers/receiver/view.controller'
@@ -77,6 +79,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		RecoverReceiverController,
 		ViewReceiverController,
 		SearchReceiversController,
+		FetchReceiversController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -104,6 +107,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		RecoverReceiverUseCase,
 		ViewReceiverUseCase,
 		SearchReceiversUseCase,
+		FetchReceiversUseCase,
 	],
 })
 export class HttpModule {}
