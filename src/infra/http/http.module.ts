@@ -19,6 +19,7 @@ import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/r
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
 import { RecoverReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/recover'
+import { ViewReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/view'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -42,6 +43,7 @@ import { CreateReceiverController } from './controllers/receiver/create.controll
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
 import { RecoverReceiverController } from './controllers/receiver/recover.controller'
+import { ViewReceiverController } from './controllers/receiver/view.controller'
 
 @Module({
 	imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -68,6 +70,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		EditReceiverController,
 		DeleteReceiverController,
 		RecoverReceiverController,
+		ViewReceiverController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -92,6 +95,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		EditReceiverUseCase,
 		DeleteReceiverUseCase,
 		RecoverReceiverUseCase,
+		ViewReceiverUseCase,
 	],
 })
 export class HttpModule {}

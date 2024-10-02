@@ -1,6 +1,6 @@
 import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 
-export class DeliveryPersonDetailsPresenter {
+export class ReceiverDetailsPresenter {
 	static toHttp(details: ReceiverDetails) {
 		return {
 			receiverId: details.receiverId.toString(),
