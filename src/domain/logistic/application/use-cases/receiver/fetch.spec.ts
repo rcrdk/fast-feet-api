@@ -35,10 +35,10 @@ describe('fetch receivers', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-02')
+					receiverId: new UniqueEntityId('person-02')
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					receiverId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 2,
@@ -67,7 +67,7 @@ describe('fetch receivers', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('person-03')
+					receiverId: new UniqueEntityId('person-03')
 				}),
 			],
 			totalItems: 1,

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
-import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { ReceiverDetails } from '@/domain/logistic/enterprise/entities/value-objects/receiver-details'
 
 import { ReceiverRepository } from '../../repositories/receiver.repository'
 import { InvalidQueryLengthError } from '../errors/invalid-query-length-error'
@@ -16,7 +16,7 @@ interface FetchReceiversUseCaseRequest {
 
 type FetchReceiversUseCaseResponse = Either<
 	InvalidQueryLengthError,
-	PaginationData<Receiver[]>
+	PaginationData<ReceiverDetails[]>
 >
 
 @Injectable()

@@ -155,7 +155,7 @@ export class PrismaReceiverRepository implements ReceiverRepository {
 
 		return {
 			data: receivers.map((item) => {
-				return PrismaReceiverMapper.toDomain(item)
+				return PrismaReceiverDetailsMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countReceivers / perPage),

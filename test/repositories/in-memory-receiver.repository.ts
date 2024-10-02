@@ -102,7 +102,22 @@ export class InMemoryReceiverRepository implements ReceiverRepository {
 		})
 
 		return {
-			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END).map((item) => {
+				return ReceiverDetails.create({
+					receiverId: item.id,
+					name: item.name,
+					documentNumber: item.documentNumber,
+					phone: item.phone,
+					email: item.email,
+					address: item.address,
+					city: item.city,
+					state: item.state,
+					neighborhood: item.neighborhood,
+					zipCode: item.zipCode,
+					reference: item.reference ?? null,
+					deletedAt: item.deletedAt ?? null,
+				})
+			}),
 			perPage,
 			totalPages: Math.ceil(items.length / perPage),
 			totalItems: items.length,
