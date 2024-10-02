@@ -14,6 +14,7 @@ import { CreateDistributionCenterUseCase } from '@/domain/logistic/application/u
 import { DeleteDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/delete'
 import { EditDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/edit'
 import { RecoverDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/recover'
+import { ViewDistributionCenterUseCase } from '@/domain/logistic/application/use-cases/distribution-center/view'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
@@ -36,6 +37,7 @@ import { CreateDistributionCenterController } from './controllers/distribution-c
 import { DeleteDistributionCenterController } from './controllers/distribution-center/delete.controller'
 import { EditDistributionCenterController } from './controllers/distribution-center/edit.controller'
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
+import { ViewDistributionCenterController } from './controllers/distribution-center/view.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
@@ -60,6 +62,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		EditDistributionCenterController,
 		DeleteDistributionCenterController,
 		RecoverDistributionCenterController,
+		ViewDistributionCenterController,
 
 		CreateReceiverController,
 		EditReceiverController,
@@ -83,6 +86,7 @@ import { RecoverReceiverController } from './controllers/receiver/recover.contro
 		EditDistributionCenterUseCase,
 		DeleteDistributionCenterUseCase,
 		RecoverDistributionCenterUseCase,
+		ViewDistributionCenterUseCase,
 
 		CreateReceiverUseCase,
 		EditReceiverUseCase,

@@ -8,6 +8,7 @@ import {
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 
 import { PrismaDistributionCenterMapper } from '../mappers/prisma-distribution-center.mapper'
+import { PrismaDistributionCenterDetailsMapper } from '../mappers/prisma-distribution-center-details.mapper'
 import { PrismaService } from '../prisma.service'
 
 @Injectable()
@@ -28,6 +29,20 @@ export class PrismaDistributionCenterRepository
 		}
 
 		return PrismaDistributionCenterMapper.toDomain(distributionCenter)
+	}
+
+	async findByIdWithDetails(id: string) {
+		const distributionCenter = await this.prisma.distributionCenter.findUnique({
+			where: {
+				id,
+			},
+		})
+
+		if (!distributionCenter) {
+			return null
+		}
+
+		return PrismaDistributionCenterDetailsMapper.toDomain(distributionCenter)
 	}
 
 	async findManyByQuery({ limit, query }: QueryDataLimitParams) {

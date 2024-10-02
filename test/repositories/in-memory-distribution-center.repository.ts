@@ -4,6 +4,7 @@ import {
 	FindManyByFiltersParams,
 } from '@/domain/logistic/application/repositories/distribution-center.repository'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
+import { DistributionCenterDetails } from '@/domain/logistic/enterprise/entities/value-objects/distribution-center-details'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 // eslint-disable-next-line prettier/prettier
@@ -14,6 +15,22 @@ export class InMemoryDistributionCenterRepository implements DistributionCenterR
 		const person = this.items.find((person) => person.id.toString() === id)
 
 		return person ?? null
+	}
+
+	async findByIdWithDetails(id: string) {
+		const person = this.items.find((person) => person.id.toString() === id)
+
+		if (!person) {
+			return null
+		}
+
+		return DistributionCenterDetails.create({
+			distributionCenterId: person.id,
+			name: person.name,
+			city: person.city,
+			state: person.state,
+			deletedAt: person.deletedAt ?? null,
+		})
 	}
 
 	async findManyByQuery({ query, limit }: QueryDataLimitParams) {

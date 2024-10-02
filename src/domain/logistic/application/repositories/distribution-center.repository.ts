@@ -4,6 +4,7 @@ import { PaginationParams } from '@/core/repositories/pagination-params';
 import { QueryDataLimitParams } from '@/core/repositories/query-data-limit';
 
 import { DistributionCenter } from '../../enterprise/entities/distribution-center'
+import { DistributionCenterDetails } from '../../enterprise/entities/value-objects/distribution-center-details';
 
 export type FindManyByFiltersParams = PaginationParams & {
 	query: string
@@ -12,6 +13,7 @@ export type FindManyByFiltersParams = PaginationParams & {
 
 export abstract class DistributionCenterRepository {
 	abstract findById(id: string): Promise<DistributionCenter | null>
+	abstract findByIdWithDetails(id: string): Promise<DistributionCenterDetails | null>
 	abstract findManyByQuery(params: QueryDataLimitParams): Promise<DistributionCenter[]>
 	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<DistributionCenter[]>>
 	abstract create(data: DistributionCenter): Promise<void>

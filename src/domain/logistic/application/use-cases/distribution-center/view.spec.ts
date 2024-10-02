@@ -29,7 +29,7 @@ describe('view distribution center', () => {
 		expect(response.isRight()).toBe(true)
 		expect(response.value).toEqual({
 			distributionCenter: expect.objectContaining({
-				id: expect.any(UniqueEntityId),
+				distributionCenterId: expect.any(UniqueEntityId),
 			}),
 		})
 	})
