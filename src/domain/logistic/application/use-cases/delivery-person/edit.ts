@@ -11,7 +11,6 @@ interface EditDeliveryPersonUseCaseRequest {
 	personId: string
 	name: string
 	documentNumber: string
-	password?: string
 	email: string
 	phone: string
 	city: string
@@ -31,7 +30,6 @@ export class EditDeliveryPersonUseCase {
 		personId,
 		name,
 		documentNumber,
-		password,
 		email,
 		phone,
 		city,
@@ -53,13 +51,8 @@ export class EditDeliveryPersonUseCase {
 			return left(new UserAlreadyExistsError(`'${personWithSameData.documentNumber}' or '${personWithSameData.email}'`))
 		}
 
-		const hashedPassword = password
-			? await this.hashGenerator.hash(password)
-			: undefined
-
 		person.name = name
 		person.documentNumber = documentNumber
-		person.password = hashedPassword ?? person.password
 		person.email = email
 		person.phone = phone
 		person.city = city

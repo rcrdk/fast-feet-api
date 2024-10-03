@@ -19,7 +19,6 @@ const editAccountBodySchema = z.object({
 	name: z.string(),
 	documentNumber: z.string(),
 	email: z.string().email(),
-	password: z.string(),
 	phone: z.string(),
 	city: z.string(),
 	state: z.string(),
@@ -39,13 +38,12 @@ export class EditDeliveryPersonAccountController {
 		@Body(bodyValidationPipe) body: EditAccountBodySchema,
 		@Param('personId', ParseUUIDPipe) personId: string,
 	) {
-		const { name, email, password, city, state, phone, documentNumber } = body
+		const { name, email, city, state, phone, documentNumber } = body
 
 		const result = await this.editDeliveryPerson.execute({
 			personId,
 			name,
 			email,
-			password,
 			city,
 			state,
 			phone,

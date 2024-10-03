@@ -71,32 +71,4 @@ describe('edit delivery person', () => {
 			hashedPassword,
 		)
 	})
-
-	it('should hash delivery person password after edit', async () => {
-		const newPerson = makeDeliveryPerson(
-			{
-				password: await fakeHasher.hash('123456'),
-			},
-			new UniqueEntityId('person-01'),
-		)
-
-		await inMemoryDeliveryPersonRepository.create(newPerson)
-
-		await sut.execute({
-			personId: 'person-01',
-			name: 'John Doe',
-			documentNumber: '666.666.666-66',
-			email: 'johndoe@gmail.com',
-			phone: '(77) 77777-7777',
-			city: 'Benedito Novo',
-			state: 'SC',
-			password: '2839238293293',
-		})
-
-		const hashedPassword = await fakeHasher.hash('2839238293293')
-
-		expect(inMemoryDeliveryPersonRepository.items.at(0)?.password).toBe(
-			hashedPassword,
-		)
-	})
 })
