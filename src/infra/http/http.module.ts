@@ -21,6 +21,7 @@ import { ViewDistributionCenterUseCase } from '@/domain/logistic/application/use
 import { ChangeDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/order/change-delivery-person'
 import { CreateOrderUseCase } from '@/domain/logistic/application/use-cases/order/create'
 import { DeleteOrderUseCase } from '@/domain/logistic/application/use-cases/order/delete'
+import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-cases/order/fetch-available'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
@@ -50,6 +51,7 @@ import { FetchDistributionCenterController } from './controllers/distribution-ce
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
 import { SearchDistributionCenterController } from './controllers/distribution-center/search.controller'
 import { ViewDistributionCenterController } from './controllers/distribution-center/view.controller'
+import { FetchAvailableOrdersController } from './controllers/order/available.controller'
 import { ChangeDeliveryPersonController } from './controllers/order/change-delivery-person.controller'
 import { CreateOrderController } from './controllers/order/create.controller'
 import { DeleteOrderController } from './controllers/order/delete.controller'
@@ -96,6 +98,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		CreateOrderController,
 		DeleteOrderController,
 		ChangeDeliveryPersonController,
+		FetchAvailableOrdersController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -130,6 +133,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		CreateOrderUseCase,
 		DeleteOrderUseCase,
 		ChangeDeliveryPersonUseCase,
+		FetchAvailableOrdersUseCase,
 	],
 })
 export class HttpModule {}

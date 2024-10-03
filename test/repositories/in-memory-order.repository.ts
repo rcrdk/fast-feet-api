@@ -21,6 +21,7 @@ import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distri
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
 import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { AvailableOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/available-order-item'
 import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
@@ -88,10 +89,54 @@ export class InMemoryOrderRepository implements OrderRepository {
 
 		const filteredOrders = this.items
 			.filter((order) => ordersFilteredIds.includes(order.id))
-			.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())	
+			.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+
+		const mappedOrders: AvailableOrderItem[] = filteredOrders.map((item) => {
+			const creator = this.administratorRepository.items.find((person) => person.id.equals(item.creatorId)) as Administrator
+			const currentLocation = this.distributionCenterRepository.items.find((place) => place.id.equals(item.currentLocationId)) as DistributionCenter
+			const receiver = this.receiverRepository.items.find((person) => person.id.equals(item.receiverId)) as Receiver
+
+			return AvailableOrderItem.create(
+				{
+					orderId: item.id,
+					postedAt: item.postedAt,
+					updatedAt: item.updatedAt,
+					currentStatusCode: item.currentStatusCode,
+					creator: {
+						creatorId: creator.id,
+						name: creator.name,
+						documentNumber: creator.documentNumber,
+						email: creator.email,
+						phone: creator.phone,
+						role: creator.role,
+						city: creator.city,
+						state: creator.state,
+					},
+					currentLocation: {
+						currentLocationId: currentLocation.id,
+						name: currentLocation.name,
+						city: currentLocation.city,
+						state: currentLocation.state,
+					},
+					receiver: {
+						receiverId: receiver.id,
+						name: receiver.name,
+						documentNumber: receiver.documentNumber,
+						email: receiver.email,
+						phone: receiver.phone,
+						address: receiver.address,
+						city: receiver.city,
+						state: receiver.state,
+						neighborhood: receiver.neighborhood,
+						zipCode: receiver.zipCode,
+						reference: receiver.reference,
+					},
+				}
+			)
+		})
 
 		return {
-			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: mappedOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
 			perPage,
 			totalPages: Math.ceil(filteredOrders.length / perPage),
 			totalItems: filteredOrders.length,
@@ -162,9 +207,7 @@ export class InMemoryOrderRepository implements OrderRepository {
 		})
 
 		return {
-			data: mappedOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END).map((item) => {
-				return DeliveryPersonOrderItem.create(item)
-			}),
+			data: mappedOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
 			perPage,
 			totalPages: Math.ceil(filteredOrders.length / perPage),
 			totalItems: filteredOrders.length,

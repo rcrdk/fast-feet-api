@@ -14,6 +14,7 @@ import {
 } from '@/domain/logistic/application/repositories/order.repository'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 
+import { PrismaAvailableOrderItemMapper } from '../mappers/prisma-available-order-item.mapper'
 import { PrismaDeliveryPersonOrderItemMapper } from '../mappers/prisma-delivery-person-order-item.mapper'
 import { PrismaOrderMapper } from '../mappers/prisma-order.mapper'
 import { PrismaService } from '../prisma.service'
@@ -57,9 +58,12 @@ export class PrismaOrderRepository implements OrderRepository {
 				currentStatusCode: {
 					in: ['POSTED', 'AWAITING_PICK_UP'],
 				},
-				deliveryPersonId: {
-					not: null,
-				},
+				deliveryPersonId: null,
+			},
+			include: {
+				creator: true,
+				currentLocation: true,
+				receiver: true,
 			},
 			orderBy: {
 				updatedAt: 'desc',
@@ -83,15 +87,13 @@ export class PrismaOrderRepository implements OrderRepository {
 				currentStatusCode: {
 					in: ['POSTED', 'AWAITING_PICK_UP'],
 				},
-				deliveryPersonId: {
-					not: null,
-				},
+				deliveryPersonId: null,
 			},
 		})
 
 		return {
 			data: orders.map((item) => {
-				return PrismaOrderMapper.toDomain(item)
+				return PrismaAvailableOrderItemMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countOrders / perPage),

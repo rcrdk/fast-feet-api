@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
-import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { AvailableOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/available-order-item'
 
 import { OrderRepository } from '../../repositories/order.repository'
 import { InvalidSearchQueryError } from '../errors/invalid-search-queries-error'
@@ -16,7 +16,7 @@ interface FetchAvailableOrdersUseCaseRequest {
 
 type FetchAvailableOrdersUseCaseResponse = Either<
 	InvalidSearchQueryError,
-	PaginationData<Order[]>
+	PaginationData<AvailableOrderItem[]>
 >
 
 @Injectable()
@@ -30,7 +30,7 @@ export class FetchAvailableOrdersUseCase {
 		perPage,
 	}: FetchAvailableOrdersUseCaseRequest): Promise<FetchAvailableOrdersUseCaseResponse> {
 		if (!city || !state) {
-			return left(new InvalidSearchQueryError('city or state'))
+			return left(new InvalidSearchQueryError('city and state'))
 		}
 
 		const result = await this.orderRepository.findManyByAvailability({

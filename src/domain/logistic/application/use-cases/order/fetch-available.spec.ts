@@ -1,5 +1,7 @@
+import { makeAdministrator } from 'test/factories/make-administrator'
 import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { makeOrder } from 'test/factories/make-order'
+import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
@@ -54,8 +56,16 @@ describe('fetch available orders to pickup', () => {
 		await inMemoryDistributionCenterRepository.create(distributionCenterOne)
 		await inMemoryDistributionCenterRepository.create(distributionCenterTwo)
 
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		const newOrderOne = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: new UniqueEntityId('dc-01'),
 				deliveryPersonId: new UniqueEntityId('teste'),
 			},
@@ -64,6 +74,8 @@ describe('fetch available orders to pickup', () => {
 
 		const newOrderTwo = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: new UniqueEntityId('dc-02'),
 				deliveryPersonId: undefined,
 			},
@@ -72,6 +84,8 @@ describe('fetch available orders to pickup', () => {
 
 		const newOrderThree = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: new UniqueEntityId('dc-01'),
 				deliveryPersonId: undefined,
 			},
@@ -93,7 +107,7 @@ describe('fetch available orders to pickup', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('order-03'),
+					orderId: new UniqueEntityId('order-03'),
 				}),
 			],
 			totalItems: 1,
@@ -111,8 +125,16 @@ describe('fetch available orders to pickup', () => {
 
 		await inMemoryDistributionCenterRepository.create(distributionCenterOne)
 
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		const newOrderOne = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: distributionCenterOne.id,
 				deliveryPersonId: undefined,
 			},
@@ -121,6 +143,8 @@ describe('fetch available orders to pickup', () => {
 
 		const newOrderTwo = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: distributionCenterOne.id,
 				deliveryPersonId: undefined,
 			},
@@ -129,6 +153,8 @@ describe('fetch available orders to pickup', () => {
 
 		const newOrderThree = makeOrder(
 			{
+				creatorId: administrator.id,
+				receiverId: receiver.id,
 				currentLocationId: distributionCenterOne.id,
 				deliveryPersonId: undefined,
 			},
@@ -150,7 +176,7 @@ describe('fetch available orders to pickup', () => {
 		expect(result.value).toMatchObject({
 			data: [
 				expect.objectContaining({
-					id: new UniqueEntityId('order-03'),
+					orderId: new UniqueEntityId('order-03'),
 				}),
 			],
 			totalItems: 3,

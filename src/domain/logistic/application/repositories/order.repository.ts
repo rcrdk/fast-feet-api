@@ -4,6 +4,7 @@ import { PaginationParams } from '@/core/repositories/pagination-params'
 import { OrderStatusCode } from '@/core/repositories/statuses'
 
 import { Order } from '../../enterprise/entities/order'
+import { AvailableOrderItem } from '../../enterprise/entities/value-objects/available-order-item'
 import { DeliveryPersonOrderItem } from '../../enterprise/entities/value-objects/delivery-person-order-item'
 
 export type FindManyByAvailabilityParams = PaginationParams & {
@@ -51,7 +52,7 @@ export interface OrderStatusWithDetailsAndAttachment {
 
 export abstract class OrderRepository {
 	abstract findById(orderId: string): Promise<Order | null>
-	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<Order[]>>
+	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<AvailableOrderItem[]>>
 	abstract findManyByDeliveryPerson(props: FindManyByDeliveryPersonParams): Promise<PaginationData<DeliveryPersonOrderItem[]>>
 	abstract findManyByReceiver(props: FindManyByReceiverParams): Promise<PaginationData<Order[]>>
 	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<Order[]>>
