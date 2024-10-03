@@ -1,9 +1,10 @@
-/* eslint-disable prettier/prettier */
 import dayjs from 'dayjs'
 import { makeOrder } from 'test/factories/make-order'
+import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
+import { InMemoryReceiverRepository } from 'test/repositories/in-memory-receiver.repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
@@ -12,6 +13,8 @@ import { InvalidDatePeriodError } from '../errors/invalid-date-period-error'
 import { SearchOrdersUseCase } from './search'
 
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
+let inMemoryAdministratorRepository: InMemoryAdministratorRepository
+let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: SearchOrdersUseCase
@@ -19,8 +22,16 @@ let sut: SearchOrdersUseCase
 describe('search orders', () => {
 	beforeEach(() => {
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
-		inMemoryDistributionCenterRepository = new InMemoryDistributionCenterRepository()
-		inMemoryOrderRepository = new InMemoryOrderRepository(inMemoryOrderStatusRepository, inMemoryDistributionCenterRepository)
+		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
+		inMemoryReceiverRepository = new InMemoryReceiverRepository()
+		inMemoryDistributionCenterRepository =
+			new InMemoryDistributionCenterRepository()
+		inMemoryOrderRepository = new InMemoryOrderRepository(
+			inMemoryOrderStatusRepository,
+			inMemoryDistributionCenterRepository,
+			inMemoryAdministratorRepository,
+			inMemoryReceiverRepository,
+		)
 		sut = new SearchOrdersUseCase(inMemoryOrderRepository)
 	})
 
@@ -56,9 +67,12 @@ describe('search orders', () => {
 	it('should be able to search for orders last updated between dates', async () => {
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
-				makeOrder({
-					updatedAt: new Date(`2024-01-${i} 12:00:00`)
-				}, new UniqueEntityId(`id-2024-01-${i}`))
+				makeOrder(
+					{
+						updatedAt: new Date(`2024-01-${i} 12:00:00`),
+					},
+					new UniqueEntityId(`id-2024-01-${i}`),
+				),
 			)
 		}
 
@@ -70,7 +84,7 @@ describe('search orders', () => {
 		})
 
 		expect(result.value).toMatchObject({
-			totalItems: 3
+			totalItems: 3,
 		})
 
 		// @ts-expect-error data does exists
@@ -85,16 +99,19 @@ describe('search orders', () => {
 				expect.objectContaining({
 					id: new UniqueEntityId('id-2024-01-22'),
 				}),
-			])
+			]),
 		)
 	})
 
 	it('should be able to search for orders last updated from a date', async () => {
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
-				makeOrder({
-					updatedAt: new Date(`2024-01-${i} 12:00:00`)
-				}, new UniqueEntityId(`id-2024-01-${i}`))
+				makeOrder(
+					{
+						updatedAt: new Date(`2024-01-${i} 12:00:00`),
+					},
+					new UniqueEntityId(`id-2024-01-${i}`),
+				),
 			)
 		}
 
@@ -106,7 +123,7 @@ describe('search orders', () => {
 		})
 
 		expect(result.value).toMatchObject({
-			totalItems: 5
+			totalItems: 5,
 		})
 
 		// @ts-expect-error data does exists
@@ -127,16 +144,19 @@ describe('search orders', () => {
 				expect.objectContaining({
 					id: new UniqueEntityId('id-2024-01-30'),
 				}),
-			])
+			]),
 		)
 	})
 
 	it('should be able to search for orders last updated until a date', async () => {
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
-				makeOrder({
-					updatedAt: new Date(`2024-01-${i} 12:00:00`)
-				}, new UniqueEntityId(`id-2024-01-${i}`))
+				makeOrder(
+					{
+						updatedAt: new Date(`2024-01-${i} 12:00:00`),
+					},
+					new UniqueEntityId(`id-2024-01-${i}`),
+				),
 			)
 		}
 
@@ -148,7 +168,7 @@ describe('search orders', () => {
 		})
 
 		expect(result.value).toMatchObject({
-			totalItems: 5
+			totalItems: 5,
 		})
 
 		// @ts-expect-error data does exists
@@ -169,16 +189,19 @@ describe('search orders', () => {
 				expect.objectContaining({
 					id: new UniqueEntityId('id-2024-01-10'),
 				}),
-			])
+			]),
 		)
 	})
 
 	it('should be able to search for orders paginated', async () => {
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
-				makeOrder({
-					updatedAt: new Date(`2024-01-${i} 12:00:00`)
-				}, new UniqueEntityId(`id-2024-01-${i}`))
+				makeOrder(
+					{
+						updatedAt: new Date(`2024-01-${i} 12:00:00`),
+					},
+					new UniqueEntityId(`id-2024-01-${i}`),
+				),
 			)
 		}
 

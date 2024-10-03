@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import dayjs from 'dayjs'
 
 import {
 	FindByReceiverParams,
@@ -13,6 +14,7 @@ import {
 } from '@/domain/logistic/application/repositories/order.repository'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 
+import { PrismaDeliveryPersonOrderItemMapper } from '../mappers/prisma-delivery-person-order-item.mapper'
 import { PrismaOrderMapper } from '../mappers/prisma-order.mapper'
 import { PrismaService } from '../prisma.service'
 
@@ -109,6 +111,12 @@ export class PrismaOrderRepository implements OrderRepository {
 			orderBy: {
 				updatedAt: 'desc',
 			},
+			include: {
+				originLocation: true,
+				currentLocation: true,
+				receiver: true,
+				creator: true,
+			},
 			take: perPage,
 			skip: (page - 1) * perPage,
 		})
@@ -121,7 +129,7 @@ export class PrismaOrderRepository implements OrderRepository {
 
 		return {
 			data: orders.map((item) => {
-				return PrismaOrderMapper.toDomain(item)
+				return PrismaDeliveryPersonOrderItemMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countOrders / perPage),
@@ -189,8 +197,12 @@ export class PrismaOrderRepository implements OrderRepository {
 				],
 				AND: {
 					updatedAt: {
-						lte: updatedFrom ?? undefined,
-						gte: updatedUntil ?? undefined,
+						gte: updatedFrom
+							? dayjs(updatedFrom).startOf('day').toString()
+							: undefined,
+						lte: updatedUntil
+							? dayjs(updatedUntil).startOf('day').toString()
+							: undefined,
 					},
 				},
 			},

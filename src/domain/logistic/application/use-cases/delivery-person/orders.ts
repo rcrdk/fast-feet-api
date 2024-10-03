@@ -5,7 +5,7 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { PaginationData } from '@/core/repositories/pagination-data'
 import { UserRoles } from '@/core/repositories/roles'
-import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
 
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { OrderRepository } from '../../repositories/order.repository'
@@ -20,7 +20,7 @@ interface DeliveryPersonOrdersUseCaseRequest {
 
 type DeliveryPersonOrdersUseCaseResponse = Either<
 	ResourceNotFoundError,
-	PaginationData<Order[]>
+	PaginationData<DeliveryPersonOrderItem[]>
 >
 
 @Injectable()

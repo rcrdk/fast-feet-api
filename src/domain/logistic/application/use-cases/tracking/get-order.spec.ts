@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { makeOrder } from 'test/factories/make-order'
 import { makeReceiver } from 'test/factories/make-receiver'
+import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -12,6 +12,7 @@ import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 
 import { GetReceiverOrderUseCase } from './get-order'
 
+let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
@@ -20,6 +21,7 @@ let sut: GetReceiverOrderUseCase
 
 describe('get a receiver order', () => {
 	beforeEach(() => {
+		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryDistributionCenterRepository =
@@ -27,6 +29,8 @@ describe('get a receiver order', () => {
 		inMemoryOrderRepository = new InMemoryOrderRepository(
 			inMemoryOrderStatusRepository,
 			inMemoryDistributionCenterRepository,
+			inMemoryAdministratorRepository,
+			inMemoryReceiverRepository,
 		)
 		sut = new GetReceiverOrderUseCase(
 			inMemoryReceiverRepository,
@@ -38,14 +42,17 @@ describe('get a receiver order', () => {
 		const receiver = makeReceiver({}, new UniqueEntityId('person-01'))
 		await inMemoryReceiverRepository.create(receiver)
 
-		const order = makeOrder({ receiverId: receiver.id }, new UniqueEntityId('order-02'))
+		const order = makeOrder(
+			{ receiverId: receiver.id },
+			new UniqueEntityId('order-02'),
+		)
 		await inMemoryOrderRepository.create(order)
 
 		const response = await sut.execute({
 			authPersonRole: undefined,
 			authReceiverId: 'person-01',
 			receiverId: 'person-01',
-			orderId: 'order-02'
+			orderId: 'order-02',
 		})
 
 		expect(response.isRight()).toBe(true)
@@ -53,7 +60,7 @@ describe('get a receiver order', () => {
 			order: expect.objectContaining({
 				id: new UniqueEntityId('order-02'),
 				receiverId: new UniqueEntityId('person-01'),
-			})
+			}),
 		})
 	})
 
@@ -76,7 +83,7 @@ describe('get a receiver order', () => {
 			authPersonRole: undefined,
 			authReceiverId: 'person-02',
 			receiverId: 'person-01',
-			orderId: 'order-01'
+			orderId: 'order-01',
 		})
 
 		expect(response.isLeft()).toBe(true)
@@ -90,8 +97,14 @@ describe('get a receiver order', () => {
 		await inMemoryReceiverRepository.create(receiverOne)
 		await inMemoryReceiverRepository.create(receiverTwo)
 
-		const orderOne = makeOrder({ receiverId: receiverOne.id }, new UniqueEntityId('order-01'))
-		const orderTwo = makeOrder({ receiverId: receiverTwo.id }, new UniqueEntityId('order-02'))
+		const orderOne = makeOrder(
+			{ receiverId: receiverOne.id },
+			new UniqueEntityId('order-01'),
+		)
+		const orderTwo = makeOrder(
+			{ receiverId: receiverTwo.id },
+			new UniqueEntityId('order-02'),
+		)
 
 		await inMemoryOrderRepository.create(orderOne)
 		await inMemoryOrderRepository.create(orderTwo)
@@ -100,7 +113,7 @@ describe('get a receiver order', () => {
 			authPersonRole: 'ADMINISTRATOR',
 			authReceiverId: undefined,
 			receiverId: 'person-01',
-			orderId: 'order-01'
+			orderId: 'order-01',
 		})
 
 		expect(responseOne.isRight()).toBe(true)
@@ -108,14 +121,14 @@ describe('get a receiver order', () => {
 			order: expect.objectContaining({
 				id: new UniqueEntityId('order-01'),
 				receiverId: new UniqueEntityId('person-01'),
-			})
+			}),
 		})
 
 		const responseTwo = await sut.execute({
 			authPersonRole: 'ADMINISTRATOR',
 			authReceiverId: undefined,
 			receiverId: 'person-02',
-			orderId: 'order-02'
+			orderId: 'order-02',
 		})
 
 		expect(responseTwo.isRight()).toBe(true)
@@ -123,7 +136,7 @@ describe('get a receiver order', () => {
 			order: expect.objectContaining({
 				id: new UniqueEntityId('order-02'),
 				receiverId: new UniqueEntityId('person-02'),
-			})
+			}),
 		})
 	})
 
@@ -132,14 +145,17 @@ describe('get a receiver order', () => {
 		receiver.deleteReceiver()
 		await inMemoryReceiverRepository.create(receiver)
 
-		const order = makeOrder({ receiverId: receiver.id }, new UniqueEntityId('order-02'))
+		const order = makeOrder(
+			{ receiverId: receiver.id },
+			new UniqueEntityId('order-02'),
+		)
 		await inMemoryOrderRepository.create(order)
 
 		const response = await sut.execute({
 			authPersonRole: undefined,
 			authReceiverId: 'person-01',
 			receiverId: 'person-01',
-			orderId: 'order-02'
+			orderId: 'order-02',
 		})
 
 		expect(response.isLeft()).toBe(true)

@@ -1,13 +1,16 @@
-/* eslint-disable prettier/prettier */
+import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
+import { InMemoryReceiverRepository } from 'test/repositories/in-memory-receiver.repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { CreateOrderUseCase } from './create'
 
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
+let inMemoryAdministratorRepository: InMemoryAdministratorRepository
+let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: CreateOrderUseCase
@@ -15,8 +18,16 @@ let sut: CreateOrderUseCase
 describe('create a order', () => {
 	beforeEach(() => {
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
-		inMemoryDistributionCenterRepository = new InMemoryDistributionCenterRepository()
-		inMemoryOrderRepository = new InMemoryOrderRepository(inMemoryOrderStatusRepository, inMemoryDistributionCenterRepository)
+		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
+		inMemoryReceiverRepository = new InMemoryReceiverRepository()
+		inMemoryDistributionCenterRepository =
+			new InMemoryDistributionCenterRepository()
+		inMemoryOrderRepository = new InMemoryOrderRepository(
+			inMemoryOrderStatusRepository,
+			inMemoryDistributionCenterRepository,
+			inMemoryAdministratorRepository,
+			inMemoryReceiverRepository,
+		)
 		sut = new CreateOrderUseCase(inMemoryOrderRepository)
 	})
 
@@ -25,7 +36,7 @@ describe('create a order', () => {
 			creatorId: 'admin-01',
 			receiverId: 'receiver-01',
 			deliveryPersonId: undefined,
-			originDistributionCenterId: 'distribution-center-01'
+			originDistributionCenterId: 'distribution-center-01',
 		})
 
 		expect(result.isRight()).toBe(true)
@@ -38,8 +49,7 @@ describe('create a order', () => {
 			statusCode: 'POSTED',
 			creatorId: new UniqueEntityId('admin-01'),
 			orderId: result.value?.order.id,
-			currentLocationId: new UniqueEntityId('distribution-center-01')
+			currentLocationId: new UniqueEntityId('distribution-center-01'),
 		})
-		
 	})
 })

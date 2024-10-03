@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
@@ -15,13 +16,18 @@ import {
 	OrderStatusWithDetailsAndAttachment,
 	UpdateDeliveryPersonParams,
 } from '@/domain/logistic/application/repositories/order.repository'
+import { Administrator } from '@/domain/logistic/enterprise/entities/administrator'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
+import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
+import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
+import { InMemoryAdministratorRepository } from './in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from './in-memory-distribution-center.repository'
 import { InMemoryOrderStatusRepository } from './in-memory-order-status.repository'
+import { InMemoryReceiverRepository } from './in-memory-receiver.repository'
 
 interface OrderWithLocation {
 	order: Order,
@@ -37,6 +43,8 @@ export class InMemoryOrderRepository implements OrderRepository {
 	constructor(
 		private orderStatusRepository: InMemoryOrderStatusRepository,
 		private distributionCenterRepository: InMemoryDistributionCenterRepository,
+		private administratorRepository: InMemoryAdministratorRepository,
+		private receiverRepository: InMemoryReceiverRepository,
 	) {}
 
 	async findById(orderId: string) {
@@ -102,8 +110,61 @@ export class InMemoryOrderRepository implements OrderRepository {
 			return item.deliveryPersonId?.toString() === deliveryPersonId
 		}).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
 
+		const mappedOrders: DeliveryPersonOrderItem[] = filteredOrders.map((item) => {
+			const creator = this.administratorRepository.items.find((person) => person.id.equals(item.creatorId)) as Administrator
+			const originLocation = this.distributionCenterRepository.items.find((place) => place.id.equals(item.originLocationId)) as DistributionCenter
+			const currentLocation = this.distributionCenterRepository.items.find((place) => place.id.equals(item.currentLocationId)) as DistributionCenter
+			const receiver = this.receiverRepository.items.find((person) => person.id.equals(item.receiverId)) as Receiver
+
+			return DeliveryPersonOrderItem.create(
+				{
+					orderId: item.id,
+					postedAt: item.postedAt,
+					updatedAt: item.updatedAt,
+					currentStatusCode: item.currentStatusCode,
+					creator: {
+						creatorId: creator.id,
+						name: creator.name,
+						documentNumber: creator.documentNumber,
+						email: creator.email,
+						phone: creator.phone,
+						role: creator.role,
+						city: creator.city,
+						state: creator.state,
+					},
+					originLocation: {
+						originLocationId: originLocation.id,
+						name: originLocation.name,
+						city: originLocation.city,
+						state: originLocation.state,
+					},
+					currentLocation: {
+						currentLocationId: currentLocation.id,
+						name: currentLocation.name,
+						city: currentLocation.city,
+						state: currentLocation.state,
+					},
+					receiver: {
+						receiverId: receiver.id,
+						name: receiver.name,
+						documentNumber: receiver.documentNumber,
+						email: receiver.email,
+						phone: receiver.phone,
+						address: receiver.address,
+						city: receiver.city,
+						state: receiver.state,
+						neighborhood: receiver.neighborhood,
+						zipCode: receiver.zipCode,
+						reference: receiver.reference,
+					},
+				}
+			)
+		})
+
 		return {
-			data: filteredOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: mappedOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END).map((item) => {
+				return DeliveryPersonOrderItem.create(item)
+			}),
 			perPage,
 			totalPages: Math.ceil(filteredOrders.length / perPage),
 			totalItems: filteredOrders.length,

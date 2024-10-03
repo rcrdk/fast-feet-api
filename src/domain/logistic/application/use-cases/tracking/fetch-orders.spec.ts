@@ -1,5 +1,6 @@
 import { makeOrder } from 'test/factories/make-order'
 import { makeReceiver } from 'test/factories/make-receiver'
+import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -12,6 +13,7 @@ import { Order } from '@/domain/logistic/enterprise/entities/order'
 
 import { FetchReceiverOrdersUseCase } from './fetch-orders'
 
+let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
@@ -20,6 +22,7 @@ let sut: FetchReceiverOrdersUseCase
 
 describe('fetch receiver orders', () => {
 	beforeEach(() => {
+		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryDistributionCenterRepository =
@@ -27,6 +30,8 @@ describe('fetch receiver orders', () => {
 		inMemoryOrderRepository = new InMemoryOrderRepository(
 			inMemoryOrderStatusRepository,
 			inMemoryDistributionCenterRepository,
+			inMemoryAdministratorRepository,
+			inMemoryReceiverRepository,
 		)
 		sut = new FetchReceiverOrdersUseCase(
 			inMemoryReceiverRepository,

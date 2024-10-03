@@ -6,6 +6,7 @@ import { AuthenticateDeliveryPersonUseCase } from '@/domain/logistic/application
 import { DeleteDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/delete'
 import { EditDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/edit'
 import { FetchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-cases/delivery-person/fetch'
+import { DeliveryPersonOrdersUseCase } from '@/domain/logistic/application/use-cases/delivery-person/orders'
 import { RecoverDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/recover'
 import { RegisterDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/register'
 import { SearchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-cases/delivery-person/search'
@@ -37,6 +38,7 @@ import { AuthenticateDeliveryPersonController } from './controllers/delivery-peo
 import { DeleteDeliveryPersonAccountController } from './controllers/delivery-people/delete.controller'
 import { EditDeliveryPersonAccountController } from './controllers/delivery-people/edit.controller'
 import { FetchDeliveryPeopleAccountController } from './controllers/delivery-people/fetch.controller'
+import { DeliveryPersonOrdersController } from './controllers/delivery-people/orders.controller'
 import { RecoverDeliveryPersonAccountController } from './controllers/delivery-people/recover.controller'
 import { RegisterDeliveryPersonAccountController } from './controllers/delivery-people/register-account.controller'
 import { SearchDeliveryPeopleAccountController } from './controllers/delivery-people/search.controller'
@@ -73,6 +75,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		ViewDeliveryPersonAccountController,
 		SearchDeliveryPeopleAccountController,
 		FetchDeliveryPeopleAccountController,
+		DeliveryPersonOrdersController,
 
 		CreateDistributionCenterController,
 		EditDistributionCenterController,
@@ -106,6 +109,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		ViewDeliveryPersonUseCase,
 		SearchDeliveryPeopleUseCase,
 		FetchDeliveryPeopleUseCase,
+		DeliveryPersonOrdersUseCase,
 
 		CreateDistributionCenterUseCase,
 		EditDistributionCenterUseCase,

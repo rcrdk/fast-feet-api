@@ -1,11 +1,12 @@
-/* eslint-disable prettier/prettier */
 import { makeDeliveryPerson } from 'test/factories/make-delivery-person'
 import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { makeOrder } from 'test/factories/make-order'
+import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
+import { InMemoryReceiverRepository } from 'test/repositories/in-memory-receiver.repository'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { UnauthorizedError } from '@/core/errors/unauthorized-error'
@@ -13,6 +14,8 @@ import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { SetOrderStatusTransferProgressUseCase } from './transfer-progress'
 
 let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
+let inMemoryAdministratorRepository: InMemoryAdministratorRepository
+let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryDistributionCenterRepository: InMemoryDistributionCenterRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
@@ -21,9 +24,17 @@ let sut: SetOrderStatusTransferProgressUseCase
 describe('set status transfer in progress to a order', () => {
 	beforeEach(() => {
 		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
+		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
+		inMemoryReceiverRepository = new InMemoryReceiverRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
-		inMemoryDistributionCenterRepository = new InMemoryDistributionCenterRepository()
-		inMemoryOrderRepository = new InMemoryOrderRepository(inMemoryOrderStatusRepository, inMemoryDistributionCenterRepository)
+		inMemoryDistributionCenterRepository =
+			new InMemoryDistributionCenterRepository()
+		inMemoryOrderRepository = new InMemoryOrderRepository(
+			inMemoryOrderStatusRepository,
+			inMemoryDistributionCenterRepository,
+			inMemoryAdministratorRepository,
+			inMemoryReceiverRepository,
+		)
 		sut = new SetOrderStatusTransferProgressUseCase(
 			inMemoryOrderRepository,
 			inMemoryDeliveryPersonRepository,
@@ -32,16 +43,25 @@ describe('set status transfer in progress to a order', () => {
 	})
 
 	it('it should be able to set status as transfer in progress to a order', async () => {
-		const newDeliveryPerson = makeDeliveryPerson({}, new UniqueEntityId('dp-01'))
+		const newDeliveryPerson = makeDeliveryPerson(
+			{},
+			new UniqueEntityId('dp-01'),
+		)
 		inMemoryDeliveryPersonRepository.create(newDeliveryPerson)
 
-		const newLocation = makeDistributionCenter({}, new UniqueEntityId('location-02'))
+		const newLocation = makeDistributionCenter(
+			{},
+			new UniqueEntityId('location-02'),
+		)
 		inMemoryDistributionCenterRepository.create(newLocation)
 
-		const newOrder = makeOrder({
-			creatorId: new UniqueEntityId('admin-01'),
-			deliveryPersonId: new UniqueEntityId('dp-01'),
-		}, new UniqueEntityId('order-01'))
+		const newOrder = makeOrder(
+			{
+				creatorId: new UniqueEntityId('admin-01'),
+				deliveryPersonId: new UniqueEntityId('dp-01'),
+			},
+			new UniqueEntityId('order-01'),
+		)
 		inMemoryOrderRepository.create(newOrder)
 
 		const result = await sut.execute({
@@ -67,24 +87,36 @@ describe('set status transfer in progress to a order', () => {
 					statusCode: 'TRANSFER_PROCESS',
 					creatorId: new UniqueEntityId('dp-01'),
 				}),
-			])
+			]),
 		)
 	})
 
 	it('it should not be able to set status as transfer in progress to another persons order', async () => {
-		const newDeliveryPersonOne = makeDeliveryPerson({}, new UniqueEntityId('dp-01'))
+		const newDeliveryPersonOne = makeDeliveryPerson(
+			{},
+			new UniqueEntityId('dp-01'),
+		)
 		inMemoryDeliveryPersonRepository.create(newDeliveryPersonOne)
 
-		const newLocation = makeDistributionCenter({}, new UniqueEntityId('location-02'))
+		const newLocation = makeDistributionCenter(
+			{},
+			new UniqueEntityId('location-02'),
+		)
 		inMemoryDistributionCenterRepository.create(newLocation)
 
-		const newDeliveryPersonTwo = makeDeliveryPerson({}, new UniqueEntityId('dp-02'))
+		const newDeliveryPersonTwo = makeDeliveryPerson(
+			{},
+			new UniqueEntityId('dp-02'),
+		)
 		inMemoryDeliveryPersonRepository.create(newDeliveryPersonTwo)
 
-		const newOrder = makeOrder({
-			creatorId: new UniqueEntityId('admin-01'),
-			deliveryPersonId: new UniqueEntityId('dp-01'),
-		}, new UniqueEntityId('order-01'))
+		const newOrder = makeOrder(
+			{
+				creatorId: new UniqueEntityId('admin-01'),
+				deliveryPersonId: new UniqueEntityId('dp-01'),
+			},
+			new UniqueEntityId('order-01'),
+		)
 		inMemoryOrderRepository.create(newOrder)
 
 		const result = await sut.execute({
