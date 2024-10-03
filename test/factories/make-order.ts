@@ -1,5 +1,9 @@
+import { Injectable } from '@nestjs/common'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Order, OrderProps } from '@/domain/logistic/enterprise/entities/order'
+import { PrismaOrderMapper } from '@/infra/database/prisma/mappers/prisma-order.mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeOrder(
 	override: Partial<OrderProps> = {},
@@ -20,17 +24,17 @@ export function makeOrder(
 	return order
 }
 
-// @Injectable()
-// export class StudentFactory {
-// 	constructor(private prisma: PrismaService) {}
+@Injectable()
+export class OrderFactory {
+	constructor(private prisma: PrismaService) {}
 
-// 	async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
-// 		const student = makeStudent(data)
+	async makePrismaOrder(data: Partial<OrderProps> = {}): Promise<Order> {
+		const order = makeOrder(data)
 
-// 		await this.prisma.user.create({
-// 			data: PrismaStudentMapper.toPrisma(student),
-// 		})
+		await this.prisma.order.create({
+			data: PrismaOrderMapper.toPrisma(order),
+		})
 
-// 		return student
-// 	}
-// }
+		return order
+	}
+}
