@@ -37,7 +37,7 @@ export class SetOrderStatusCanceledUseCase {
 			return left(new ResourceNotFoundError())
 		}
 
-		if (deliveryPersonId !== order.deliveryPersonId?.toString()) {
+		if (order.deliveryPersonId && deliveryPersonId !== order.deliveryPersonId.toString()) {
 			return left(new UnauthorizedError())
 		}
 		
