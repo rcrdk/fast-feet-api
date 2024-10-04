@@ -26,6 +26,7 @@ import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-c
 import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/search'
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
 import { SetOrderStatusCanceledUseCase } from '@/domain/logistic/application/use-cases/order-status/canceled'
+import { SetOrderStatusDeliveredUseCase } from '@/domain/logistic/application/use-cases/order-status/delivered'
 import { SetOrderStatusOnRouteUseCase } from '@/domain/logistic/application/use-cases/order-status/on-route'
 import { SetOrderStatusPickedUseCase } from '@/domain/logistic/application/use-cases/order-status/picked'
 import { SetOrderStatusReturnedUseCase } from '@/domain/logistic/application/use-cases/order-status/returned'
@@ -68,6 +69,7 @@ import { DeleteOrderController } from './controllers/order/delete.controller'
 import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
 import { SetOrderStatusCanceledController } from './controllers/order-status/set-canceled.controller'
+import { SetOrderStatusDeliveredController } from './controllers/order-status/set-delivered.controller'
 import { SetOrderStatusOnRouteController } from './controllers/order-status/set-on-route.controller'
 import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
 import { SetOrderStatusReturnedController } from './controllers/order-status/set-returned.controller'
@@ -127,6 +129,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusOnRouteController,
 		SetOrderStatusReturnedController,
 		SetOrderStatusCanceledController,
+		SetOrderStatusDeliveredController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -172,6 +175,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusOnRouteUseCase,
 		SetOrderStatusReturnedUseCase,
 		SetOrderStatusCanceledUseCase,
+		SetOrderStatusDeliveredUseCase,
 	],
 })
 export class HttpModule {}

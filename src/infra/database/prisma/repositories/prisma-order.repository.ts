@@ -458,7 +458,7 @@ export class PrismaOrderRepository implements OrderRepository {
 	async setStatusDelivered({
 		order,
 		details,
-		// attachmentId,
+		attachmentId,
 	}: OrderStatusWithDetailsAndAttachment) {
 		const data = PrismaOrderMapper.toPrisma(order)
 
@@ -469,14 +469,22 @@ export class PrismaOrderRepository implements OrderRepository {
 			data,
 		})
 
-		await this.prisma.status.create({
+		const addedStatus = await this.prisma.status.create({
 			data: {
 				orderId: updatedOrder.id,
 				creatorId: updatedOrder.deliveryPersonId ?? updatedOrder.creatorId,
 				currentLocationId: updatedOrder.currentLocationId,
-				statusCode: 'RETURNED',
-				// attachmentId,
+				statusCode: 'DELIVERED',
 				details,
+			},
+		})
+
+		await this.prisma.attachment.update({
+			where: {
+				id: attachmentId,
+			},
+			data: {
+				orderStatusId: addedStatus.id,
 			},
 		})
 	}
