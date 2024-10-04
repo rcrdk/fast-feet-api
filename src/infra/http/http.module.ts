@@ -25,6 +25,7 @@ import { DeleteOrderUseCase } from '@/domain/logistic/application/use-cases/orde
 import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-cases/order/fetch-available'
 import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/search'
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
+import { SetOrderStatusPickedUseCase } from '@/domain/logistic/application/use-cases/order-status/picked'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
@@ -61,6 +62,7 @@ import { CreateOrderController } from './controllers/order/create.controller'
 import { DeleteOrderController } from './controllers/order/delete.controller'
 import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
+import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
@@ -108,6 +110,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		FetchAvailableOrdersController,
 		SearchOrdersController,
 		ViewOrderController,
+
+		SetOrderStatusPickedController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -146,6 +150,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		FetchAvailableOrdersUseCase,
 		SearchOrdersUseCase,
 		ViewOrderUseCase,
+
+		SetOrderStatusPickedUseCase,
 	],
 })
 export class HttpModule {}
