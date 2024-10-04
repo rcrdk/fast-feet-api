@@ -101,10 +101,10 @@ npm run start:dev
 - [x] It should be able to make the CRUD of receivers;
 - [x] It should be able to make the CRUD of distribution centers;
 - [x] It should be able to mark a order as "posted" (available to pick up);
-- [ ] It should be able to pick up a order;
-- [ ] It should be able to mark a order as delivered;
-- [ ] It should be able to mark a order as returned;
-- [ ] It should be able to fetch orders with closest addresses to the delivery persons place;
+- [x] It should be able to pick up a order;
+- [x] It should be able to mark a order as delivered;
+- [x] It should be able to mark a order as returned;
+- [x] It should be able to fetch orders with closest addresses to the delivery persons place;
 - [x] It should be able to change the password of a user;
 - [x] It should be able to fetch orders by a user;
 - [ ] It should be able to notificate the receipient on each order status change;
@@ -116,18 +116,18 @@ npm run start:dev
 - [x] Only the admin user can make CRUD operations on orders;
 - [x] Only the admin user can make CRUD operations on receivers;
 - [x] Only the admin user can make CRUD operations on distribution centers;
-- [ ] To make a order as shipped it must have to send a picture;
-- [ ] Only the delivery person who pick up the order can mark it as shipped;
-- [ ] Only a admin user can change a delivery person password;
-- [ ] Only a admin user can change delivery person of an order;
-- [ ] A delivery person can only fetch their own orders;
+- [x] To make a order as shipped it must have to send a picture;
+- [x] Only the delivery person who pick up the order can mark it as shipped;
+- [x] Only a admin user can change a delivery person password;
+- [x] Only a admin user can change delivery person of an order;
+- [x] A delivery person can only fetch their own orders;
 - [x] It should be used soft deletes on all entities except on orders;
 
 ### Non Functional Requirements
 
 - [x] The user password must be encypted;
 - [x] All application data must be persisted on a postgreSQL database;
-- [ ] All files should be stored on Cloudflare R2 bucket;
+- [x] All files should be stored on Cloudflare R2 bucket;
 - [x] All data listed should be paginated with 20 itens by page;
 - [x] All data searched should limit its results to 15 items;
 - [x] The user must be identified by a JWT (JSON Web Token);
