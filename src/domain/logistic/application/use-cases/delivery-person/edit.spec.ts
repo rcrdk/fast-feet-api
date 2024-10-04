@@ -14,10 +14,7 @@ describe('edit delivery person', () => {
 	beforeEach(() => {
 		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
 		fakeHasher = new FakeHasher()
-		sut = new EditDeliveryPersonUseCase(
-			inMemoryDeliveryPersonRepository,
-			fakeHasher,
-		)
+		sut = new EditDeliveryPersonUseCase(inMemoryDeliveryPersonRepository)
 	})
 
 	it('should be able to edit a delivery person', async () => {

@@ -108,7 +108,6 @@ npm run start:dev
 - [x] It should be able to change the password of a user;
 - [x] It should be able to fetch orders by a user;
 - [ ] It should be able to notificate the receipient on each order status change;
-- [ ] It should be able to allow receivers to track their recent orders;
 
 ### Business Rules
 
@@ -122,7 +121,6 @@ npm run start:dev
 - [ ] Only a admin user can change a delivery person password;
 - [ ] Only a admin user can change delivery person of an order;
 - [ ] A delivery person can only fetch their own orders;
-- [ ] A receiver should be able to track and see details of their orders;
 - [x] It should be used soft deletes on all entities except on orders;
 
 ### Non Functional Requirements
