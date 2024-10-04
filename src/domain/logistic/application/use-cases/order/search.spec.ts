@@ -1,5 +1,9 @@
 import dayjs from 'dayjs'
+import { makeAdministrator } from 'test/factories/make-administrator'
+import { makeDeliveryPerson } from 'test/factories/make-delivery-person'
+import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { makeOrder } from 'test/factories/make-order'
+import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
 import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
 import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
@@ -73,10 +77,23 @@ describe('search orders', () => {
 	})
 
 	it('should be able to search for orders last updated between dates', async () => {
+		const distributionCenter = makeDistributionCenter()
+		await inMemoryDistributionCenterRepository.create(distributionCenter)
+
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
 				makeOrder(
 					{
+						creatorId: administrator.id,
+						receiverId: receiver.id,
+						currentLocationId: distributionCenter.id,
+						originLocationId: distributionCenter.id,
 						updatedAt: new Date(`2024-01-${i} 12:00:00`),
 					},
 					new UniqueEntityId(`id-2024-01-${i}`),
@@ -99,23 +116,36 @@ describe('search orders', () => {
 		expect(result.value.data).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-23'),
+					orderId: new UniqueEntityId('id-2024-01-23'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-22'),
+					orderId: new UniqueEntityId('id-2024-01-22'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-22'),
+					orderId: new UniqueEntityId('id-2024-01-22'),
 				}),
 			]),
 		)
 	})
 
 	it('should be able to search for orders last updated from a date', async () => {
+		const distributionCenter = makeDistributionCenter()
+		await inMemoryDistributionCenterRepository.create(distributionCenter)
+
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
 				makeOrder(
 					{
+						creatorId: administrator.id,
+						receiverId: receiver.id,
+						currentLocationId: distributionCenter.id,
+						originLocationId: distributionCenter.id,
 						updatedAt: new Date(`2024-01-${i} 12:00:00`),
 					},
 					new UniqueEntityId(`id-2024-01-${i}`),
@@ -138,29 +168,42 @@ describe('search orders', () => {
 		expect(result.value.data).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-26'),
+					orderId: new UniqueEntityId('id-2024-01-26'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-27'),
+					orderId: new UniqueEntityId('id-2024-01-27'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-28'),
+					orderId: new UniqueEntityId('id-2024-01-28'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-29'),
+					orderId: new UniqueEntityId('id-2024-01-29'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-30'),
+					orderId: new UniqueEntityId('id-2024-01-30'),
 				}),
 			]),
 		)
 	})
 
 	it('should be able to search for orders last updated until a date', async () => {
+		const distributionCenter = makeDistributionCenter()
+		await inMemoryDistributionCenterRepository.create(distributionCenter)
+
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
 				makeOrder(
 					{
+						creatorId: administrator.id,
+						receiverId: receiver.id,
+						currentLocationId: distributionCenter.id,
+						originLocationId: distributionCenter.id,
 						updatedAt: new Date(`2024-01-${i} 12:00:00`),
 					},
 					new UniqueEntityId(`id-2024-01-${i}`),
@@ -183,29 +226,42 @@ describe('search orders', () => {
 		expect(result.value.data).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-14'),
+					orderId: new UniqueEntityId('id-2024-01-14'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-13'),
+					orderId: new UniqueEntityId('id-2024-01-13'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-12'),
+					orderId: new UniqueEntityId('id-2024-01-12'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-11'),
+					orderId: new UniqueEntityId('id-2024-01-11'),
 				}),
 				expect.objectContaining({
-					id: new UniqueEntityId('id-2024-01-10'),
+					orderId: new UniqueEntityId('id-2024-01-10'),
 				}),
 			]),
 		)
 	})
 
 	it('should be able to search for orders paginated', async () => {
+		const distributionCenter = makeDistributionCenter()
+		await inMemoryDistributionCenterRepository.create(distributionCenter)
+
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const receiver = makeReceiver()
+		inMemoryReceiverRepository.create(receiver)
+
 		for (let i = 10; i <= 30; i++) {
 			await inMemoryOrderRepository.create(
 				makeOrder(
 					{
+						creatorId: administrator.id,
+						receiverId: receiver.id,
+						currentLocationId: distributionCenter.id,
+						originLocationId: distributionCenter.id,
 						updatedAt: new Date(`2024-01-${i} 12:00:00`),
 					},
 					new UniqueEntityId(`id-2024-01-${i}`),
@@ -227,25 +283,48 @@ describe('search orders', () => {
 	})
 
 	it('should be able to search for orders with filters', async () => {
+		const administrator = makeAdministrator()
+		inMemoryAdministratorRepository.create(administrator)
+
+		const deliveryPersonOne = makeDeliveryPerson()
+		const deliveryPersonTwo = makeDeliveryPerson()
+		const deliveryPersonThree = makeDeliveryPerson()
+		await inMemoryDeliveryPersonRepository.create(deliveryPersonOne)
+		await inMemoryDeliveryPersonRepository.create(deliveryPersonTwo)
+		await inMemoryDeliveryPersonRepository.create(deliveryPersonThree)
+
+		const distributionCenterOne = makeDistributionCenter()
+		const distributionCenterTwo = makeDistributionCenter()
+		await inMemoryDistributionCenterRepository.create(distributionCenterOne)
+		await inMemoryDistributionCenterRepository.create(distributionCenterTwo)
+
+		const receiverOne = makeReceiver()
+		const receiverTwo = makeReceiver()
+		inMemoryReceiverRepository.create(receiverOne)
+		inMemoryReceiverRepository.create(receiverTwo)
+
 		const orderOne = makeOrder({
-			deliveryPersonId: new UniqueEntityId('person-01'),
-			currentLocationId: new UniqueEntityId('center-01'),
+			creatorId: administrator.id,
+			deliveryPersonId: deliveryPersonOne.id,
+			currentLocationId: distributionCenterOne.id,
 			currentStatusCode: 'TRANSFER_PROCESS',
-			receiverId: new UniqueEntityId('receiver-01'),
+			receiverId: receiverOne.id,
 		})
 
 		const orderTwo = makeOrder({
-			deliveryPersonId: new UniqueEntityId('person-02'),
-			currentLocationId: new UniqueEntityId('center-01'),
+			creatorId: administrator.id,
+			deliveryPersonId: deliveryPersonTwo.id,
+			currentLocationId: distributionCenterOne.id,
+			receiverId: receiverTwo.id,
 			currentStatusCode: 'PICKED',
-			receiverId: new UniqueEntityId('receiver-02'),
 		})
 
 		const orderThree = makeOrder({
-			deliveryPersonId: new UniqueEntityId('person-03'),
-			currentLocationId: new UniqueEntityId('center-03'),
+			creatorId: administrator.id,
+			deliveryPersonId: deliveryPersonThree.id,
+			currentLocationId: distributionCenterTwo.id,
+			receiverId: receiverTwo.id,
 			currentStatusCode: 'ON_ROUTE',
-			receiverId: new UniqueEntityId('receiver-02'),
 		})
 
 		inMemoryOrderRepository.items.push(orderOne)
@@ -253,7 +332,7 @@ describe('search orders', () => {
 		inMemoryOrderRepository.items.push(orderThree)
 
 		const resultDeliveryPerson = await sut.execute({
-			currentDeliveryPersonId: 'person-01',
+			currentDeliveryPersonId: deliveryPersonOne.id.toString(),
 			currentLocationId: undefined,
 			currentStatus: undefined,
 			receiverId: undefined,
@@ -266,7 +345,7 @@ describe('search orders', () => {
 
 		const resultLocationId = await sut.execute({
 			currentDeliveryPersonId: undefined,
-			currentLocationId: 'center-01',
+			currentLocationId: distributionCenterOne.id.toString(),
 			currentStatus: undefined,
 			receiverId: undefined,
 			page: 1,
@@ -292,7 +371,7 @@ describe('search orders', () => {
 			currentDeliveryPersonId: undefined,
 			currentLocationId: undefined,
 			currentStatus: undefined,
-			receiverId: 'receiver-02',
+			receiverId: receiverTwo.id.toString(),
 			page: 1,
 			perPage: 10,
 		})

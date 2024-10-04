@@ -18,6 +18,7 @@ import { PrismaAvailableOrderItemMapper } from '../mappers/prisma-available-orde
 import { PrismaDeliveryPersonOrderItemMapper } from '../mappers/prisma-delivery-person-order-item.mapper'
 import { PrismaOrderMapper } from '../mappers/prisma-order.mapper'
 import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details.mapper'
+import { PrismaSearchOrderItemMapper } from '../mappers/prisma-search-order-item.mapper'
 import { PrismaService } from '../prisma.service'
 
 @Injectable()
@@ -211,30 +212,24 @@ export class PrismaOrderRepository implements OrderRepository {
 	}: FindManyByFiltersParams) {
 		const orders = await this.prisma.order.findMany({
 			where: {
-				OR: [
-					{
-						deliveryPersonId: currentDeliveryPersonId ?? undefined,
-					},
-					{
-						receiverId: receiverId ?? undefined,
-					},
-					{
-						currentLocationId: currentLocationId ?? undefined,
-					},
-					{
-						currentStatusCode: currentStatus ?? undefined,
-					},
-				],
-				AND: {
-					updatedAt: {
-						gte: updatedFrom
-							? dayjs(updatedFrom).startOf('day').toString()
-							: undefined,
-						lte: updatedUntil
-							? dayjs(updatedUntil).startOf('day').toString()
-							: undefined,
-					},
+				deliveryPersonId: currentDeliveryPersonId ?? undefined,
+				receiverId: receiverId ?? undefined,
+				currentLocationId: currentLocationId ?? undefined,
+				currentStatusCode: currentStatus ?? undefined,
+				updatedAt: {
+					gte: updatedFrom
+						? dayjs(updatedFrom).startOf('day').toISOString()
+						: undefined,
+					lte: updatedUntil
+						? dayjs(updatedUntil).endOf('day').toISOString()
+						: undefined,
 				},
+			},
+			include: {
+				creator: true,
+				currentLocation: true,
+				deliveryPerson: true,
+				receiver: true,
 			},
 			orderBy: {
 				updatedAt: 'desc',
@@ -245,32 +240,24 @@ export class PrismaOrderRepository implements OrderRepository {
 
 		const countOrders = await this.prisma.order.count({
 			where: {
-				OR: [
-					{
-						deliveryPersonId: currentDeliveryPersonId ?? undefined,
-					},
-					{
-						receiverId: receiverId ?? undefined,
-					},
-					{
-						currentLocationId: currentLocationId ?? undefined,
-					},
-					{
-						currentStatusCode: currentStatus ?? undefined,
-					},
-				],
-				AND: {
-					updatedAt: {
-						lte: updatedFrom ?? undefined,
-						gte: updatedUntil ?? undefined,
-					},
+				deliveryPersonId: currentDeliveryPersonId ?? undefined,
+				receiverId: receiverId ?? undefined,
+				currentLocationId: currentLocationId ?? undefined,
+				currentStatusCode: currentStatus ?? undefined,
+				updatedAt: {
+					gte: updatedFrom
+						? dayjs(updatedFrom).startOf('day').toISOString()
+						: undefined,
+					lte: updatedUntil
+						? dayjs(updatedUntil).endOf('day').toISOString()
+						: undefined,
 				},
 			},
 		})
 
 		return {
 			data: orders.map((item) => {
-				return PrismaOrderMapper.toDomain(item)
+				return PrismaSearchOrderItemMapper.toDomain(item)
 			}),
 			perPage,
 			totalPages: Math.ceil(countOrders / perPage),

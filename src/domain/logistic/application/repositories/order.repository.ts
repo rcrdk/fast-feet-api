@@ -7,6 +7,7 @@ import { Order } from '../../enterprise/entities/order'
 import { AvailableOrderItem } from '../../enterprise/entities/value-objects/available-order-item'
 import { DeliveryPersonOrderItem } from '../../enterprise/entities/value-objects/delivery-person-order-item'
 import { OrderDetails } from '../../enterprise/entities/value-objects/order-details'
+import { SearchOrderItem } from '../../enterprise/entities/value-objects/search-order-item'
 
 export type FindManyByAvailabilityParams = PaginationParams & {
 	city: string
@@ -57,7 +58,7 @@ export abstract class OrderRepository {
 	abstract findManyByAvailability(props: FindManyByAvailabilityParams): Promise<PaginationData<AvailableOrderItem[]>>
 	abstract findManyByDeliveryPerson(props: FindManyByDeliveryPersonParams): Promise<PaginationData<DeliveryPersonOrderItem[]>>
 	abstract findManyByReceiver(props: FindManyByReceiverParams): Promise<PaginationData<Order[]>>
-	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<Order[]>>
+	abstract findManyByFilters(props: FindManyByFiltersParams): Promise<PaginationData<SearchOrderItem[]>>
 	abstract findByReceiver(props: FindByReceiverParams): Promise<Order | null>
 	abstract create(data: Order): Promise<void>
 	abstract updateDeliveryPerson(props: UpdateDeliveryPersonParams): Promise<void>

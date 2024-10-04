@@ -22,6 +22,7 @@ import { ChangeDeliveryPersonUseCase } from '@/domain/logistic/application/use-c
 import { CreateOrderUseCase } from '@/domain/logistic/application/use-cases/order/create'
 import { DeleteOrderUseCase } from '@/domain/logistic/application/use-cases/order/delete'
 import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-cases/order/fetch-available'
+import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/search'
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
@@ -56,6 +57,7 @@ import { FetchAvailableOrdersController } from './controllers/order/available.co
 import { ChangeDeliveryPersonController } from './controllers/order/change-delivery-person.controller'
 import { CreateOrderController } from './controllers/order/create.controller'
 import { DeleteOrderController } from './controllers/order/delete.controller'
+import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
@@ -101,6 +103,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		DeleteOrderController,
 		ChangeDeliveryPersonController,
 		FetchAvailableOrdersController,
+		SearchOrdersController,
 		ViewOrderController,
 	],
 	providers: [
@@ -137,6 +140,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		DeleteOrderUseCase,
 		ChangeDeliveryPersonUseCase,
 		FetchAvailableOrdersUseCase,
+		SearchOrdersUseCase,
 		ViewOrderUseCase,
 	],
 })

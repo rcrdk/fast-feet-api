@@ -16,6 +16,7 @@ import {
 	UpdateDeliveryPersonParams,
 } from '@/domain/logistic/application/repositories/order.repository'
 import { Administrator } from '@/domain/logistic/enterprise/entities/administrator'
+import { DeliveryPerson } from '@/domain/logistic/enterprise/entities/delivery-person'
 import { DistributionCenter } from '@/domain/logistic/enterprise/entities/distribution-center'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
 import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
@@ -23,6 +24,7 @@ import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 import { AvailableOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/available-order-item'
 import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
 import { OrderDetails } from '@/domain/logistic/enterprise/entities/value-objects/order-details'
+import { SearchOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/search-order-item'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 import { InMemoryAdministratorRepository } from './in-memory-administrator.repository'
@@ -364,7 +366,7 @@ export class InMemoryOrderRepository implements OrderRepository {
 			items = items.filter((order) => {
 				const orderDate = dayjs(order.updatedAt).startOf('day')
 				const paramStartDate = dayjs(updatedFrom).startOf('day')
-				const paramEndDate = dayjs(updatedUntil).startOf('day')
+				const paramEndDate = dayjs(updatedUntil).endOf('day')
 
 				return dayjs(orderDate).isSameOrAfter(paramStartDate) && dayjs(orderDate).isSameOrBefore(paramEndDate)
 			})
@@ -382,7 +384,7 @@ export class InMemoryOrderRepository implements OrderRepository {
 		if (updatedUntil && !updatedFrom) {
 			items = items.filter((order) => {
 				const orderDate = dayjs(order.updatedAt).startOf('day')
-				const paramEndDate = dayjs(updatedUntil).startOf('day')
+				const paramEndDate = dayjs(updatedUntil).endOf('day')
 
 				return dayjs(orderDate).isSameOrBefore(paramEndDate)
 			})
@@ -390,8 +392,61 @@ export class InMemoryOrderRepository implements OrderRepository {
 
 		items = items.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
 
+		const mappedOrders: SearchOrderItem[] = items.map((item) => {
+			const creator = this.administratorRepository.items.find((person) => person.id.equals(item.creatorId)) as Administrator
+			const currentLocation = this.distributionCenterRepository.items.find((place) => place.id.equals(item.currentLocationId)) as DistributionCenter
+			const receiver = this.receiverRepository.items.find((person) => person.id.equals(item.receiverId)) as Receiver
+			const deliveryPerson = this.deliveryPersonRepository.items.find((person) => person.id.equals(item.receiverId)) as DeliveryPerson | null
+			
+			return SearchOrderItem.create({
+				orderId: item.id,
+				postedAt: item.postedAt,
+				updatedAt: item.updatedAt,
+				currentStatusCode: item.currentStatusCode,
+				creator: {
+					creatorId: creator.id,
+					name: creator.name,
+					documentNumber: creator.documentNumber,
+					email: creator.email,
+					phone: creator.phone,
+					role: creator.role,
+					city: creator.city,
+					state: creator.state,
+				},
+				currentLocation: {
+					currentLocationId: currentLocation.id,
+					name: currentLocation.name,
+					city: currentLocation.city,
+					state: currentLocation.state,
+				},
+				receiver: {
+					receiverId: receiver.id,
+					name: receiver.name,
+					documentNumber: receiver.documentNumber,
+					email: receiver.email,
+					phone: receiver.phone,
+					address: receiver.address,
+					city: receiver.city,
+					state: receiver.state,
+					neighborhood: receiver.neighborhood,
+					zipCode: receiver.zipCode,
+					reference: receiver.reference,
+				},
+				deliveryPerson: deliveryPerson ? {
+					personId: deliveryPerson.id,
+					role: deliveryPerson.role,
+					name: deliveryPerson.name,
+					documentNumber: deliveryPerson.documentNumber,
+					email: deliveryPerson.email,
+					phone: deliveryPerson.phone,
+					city: deliveryPerson.city,
+					state: deliveryPerson.state,
+				} : null,
+			})
+		})
+
 		return {
-			data: items.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
+			data: mappedOrders.slice(ITEMS_OFFSET_START, ITEMS_OFFSET_END),
 			perPage,
 			totalPages: Math.ceil(items.length / perPage),
 			totalItems: items.length,

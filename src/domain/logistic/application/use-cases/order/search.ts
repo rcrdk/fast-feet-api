@@ -5,7 +5,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import { Either, left, right } from '@/core/either'
 import { PaginationData } from '@/core/repositories/pagination-data'
 import { OrderStatusCode } from '@/core/repositories/statuses'
-import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { SearchOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/search-order-item'
 
 import { OrderRepository } from '../../repositories/order.repository'
 import { InvalidDateError } from '../errors/invalid-date-error'
@@ -26,7 +26,7 @@ interface SearchOrdersUseCaseRequest {
 
 type SearchOrdersUseCaseResponse = Either<
 	InvalidDateError,
-	PaginationData<Order[]>
+	PaginationData<SearchOrderItem[]>
 >
 
 @Injectable()
