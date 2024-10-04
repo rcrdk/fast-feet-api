@@ -37,6 +37,8 @@ describe('set status delivered to a order', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		sut = new SetOrderStatusDeliveredUseCase(

@@ -1,6 +1,8 @@
 import { makeOrder } from 'test/factories/make-order'
 import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
+import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -12,6 +14,8 @@ import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 
 import { GetReceiverOrderUseCase } from './get-order'
 
+let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
@@ -21,6 +25,8 @@ let sut: GetReceiverOrderUseCase
 
 describe('get a receiver order', () => {
 	beforeEach(() => {
+		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
@@ -31,6 +37,8 @@ describe('get a receiver order', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		sut = new GetReceiverOrderUseCase(
 			inMemoryReceiverRepository,

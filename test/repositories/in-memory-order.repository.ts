@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
@@ -23,9 +22,12 @@ import { OrderStatus } from '@/domain/logistic/enterprise/entities/order-status'
 import { Receiver } from '@/domain/logistic/enterprise/entities/receiver'
 import { AvailableOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/available-order-item'
 import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
+import { OrderDetails } from '@/domain/logistic/enterprise/entities/value-objects/order-details'
 import { normalizeSearch } from '@/infra/utils/normalize'
 
 import { InMemoryAdministratorRepository } from './in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from './in-memory-attatchments.repository'
+import { InMemoryDeliveryPersonRepository } from './in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from './in-memory-distribution-center.repository'
 import { InMemoryOrderStatusRepository } from './in-memory-order-status.repository'
 import { InMemoryReceiverRepository } from './in-memory-receiver.repository'
@@ -46,12 +48,121 @@ export class InMemoryOrderRepository implements OrderRepository {
 		private distributionCenterRepository: InMemoryDistributionCenterRepository,
 		private administratorRepository: InMemoryAdministratorRepository,
 		private receiverRepository: InMemoryReceiverRepository,
+		private deliveryPersonRepository: InMemoryDeliveryPersonRepository,
+		private attachmentRepository: InMemoryAttachementsRepository,
 	) {}
 
 	async findById(orderId: string) {
 		const order = this.items.find((item) => item.id.toString() === orderId)
 
 		return order ?? null
+	}
+
+	async findByIdWithDetails(orderId: string) {
+		const order = this.items.find((item) => item.id.toString() === orderId)
+
+		if (!order) {
+			return null
+		}
+
+		const { creator, deliveryPerson, originLocation, receiver, orderStatus } = {
+			creator: this.administratorRepository.items.find((item) => item.id.equals(order.creatorId)),
+			deliveryPerson: order.deliveryPersonId ? this.deliveryPersonRepository.items.find((item) => item.id.equals(order.deliveryPersonId!)) : null,
+			originLocation: this.distributionCenterRepository.items.find((item) => item.id.equals(order.originLocationId)),
+			receiver: this.receiverRepository.items.find((item) => item.id.equals(order.receiverId)),
+			orderStatus: this.orderStatusRepository.items.filter((item) => item.orderId.equals(order.id)).sort((a, b) => b.updatedAt!.getTime() - a.updatedAt!.getTime()),
+
+		}
+
+		if (!creator || !receiver || !originLocation) {
+			throw new Error('creator, originLocation or receiver not found')
+		}
+
+		return OrderDetails.create({
+			orderId: order.id,
+			currentStatusCode: order.currentStatusCode,
+			postedAt: order.postedAt,
+			updatedAt: order.updatedAt,
+			creator: {
+				creatorId: creator.id,
+				name: creator.name,
+				documentNumber: creator.documentNumber,
+				email: creator.email,
+				phone: creator.phone,
+				city: creator.city,
+				state: creator.state,
+				role: creator.role,
+			},
+			deliveryPerson: deliveryPerson ? {
+				personId: deliveryPerson.id,
+				role: deliveryPerson.role,
+				name: deliveryPerson.name,
+				documentNumber: deliveryPerson.documentNumber,
+				email: deliveryPerson.email,
+				phone: deliveryPerson.phone,
+				city: deliveryPerson.city,
+				state: deliveryPerson.state,
+			} : null,
+			originLocation: {
+				originLocationId: originLocation.id,
+				name: originLocation.name,
+				city: originLocation.city,
+				state: originLocation.state,
+			},
+			receiver: {
+				receiverId: receiver.id,
+				name: receiver.name,
+				documentNumber: receiver.documentNumber,
+				phone: receiver.phone,
+				email: receiver.email,
+				address: receiver.address,
+				city: receiver.city,
+				state: receiver.state,
+				neighborhood: receiver.neighborhood,
+				zipCode: receiver.zipCode,
+				reference: receiver.reference,
+			},
+			orderStatus: orderStatus.map((item) => {
+				const { statusCreator, currentLocation, attachments} = {
+					statusCreator: [...this.administratorRepository.items, ...this.deliveryPersonRepository.items].find((person) => person.id.equals(item.creatorId)),
+					currentLocation: item.currentLocationId ? this.distributionCenterRepository.items.find((place) => place.id.equals(item.currentLocationId!)) : null,
+					attachments: this.attachmentRepository.items.filter((file) => file.orderStatusId?.equals(item.id)),
+				}
+
+				if (!statusCreator) {
+					throw new Error('statusCreator not found')
+				}
+
+				return {
+					statusCode: item.statusCode,
+					details: item.details ?? null,
+					updatedAt: item.updatedAt,
+					creator: {
+						creatorId: statusCreator.id,
+						name: statusCreator.name,
+						documentNumber: statusCreator.documentNumber,
+						email: statusCreator.email,
+						phone: statusCreator.phone,
+						city: statusCreator.city,
+						state: statusCreator.state,
+						role: statusCreator.role,
+					},
+					currentLocation: currentLocation ? {
+						currentLocationId: currentLocation.id,
+						name: currentLocation.name,
+						city: currentLocation.city,
+						state: currentLocation.state,
+					} : null,
+					attachments: attachments.map((file) => {
+						return {
+							orderStatusId: file.orderStatusId || null,
+							attachmentId: file.id,
+							url: file.url,
+						}
+					})
+				}
+			}),
+		})
 	}
 
 	async findManyByAvailability({

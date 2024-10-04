@@ -107,14 +107,13 @@ model Status {
 
     orderId           String  @map("order_id")
     creatorId         String  @map("creator_id")
-    currentLocationId String  @map("current_location_id")
-    attachmentId      String? @map("attachment_id")
+    currentLocationId String? @map("current_location_id")
 
-    order         Order              @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    creator       User               @relation(fields: [creatorId], references: [id])
-    location      DistributionCenter @relation(fields: [currentLocationId], references: [id])
-    attachmentOne Attachment?        @relation(name: "attachment_one", fields: [attachmentId], references: [id], onDelete: Cascade)
-    attachmentTwo Attachment[]       @relation("attachment_two")
+    order           Order               @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    creator         User                @relation(fields: [creatorId], references: [id])
+    currentLocation DistributionCenter? @relation(fields: [currentLocationId], references: [id])
+
+    attachments Attachment[]
 
     @@map("orders_statuses")
 }
@@ -124,8 +123,7 @@ model Attachment {
     url           String
     orderStatusId String? @map("order_status_id")
 
-    orderStatuses Status[] @relation("attachment_one")
-    orderStatus   Status?  @relation(name: "attachment_two", fields: [orderStatusId], references: [id], onDelete: Cascade)
+    orderStatus Status? @relation(fields: [orderStatusId], references: [id])
 
     @@map("orders_attachments")
 }

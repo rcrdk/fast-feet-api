@@ -8,7 +8,7 @@ import {
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { DeliveryPersonOrderItem } from '@/domain/logistic/enterprise/entities/value-objects/delivery-person-order-item'
 
-type PrismaAnswerDetails = PrismaOrder & {
+type PrismaDeliveryPersonOrderItem = PrismaOrder & {
 	creator: PrismaUser
 	originLocation: PrismaLocation
 	currentLocation: PrismaLocation
@@ -16,7 +16,7 @@ type PrismaAnswerDetails = PrismaOrder & {
 }
 
 export class PrismaDeliveryPersonOrderItemMapper {
-	static toDomain(raw: PrismaAnswerDetails): DeliveryPersonOrderItem {
+	static toDomain(raw: PrismaDeliveryPersonOrderItem): DeliveryPersonOrderItem {
 		return DeliveryPersonOrderItem.create({
 			orderId: new UniqueEntityId(raw.id),
 			currentStatusCode: raw.currentStatusCode,
@@ -40,9 +40,9 @@ export class PrismaDeliveryPersonOrderItemMapper {
 			},
 			originLocation: {
 				originLocationId: new UniqueEntityId(raw.originLocation.id),
-				name: raw.currentLocation.name,
-				city: raw.currentLocation.city,
-				state: raw.currentLocation.state,
+				name: raw.originLocation.name,
+				city: raw.originLocation.city,
+				state: raw.originLocation.state,
 			},
 			receiver: {
 				receiverId: new UniqueEntityId(raw.receiver.id),

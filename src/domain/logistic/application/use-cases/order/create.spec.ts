@@ -1,4 +1,6 @@
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
+import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -8,6 +10,8 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { CreateOrderUseCase } from './create'
 
+let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
@@ -17,6 +21,8 @@ let sut: CreateOrderUseCase
 
 describe('create a order', () => {
 	beforeEach(() => {
+		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
@@ -27,6 +33,8 @@ describe('create a order', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		sut = new CreateOrderUseCase(inMemoryOrderRepository)
 	})

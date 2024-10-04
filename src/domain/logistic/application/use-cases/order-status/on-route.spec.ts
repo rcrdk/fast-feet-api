@@ -1,6 +1,7 @@
 import { makeDeliveryPerson } from 'test/factories/make-delivery-person'
 import { makeOrder } from 'test/factories/make-order'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
 import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
@@ -12,6 +13,7 @@ import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 
 import { SetOrderStatusOnRouteUseCase } from './on-route'
 
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
 let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
@@ -22,6 +24,7 @@ let sut: SetOrderStatusOnRouteUseCase
 
 describe('set status on route to a order', () => {
 	beforeEach(() => {
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
 		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
@@ -33,6 +36,8 @@ describe('set status on route to a order', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		sut = new SetOrderStatusOnRouteUseCase(
 			inMemoryOrderRepository,

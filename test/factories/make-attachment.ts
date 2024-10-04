@@ -1,10 +1,12 @@
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
 	Attachment,
 	AttachmentProps,
 } from '@/domain/logistic/enterprise/entities/attachment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeAttachment(
 	override: Partial<AttachmentProps> = {},
@@ -21,24 +23,22 @@ export function makeAttachment(
 	return attachment
 }
 
-// @Injectable()
-// export class AnswerAttachmentFactory {
-// 	constructor(private prisma: PrismaService) {}
+@Injectable()
+export class AttachmentFactory {
+	constructor(private prisma: PrismaService) {}
 
-// 	async makePrismaAnswerAttachment(
-// 		data: Partial<AnswerAttachmentProps> = {},
-// 	): Promise<AnswerAttachment> {
-// 		const questionAttachment = makeAnswerAttachment(data)
+	async makePrismaAttachment(
+		data: Partial<AttachmentProps> = {},
+	): Promise<Attachment> {
+		const attachment = makeAttachment(data)
 
-// 		await this.prisma.attachment.update({
-// 			where: {
-// 				id: questionAttachment.attachmentId.toString(),
-// 			},
-// 			data: {
-// 				answerId: questionAttachment.answerId.toString(),
-// 			},
-// 		})
+		await this.prisma.attachment.create({
+			data: {
+				id: attachment.id.toString(),
+				url: attachment.url,
+			},
+		})
 
-// 		return questionAttachment
-// 	}
-// }
+		return attachment
+	}
+}

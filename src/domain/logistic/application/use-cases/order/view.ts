@@ -5,7 +5,7 @@ import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { UserRoles } from '@/core/repositories/roles'
-import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { OrderDetails } from '@/domain/logistic/enterprise/entities/value-objects/order-details'
 
 import { OrderRepository } from '../../repositories/order.repository'
 
@@ -18,7 +18,7 @@ interface ViewOrderUseCaseRequest {
 type ViewOrderUseCaseResponse = Either<
 	ResourceNotFoundError | UnauthorizedError,
 	{
-		order: Order
+		order: OrderDetails
 	}
 >
 
@@ -31,14 +31,14 @@ export class ViewOrderUseCase {
 		authPersonId,
 		authPersonRole,
 	}: ViewOrderUseCaseRequest): Promise<ViewOrderUseCaseResponse> {
-		const order = await this.orderRepository.findById(orderId)
+		const order = await this.orderRepository.findByIdWithDetails(orderId)
 
 		if (!order) {
 			return left(new ResourceNotFoundError())
 		}
 
 		const canAccessByAdministratorRole = authPersonRole === 'ADMINISTRATOR'
-		const canAccessByDeliveryPerson = authPersonId === order.deliveryPersonId?.toString()
+		const canAccessByDeliveryPerson = authPersonId === order.deliveryPerson?.personId?.toString()
 		const canAccessByAwaitingPickup = order.currentStatusCode === 'POSTED' || order.currentStatusCode === 'AWAITING_PICK_UP'
 
 		if (canAccessByAdministratorRole || canAccessByAwaitingPickup || canAccessByDeliveryPerson) {

@@ -17,6 +17,7 @@ import { Order } from '@/domain/logistic/enterprise/entities/order'
 import { PrismaAvailableOrderItemMapper } from '../mappers/prisma-available-order-item.mapper'
 import { PrismaDeliveryPersonOrderItemMapper } from '../mappers/prisma-delivery-person-order-item.mapper'
 import { PrismaOrderMapper } from '../mappers/prisma-order.mapper'
+import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details.mapper'
 import { PrismaService } from '../prisma.service'
 
 @Injectable()
@@ -35,6 +36,33 @@ export class PrismaOrderRepository implements OrderRepository {
 		}
 
 		return PrismaOrderMapper.toDomain(order)
+	}
+
+	async findByIdWithDetails(id: string) {
+		const order = await this.prisma.order.findUnique({
+			where: {
+				id,
+			},
+			include: {
+				deliveryPerson: true,
+				creator: true,
+				originLocation: true,
+				receiver: true,
+				orderStatus: {
+					include: {
+						creator: true,
+						currentLocation: true,
+						attachments: true,
+					},
+				},
+			},
+		})
+
+		if (!order) {
+			return null
+		}
+
+		return PrismaOrderDetailsMapper.toDomain(order)
 	}
 
 	async findManyByAvailability({
@@ -443,7 +471,7 @@ export class PrismaOrderRepository implements OrderRepository {
 	async setStatusDelivered({
 		order,
 		details,
-		attachmentId,
+		// attachmentId,
 	}: OrderStatusWithDetailsAndAttachment) {
 		const data = PrismaOrderMapper.toPrisma(order)
 
@@ -454,33 +482,15 @@ export class PrismaOrderRepository implements OrderRepository {
 			data,
 		})
 
-		const newStatusSetted = await this.prisma.status.create({
+		await this.prisma.status.create({
 			data: {
 				orderId: updatedOrder.id,
 				creatorId: updatedOrder.deliveryPersonId ?? updatedOrder.creatorId,
 				currentLocationId: updatedOrder.currentLocationId,
 				statusCode: 'RETURNED',
-				attachmentId,
+				// attachmentId,
 				details,
 			},
 		})
-
-		if (attachmentId) {
-			const attachment = await this.prisma.attachment.findUnique({
-				where: {
-					id: attachmentId,
-				},
-			})
-
-			await this.prisma.attachment.update({
-				where: {
-					id: attachmentId,
-				},
-				data: {
-					...attachment,
-					orderStatusId: newStatusSetted.id,
-				},
-			})
-		}
 	}
 }

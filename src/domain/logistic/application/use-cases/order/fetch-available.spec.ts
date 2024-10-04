@@ -3,6 +3,8 @@ import { makeDistributionCenter } from 'test/factories/make-distribution-center'
 import { makeOrder } from 'test/factories/make-order'
 import { makeReceiver } from 'test/factories/make-receiver'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
+import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -13,6 +15,8 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { InvalidSearchQueryError } from '../errors/invalid-search-queries-error'
 import { FetchAvailableOrdersUseCase } from './fetch-available'
 
+let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
@@ -22,6 +26,8 @@ let sut: FetchAvailableOrdersUseCase
 
 describe('fetch available orders to pickup', () => {
 	beforeEach(() => {
+		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
@@ -32,6 +38,8 @@ describe('fetch available orders to pickup', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		sut = new FetchAvailableOrdersUseCase(inMemoryOrderRepository)
 	})

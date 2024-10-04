@@ -1,6 +1,8 @@
 import dayjs from 'dayjs'
 import { makeOrder } from 'test/factories/make-order'
 import { InMemoryAdministratorRepository } from 'test/repositories/in-memory-administrator.repository'
+import { InMemoryAttachementsRepository } from 'test/repositories/in-memory-attatchments.repository'
+import { InMemoryDeliveryPersonRepository } from 'test/repositories/in-memory-delivery-person.repository'
 import { InMemoryDistributionCenterRepository } from 'test/repositories/in-memory-distribution-center.repository'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order.repository'
 import { InMemoryOrderStatusRepository } from 'test/repositories/in-memory-order-status.repository'
@@ -12,6 +14,8 @@ import { InvalidDateError } from '../errors/invalid-date-error'
 import { InvalidDatePeriodError } from '../errors/invalid-date-period-error'
 import { SearchOrdersUseCase } from './search'
 
+let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository
+let inMemoryAttachmentsRepository: InMemoryAttachementsRepository
 let inMemoryOrderStatusRepository: InMemoryOrderStatusRepository
 let inMemoryAdministratorRepository: InMemoryAdministratorRepository
 let inMemoryReceiverRepository: InMemoryReceiverRepository
@@ -21,6 +25,8 @@ let sut: SearchOrdersUseCase
 
 describe('search orders', () => {
 	beforeEach(() => {
+		inMemoryDeliveryPersonRepository = new InMemoryDeliveryPersonRepository()
+		inMemoryAttachmentsRepository = new InMemoryAttachementsRepository()
 		inMemoryOrderStatusRepository = new InMemoryOrderStatusRepository()
 		inMemoryAdministratorRepository = new InMemoryAdministratorRepository()
 		inMemoryReceiverRepository = new InMemoryReceiverRepository()
@@ -31,6 +37,8 @@ describe('search orders', () => {
 			inMemoryDistributionCenterRepository,
 			inMemoryAdministratorRepository,
 			inMemoryReceiverRepository,
+			inMemoryDeliveryPersonRepository,
+			inMemoryAttachmentsRepository,
 		)
 		sut = new SearchOrdersUseCase(inMemoryOrderRepository)
 	})
