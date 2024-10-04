@@ -27,6 +27,7 @@ import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/ord
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
 import { SetOrderStatusOnRouteUseCase } from '@/domain/logistic/application/use-cases/order-status/on-route'
 import { SetOrderStatusPickedUseCase } from '@/domain/logistic/application/use-cases/order-status/picked'
+import { SetOrderStatusReturnedUseCase } from '@/domain/logistic/application/use-cases/order-status/returned'
 import { SetOrderStatusTransferFinishedUseCase } from '@/domain/logistic/application/use-cases/order-status/transfer-finished'
 import { SetOrderStatusTransferProgressUseCase } from '@/domain/logistic/application/use-cases/order-status/transfer-progress'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
@@ -67,6 +68,7 @@ import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
 import { SetOrderStatusOnRouteController } from './controllers/order-status/set-on-route.controller'
 import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
+import { SetOrderStatusReturnedController } from './controllers/order-status/set-returned.controller'
 import { SetOrderStatusTransferFinishedController } from './controllers/order-status/set-transfer-finished.controller'
 import { SetOrderStatusTransferProgressController } from './controllers/order-status/set-transfer-process.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
@@ -121,6 +123,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusTransferProgressController,
 		SetOrderStatusTransferFinishedController,
 		SetOrderStatusOnRouteController,
+		SetOrderStatusReturnedController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -164,6 +167,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusTransferProgressUseCase,
 		SetOrderStatusTransferFinishedUseCase,
 		SetOrderStatusOnRouteUseCase,
+		SetOrderStatusReturnedUseCase,
 	],
 })
 export class HttpModule {}
