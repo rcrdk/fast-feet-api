@@ -12,12 +12,14 @@ import { z } from 'zod'
 
 import { UnauthorizedError } from '@/core/errors/unauthorized-error'
 import { SetOrderStatusOnRouteUseCase } from '@/domain/logistic/application/use-cases/order-status/on-route'
+import { CurrentUser } from '@/infra/auth/current-user.decorator'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { Roles } from '@/infra/auth/user-roles.decorator'
 
 import { ZodValidationPipe } from '../../pipes/zod-validation.pipe'
 
 const setOrderStatusBodySchema = z.object({
-	deliveryPersonId: z.string().uuid(),
+	deliveryPersonId: z.string().uuid().optional(),
 	details: z.string().optional(),
 })
 
@@ -34,11 +36,12 @@ export class SetOrderStatusOnRouteController {
 	async handle(
 		@Param('orderId', ParseUUIDPipe) orderId: string,
 		@Body(bodyValidationPipe) body: SetOrderStatusBodySchema,
+		@CurrentUser() user: UserPayload,
 	) {
 		const { deliveryPersonId, details } = body
 
 		const result = await this.setOrderStatusOnRoute.execute({
-			deliveryPersonId,
+			deliveryPersonId: deliveryPersonId ?? user.sub,
 			orderId,
 			details,
 		})

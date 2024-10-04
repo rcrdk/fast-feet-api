@@ -76,7 +76,7 @@ import { SetOrderStatusOnRouteController } from './controllers/order-status/set-
 import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
 import { SetOrderStatusReturnedController } from './controllers/order-status/set-returned.controller'
 import { SetOrderStatusTransferFinishedController } from './controllers/order-status/set-transfer-finished.controller'
-import { SetOrderStatusTransferProgressController } from './controllers/order-status/set-transfer-process.controller'
+import { SetOrderStatusTransferProgressController } from './controllers/order-status/set-transfer-progress.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
