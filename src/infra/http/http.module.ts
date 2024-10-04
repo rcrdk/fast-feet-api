@@ -26,6 +26,7 @@ import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-c
 import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/search'
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
 import { SetOrderStatusPickedUseCase } from '@/domain/logistic/application/use-cases/order-status/picked'
+import { SetOrderStatusTransferFinishedUseCase } from '@/domain/logistic/application/use-cases/order-status/transfer-finished'
 import { SetOrderStatusTransferProgressUseCase } from '@/domain/logistic/application/use-cases/order-status/transfer-progress'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
@@ -64,6 +65,7 @@ import { DeleteOrderController } from './controllers/order/delete.controller'
 import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
 import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
+import { SetOrderStatusTransferFinishedController } from './controllers/order-status/set-transfer-finished.controller'
 import { SetOrderStatusTransferProgressController } from './controllers/order-status/set-transfer-process.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
@@ -115,6 +117,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 
 		SetOrderStatusPickedController,
 		SetOrderStatusTransferProgressController,
+		SetOrderStatusTransferFinishedController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -156,6 +159,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 
 		SetOrderStatusPickedUseCase,
 		SetOrderStatusTransferProgressUseCase,
+		SetOrderStatusTransferFinishedUseCase,
 	],
 })
 export class HttpModule {}
