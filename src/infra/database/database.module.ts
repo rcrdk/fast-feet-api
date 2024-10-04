@@ -7,7 +7,6 @@ import { DistributionCenterRepository } from '@/domain/logistic/application/repo
 import { OrderRepository } from '@/domain/logistic/application/repositories/order.repository'
 import { ReceiverRepository } from '@/domain/logistic/application/repositories/receiver.repository'
 
-import { CacheModule } from '../cache/cache.module'
 import { PrismaService } from './prisma/prisma.service'
 import { PrismaAdministratorRepository } from './prisma/repositories/prisma-administrator.repository'
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments.repository'
@@ -17,7 +16,6 @@ import { PrismaOrderRepository } from './prisma/repositories/prisma-order.reposi
 import { PrismaReceiverRepository } from './prisma/repositories/prisma-receivers.repository'
 
 @Module({
-	imports: [CacheModule],
 	providers: [
 		PrismaService,
 		{

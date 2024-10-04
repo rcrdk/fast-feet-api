@@ -1,6 +1,4 @@
-<!-- https://efficient-sloth-d85.notion.site/Desafio-04-a3a2ef9297ad47b1a94f89b197274ffd -->
-<!-- https://www.figma.com/design/hn0qGhnSHDVst7oaY3PF72/FastFeet?node-id=0-1 -->
-
+<!-- Create prisma seeders -->
 <!-- Update: Business Rules and Requirements -->
 <!-- Update insomnia files -->
 <!-- Update about the project -->
@@ -13,7 +11,6 @@ I developed this project as a challenge about my latest studies of Node at [Rock
 - [NestJS](https://nestjs.com/)
 - [Prisma](https://www.prisma.io) / [PostgreSQL](https://www.postgresql.org/)  / [Docker](https://www.docker.com/)
 - [Cloudflare R2](https://www.cloudflare.com/pt-br/) + [AWS SDK](https://github.com/aws/aws-sdk-js-v3)
-- [Redis](https://redis.io) + [ioredis](https://github.com/redis/ioredis)
 - [Insomnia](https://insomnia.rest/)
 - [Vitest](https://vitest.dev/)
 
@@ -66,7 +63,7 @@ It's need to create two Cloudflare R2 buckets, one for development and another f
 <details>
 <summary>Display contents</summary>
 	
-Generate .env files for development and test. Then, set them up with Postgres database, Redis cache, JWT tokens and Cloudflare keys:
+Generate .env files for development and test. Then, set them up with Postgres database, JWT tokens and Cloudflare keys:
 
 ```shell
 cp .env.example .env
