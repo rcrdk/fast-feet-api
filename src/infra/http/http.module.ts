@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 
 import { AuthenticateAdministratorUseCase } from '@/domain/logistic/application/use-cases/administrator/authenticate'
 import { RegisterAdministratorUseCase } from '@/domain/logistic/application/use-cases/administrator/register'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/logistic/application/use-cases/attachments/upload-and-create-attachment'
 import { AuthenticateDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/authenticate'
 import { ChangeDeliveryPersonPasswordUseCase } from '@/domain/logistic/application/use-cases/delivery-person/change-password'
 import { DeleteDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/delete'
@@ -45,6 +46,7 @@ import { DatabaseModule } from '../database/database.module'
 import { StorageModule } from '../storage/storage.module'
 import { AuthenticateAdministratorController } from './controllers/administrator/authenticate.controller'
 import { RegisterAdministratorAccountController } from './controllers/administrator/register-account.controller'
+import { UploadAttachmentController } from './controllers/attachments/upload-attachment.controller'
 import { AuthenticateDeliveryPersonController } from './controllers/delivery-people/authenticate.controller'
 import { ChangeDeliveryPersonPasswordController } from './controllers/delivery-people/change-password.controller'
 import { DeleteDeliveryPersonAccountController } from './controllers/delivery-people/delete.controller'
@@ -130,6 +132,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusReturnedController,
 		SetOrderStatusCanceledController,
 		SetOrderStatusDeliveredController,
+
+		UploadAttachmentController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -176,6 +180,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusReturnedUseCase,
 		SetOrderStatusCanceledUseCase,
 		SetOrderStatusDeliveredUseCase,
+
+		UploadAndCreateAttachmentUseCase,
 	],
 })
 export class HttpModule {}
