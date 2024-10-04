@@ -99,6 +99,14 @@ describe('set order status as picked (e2e)', () => {
 		})
 
 		expect(orderOnDatabase).toBeTruthy()
+
+		expect(orderOnDatabase).toMatchObject({
+			deliveryPersonId: deliveryPerson.id.toString(),
+			originLocationId: distributionCenter.id.toString(),
+			currentLocationId: distributionCenter.id.toString(),
+			currentStatusCode: 'PICKED',
+		})
+
 		expect(orderOnDatabase?.orderStatus).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({

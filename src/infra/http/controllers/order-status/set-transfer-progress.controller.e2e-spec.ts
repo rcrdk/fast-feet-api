@@ -103,6 +103,14 @@ describe('set order status as transfer progress (e2e)', () => {
 		})
 
 		expect(orderOnDatabase).toBeTruthy()
+
+		expect(orderOnDatabase).toMatchObject({
+			deliveryPersonId: deliveryPerson.id.toString(),
+			originLocationId: distributionCenter.id.toString(),
+			currentLocationId: nextLocation.id.toString(),
+			currentStatusCode: 'TRANSFER_PROGRESS',
+		})
+
 		expect(orderOnDatabase?.orderStatus).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({
