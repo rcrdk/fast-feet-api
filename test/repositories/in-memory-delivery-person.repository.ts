@@ -131,6 +131,12 @@ export class InMemoryDeliveryPersonRepository
 
 		this.items[index] = data
 	}
+	
+	async editPassword(data: DeliveryPerson) {
+		const index = this.items.findIndex((item) => item.id === data.id)
+
+		this.items[index] = data
+	}
 
 	async delete(data: DeliveryPerson) {
 		const index = this.items.findIndex((item) => item.id === data.id)

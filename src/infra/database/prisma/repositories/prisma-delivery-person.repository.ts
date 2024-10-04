@@ -199,6 +199,18 @@ export class PrismaDeliveryPersonRepository
 		})
 	}
 
+	async editPassword(person: DeliveryPerson) {
+		const data = PrismaDeliveryPersonMapper.toPrisma(person)
+
+		await this.prisma.user.update({
+			where: {
+				id: data.id,
+				role: 'DELIVERY_PERSON',
+			},
+			data,
+		})
+	}
+
 	async delete(person: DeliveryPerson) {
 		person.deletePerson()
 

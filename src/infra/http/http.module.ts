@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { AuthenticateAdministratorUseCase } from '@/domain/logistic/application/use-cases/administrator/authenticate'
 import { RegisterAdministratorUseCase } from '@/domain/logistic/application/use-cases/administrator/register'
 import { AuthenticateDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/authenticate'
+import { ChangeDeliveryPersonPasswordUseCase } from '@/domain/logistic/application/use-cases/delivery-person/change-password'
 import { DeleteDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/delete'
 import { EditDeliveryPersonUseCase } from '@/domain/logistic/application/use-cases/delivery-person/edit'
 import { FetchDeliveryPeopleUseCase } from '@/domain/logistic/application/use-cases/delivery-person/fetch'
@@ -38,6 +39,7 @@ import { StorageModule } from '../storage/storage.module'
 import { AuthenticateAdministratorController } from './controllers/administrator/authenticate.controller'
 import { RegisterAdministratorAccountController } from './controllers/administrator/register-account.controller'
 import { AuthenticateDeliveryPersonController } from './controllers/delivery-people/authenticate.controller'
+import { ChangeDeliveryPersonPasswordController } from './controllers/delivery-people/change-password.controller'
 import { DeleteDeliveryPersonAccountController } from './controllers/delivery-people/delete.controller'
 import { EditDeliveryPersonAccountController } from './controllers/delivery-people/edit.controller'
 import { FetchDeliveryPeopleAccountController } from './controllers/delivery-people/fetch.controller'
@@ -82,6 +84,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SearchDeliveryPeopleAccountController,
 		FetchDeliveryPeopleAccountController,
 		DeliveryPersonOrdersController,
+		ChangeDeliveryPersonPasswordController,
 
 		CreateDistributionCenterController,
 		EditDistributionCenterController,
@@ -119,6 +122,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SearchDeliveryPeopleUseCase,
 		FetchDeliveryPeopleUseCase,
 		DeliveryPersonOrdersUseCase,
+		ChangeDeliveryPersonPasswordUseCase,
 
 		CreateDistributionCenterUseCase,
 		EditDistributionCenterUseCase,

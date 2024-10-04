@@ -97,16 +97,16 @@ npm run start:dev
 - [x] It should be able to authenticate with document number and password;
 - [x] It should be able to create another administrators;
 - [x] It should be able to make the CRUD of delivery person;
-- [ ] It should be able to make the CRUD of orders;
+- [x] It should be able to make the CRUD of orders;
 - [x] It should be able to make the CRUD of receivers;
 - [x] It should be able to make the CRUD of distribution centers;
-- [ ] It should be able to mark a order as "posted" (available to pick up);
+- [x] It should be able to mark a order as "posted" (available to pick up);
 - [ ] It should be able to pick up a order;
 - [ ] It should be able to mark a order as delivered;
 - [ ] It should be able to mark a order as returned;
 - [ ] It should be able to fetch orders with closest addresses to the delivery persons place;
-- [ ] It should be able to change the password of a user;
-- [ ] It should be able to fetch orders by a user;
+- [x] It should be able to change the password of a user;
+- [x] It should be able to fetch orders by a user;
 - [ ] It should be able to notificate the receipient on each order status change;
 - [ ] It should be able to allow receivers to track their recent orders;
 
@@ -114,7 +114,7 @@ npm run start:dev
 
 - [x] Only the admin user can make CRUD operations on another admin;
 - [x] Only the admin user can make CRUD operations on delivery persons;
-- [ ] Only the admin user can make CRUD operations on orders;
+- [x] Only the admin user can make CRUD operations on orders;
 - [x] Only the admin user can make CRUD operations on receivers;
 - [x] Only the admin user can make CRUD operations on distribution centers;
 - [ ] To make a order as shipped it must have to send a picture;

@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common'
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
-import { HashGenerator } from '../../cryptography/hash-generator'
 import { DeliveryPersonRepository } from '../../repositories/delivery-person.repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
@@ -21,10 +20,7 @@ type EditDeliveryPersonUseCaseResponse = Either<ResourceNotFoundError, object>
 
 @Injectable()
 export class EditDeliveryPersonUseCase {
-	constructor(
-		private deliveryPersonRepository: DeliveryPersonRepository,
-		private hashGenerator: HashGenerator,
-	) {}
+	constructor(private deliveryPersonRepository: DeliveryPersonRepository) {}
 
 	async execute({
 		personId,
