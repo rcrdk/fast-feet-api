@@ -1,7 +1,7 @@
 export type OrderStatusCode =
 	| 'POSTED'
 	| 'PICKED'
-	| 'TRANSFER_PROCESS'
+	| 'TRANSFER_PROGRESS'
 	| 'AWAITING_PICK_UP'
 	| 'TRANSFER_FINISHED'
 	| 'ON_ROUTE'

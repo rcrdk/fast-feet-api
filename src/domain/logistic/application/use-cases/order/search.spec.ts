@@ -307,7 +307,7 @@ describe('search orders', () => {
 			creatorId: administrator.id,
 			deliveryPersonId: deliveryPersonOne.id,
 			currentLocationId: distributionCenterOne.id,
-			currentStatusCode: 'TRANSFER_PROCESS',
+			currentStatusCode: 'TRANSFER_PROGRESS',
 			receiverId: receiverOne.id,
 		})
 
@@ -358,7 +358,7 @@ describe('search orders', () => {
 		const resultStatus = await sut.execute({
 			currentDeliveryPersonId: undefined,
 			currentLocationId: undefined,
-			currentStatus: 'TRANSFER_PROCESS',
+			currentStatus: 'TRANSFER_PROGRESS',
 			receiverId: undefined,
 			page: 1,
 			perPage: 10,

@@ -512,7 +512,7 @@ export class InMemoryOrderRepository implements OrderRepository {
 				orderId: data.id,
 				creatorId: data.deliveryPersonId ?? data.creatorId,
 				currentLocationId: data.currentLocationId,
-				statusCode: 'TRANSFER_PROCESS',
+				statusCode: 'TRANSFER_PROGRESS',
 			})
 		)
 	}

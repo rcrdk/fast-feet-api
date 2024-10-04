@@ -26,6 +26,7 @@ import { FetchAvailableOrdersUseCase } from '@/domain/logistic/application/use-c
 import { SearchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/search'
 import { ViewOrderUseCase } from '@/domain/logistic/application/use-cases/order/view'
 import { SetOrderStatusPickedUseCase } from '@/domain/logistic/application/use-cases/order-status/picked'
+import { SetOrderStatusTransferProgressUseCase } from '@/domain/logistic/application/use-cases/order-status/transfer-progress'
 import { CreateReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/create'
 import { DeleteReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/delete'
 import { EditReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/edit'
@@ -63,6 +64,7 @@ import { DeleteOrderController } from './controllers/order/delete.controller'
 import { SearchOrdersController } from './controllers/order/search.controller'
 import { ViewOrderController } from './controllers/order/view.controller'
 import { SetOrderStatusPickedController } from './controllers/order-status/set-picked.controller'
+import { SetOrderStatusTransferProgressController } from './controllers/order-status/set-transfer-process.controller'
 import { CreateReceiverController } from './controllers/receiver/create.controller'
 import { DeleteReceiverController } from './controllers/receiver/delete.controller'
 import { EditReceiverController } from './controllers/receiver/edit.controller'
@@ -112,6 +114,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		ViewOrderController,
 
 		SetOrderStatusPickedController,
+		SetOrderStatusTransferProgressController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -152,6 +155,7 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		ViewOrderUseCase,
 
 		SetOrderStatusPickedUseCase,
+		SetOrderStatusTransferProgressUseCase,
 	],
 })
 export class HttpModule {}

@@ -58,7 +58,7 @@ export class SetOrderStatusTransferProgressUseCase {
 
 		order.deliveryPersonId = new UniqueEntityId(deliveryPersonId)
 		order.currentLocationId = new UniqueEntityId(nextLocationId)
-		order.currentStatusCode = 'TRANSFER_PROCESS'
+		order.currentStatusCode = 'TRANSFER_PROGRESS'
 		
 		await this.orderRepository.setStatusTransferProgress(order)
 

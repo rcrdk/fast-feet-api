@@ -62,7 +62,7 @@ describe('view a order', () => {
 			deliveryPersonId: deliveryPerson.id,
 			receiverId: receiver.id,
 			originLocationId: location.id,
-			currentStatusCode: 'TRANSFER_PROCESS',
+			currentStatusCode: 'TRANSFER_PROGRESS',
 		})
 		inMemoryOrderRepository.create(order)
 
@@ -98,7 +98,7 @@ describe('view a order', () => {
 			deliveryPersonId: deliveryPerson.id,
 			receiverId: receiver.id,
 			originLocationId: location.id,
-			currentStatusCode: 'TRANSFER_PROCESS',
+			currentStatusCode: 'TRANSFER_PROGRESS',
 		})
 		inMemoryOrderRepository.create(order)
 
@@ -134,7 +134,7 @@ describe('view a order', () => {
 			deliveryPersonId: deliveryPerson.id,
 			receiverId: receiver.id,
 			originLocationId: location.id,
-			currentStatusCode: 'TRANSFER_PROCESS',
+			currentStatusCode: 'TRANSFER_PROGRESS',
 		})
 		inMemoryOrderRepository.create(order)
 

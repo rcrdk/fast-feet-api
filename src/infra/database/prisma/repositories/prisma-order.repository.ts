@@ -367,7 +367,7 @@ export class PrismaOrderRepository implements OrderRepository {
 				orderId: updatedOrder.id,
 				creatorId: updatedOrder.deliveryPersonId ?? updatedOrder.creatorId,
 				currentLocationId: updatedOrder.currentLocationId,
-				statusCode: 'TRANSFER_PROCESS',
+				statusCode: 'TRANSFER_PROGRESS',
 			},
 		})
 	}

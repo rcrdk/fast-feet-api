@@ -78,7 +78,7 @@ describe('set status transfer in progress to a order', () => {
 		expect(result.isRight()).toBe(true)
 		expect(inMemoryOrderRepository.items.at(0)).toMatchObject({
 			creatorId: new UniqueEntityId('admin-01'),
-			currentStatusCode: 'TRANSFER_PROCESS',
+			currentStatusCode: 'TRANSFER_PROGRESS',
 			deliveryPersonId: new UniqueEntityId('dp-01'),
 		})
 
@@ -89,7 +89,7 @@ describe('set status transfer in progress to a order', () => {
 					creatorId: new UniqueEntityId('admin-01'),
 				}),
 				expect.objectContaining({
-					statusCode: 'TRANSFER_PROCESS',
+					statusCode: 'TRANSFER_PROGRESS',
 					creatorId: new UniqueEntityId('dp-01'),
 				}),
 			]),
