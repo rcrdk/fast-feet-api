@@ -1,7 +1,7 @@
 <!-- Create prisma seeders -->
-<!-- Update: Business Rules and Requirements -->
 <!-- Update insomnia files -->
 <!-- Update about the project -->
+<!-- Github Workflow -->
 
 # 🚚 Fast Feet API
 I developed this project as a challenge about my latest studies of Node at [Rocketseat](https://www.rocketseat.com.br).
@@ -27,7 +27,7 @@ I developed this project as a challenge about my latest studies of Node at [Rock
 npm i
 docker compose up -d
 npx prisma migrate dev # seeds will run along
-npx prisma studio
+npx prisma studio # check on data created
 ```
 </details>
 
@@ -83,8 +83,7 @@ npm run start:dev
 </details>
 
 ## 🔗 Routes
-*Soon*
-<!-- [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Ignite%20Node.js%3A%20GymPass%20API%0A&uri=https://raw.githubusercontent.com/rcrdk/fast-feet-api/main/insomnia.json) -->
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Ignite%20Node.js%3A%20GymPass%20API%0A&uri=https://raw.githubusercontent.com/rcrdk/fast-feet-api/main/insomnia.json)
 
 ## 📋 Business Rules and Requirements
 
