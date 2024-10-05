@@ -1,6 +1,3 @@
-<!-- Update about the project -->
-<!-- Github Workflow -->
-
 # 🚚 Fast Feet API
 I developed this project as a challenge about my latest studies of Node at [Rocketseat](https://www.rocketseat.com.br).
 
@@ -13,7 +10,13 @@ I developed this project as a challenge about my latest studies of Node at [Rock
 - [Vitest](https://vitest.dev/)
 
 ## 🖥️ Project
-*Soon*
+This project was coded to practice the development of an API using NestJS following the patterns of Domain-Driven Design (DDD)/Clean Architecture and SOLID along with other patterns such as factory pattern and repositories pattern. First up, it was created the domain entities and the use cases, alogn with unit tests. Then, it was created the controlers, e2e tests, value objects, mappers, repositories, presenters, integration with Cloudflare R2.
+
+This is an API of a carrier company where it's possible to manage orders delivering. There's two types of userm, the administrator and the delivery person. The administrators can make all CRUD operations on receivers, delivery people, distribution centers and orders. A delivery person is able to pick a product in a distribution center and make the hole delivery of an order or even a part of the traject, they can change status of their orders.
+
+In this project it was ensured that all application works by running all test over testing simply with routes on Insomnia. It was applied unit tests and E2E tests. It was used Vitest along with supertest to make requests on tests. It was implemented GitHub Actions to run unit tests on push and E2E tests on pull requests. Prisma was used as ORM and client alongside with PostgreSQL database to mage with data. To make the authentication it was used JWT (JSON Web Token) to persist user information with security into the application.
+
+To get started with the flow of the application, you can register a new user and authenticate, or use data seeded to database after running migrations. Then, you are able to manage users, receivers, distribution centers and orders. You are able to test all routes on Insomnia, checkout for the link below.
 
 ## ⚙️ Get started
 
