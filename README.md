@@ -1,5 +1,3 @@
-<!-- Create prisma seeders -->
-<!-- Update insomnia files -->
 <!-- Update about the project -->
 <!-- Github Workflow -->
 
