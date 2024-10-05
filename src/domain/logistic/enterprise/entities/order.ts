@@ -1,7 +1,9 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { OrderStatusCode } from '@/core/repositories/statuses'
 import { Optional } from '@/core/types/optional'
+
+import { OrderStatusChangedEvent } from '../events/order-status-changed-event'
 
 export interface OrderProps {
 	creatorId: UniqueEntityId
@@ -14,7 +16,7 @@ export interface OrderProps {
 	currentStatusCode: OrderStatusCode
 }
 
-export class Order extends Entity<OrderProps> {
+export class Order extends AggregateRoot<OrderProps> {
 	get creatorId() {
 		return this.props.creatorId
 	}
@@ -80,6 +82,8 @@ export class Order extends Entity<OrderProps> {
 			},
 			id,
 		)
+
+		order.addDomainEvent(new OrderStatusChangedEvent(order))
 
 		return order
 	}

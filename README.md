@@ -104,7 +104,7 @@ npm run start:dev
 - [x] It should be able to fetch orders with closest addresses to the delivery persons place;
 - [x] It should be able to change the password of a user;
 - [x] It should be able to fetch orders by a user;
-- [ ] It should be able to notificate the receipient on each order status change;
+- [x] It should be able to notificate the receipient on each order status change;
 
 ### Business Rules
 

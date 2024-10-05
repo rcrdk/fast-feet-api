@@ -25,6 +25,12 @@ export interface OrderDetailsProps {
 		city: string
 		state: string
 	}
+	currentLocation: null | {
+		currentLocationId: UniqueEntityId
+		name: string
+		city: string
+		state: string
+	}
 	deliveryPerson?: null | {
 		personId: UniqueEntityId
 		role: UserRoles
@@ -99,6 +105,10 @@ export class OrderDetails extends ValueObject<OrderDetailsProps> {
 
 	get originLocation() {
 		return this.props.originLocation
+	}
+
+	get currentLocation() {
+		return this.props.currentLocation
 	}
 
 	get receiver() {

@@ -25,9 +25,8 @@ model User {
     deletedAt      DateTime? @map("deleted_at")
 
     status              Status[]
-    orderCreator        Order[]        @relation("creator")
-    orderDeliveryPerson Order[]        @relation("delivery")
-    notifications       Notification[]
+    orderCreator        Order[]  @relation("creator")
+    orderDeliveryPerson Order[]  @relation("delivery")
 
     @@map("users")
 }
@@ -46,7 +45,8 @@ model Receiver {
     reference      String?
     deletedAt      DateTime? @map("deleted_at")
 
-    order Order[]
+    order         Order[]
+    notifications Notification[]
 
     @@map("receivers")
 }
@@ -137,7 +137,7 @@ model Notification {
     createdAt   DateTime  @default(now()) @map("created_at")
     recipientId String    @map("recipient_id")
 
-    recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+    recipient Receiver @relation(fields: [recipientId], references: [id], onDelete: Cascade)
 
     @@map("notifications")
 }

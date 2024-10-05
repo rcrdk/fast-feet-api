@@ -40,6 +40,7 @@ import { FetchReceiversUseCase } from '@/domain/logistic/application/use-cases/r
 import { RecoverReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/recover'
 import { SearchReceiversUseCase } from '@/domain/logistic/application/use-cases/receiver/search'
 import { ViewReceiverUseCase } from '@/domain/logistic/application/use-cases/receiver/view'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -64,6 +65,7 @@ import { FetchDistributionCenterController } from './controllers/distribution-ce
 import { RecoverDistributionCenterController } from './controllers/distribution-center/recover.controller'
 import { SearchDistributionCenterController } from './controllers/distribution-center/search.controller'
 import { ViewDistributionCenterController } from './controllers/distribution-center/view.controller'
+import { ReadNotificationController } from './controllers/notification/read.controller'
 import { FetchAvailableOrdersController } from './controllers/order/available.controller'
 import { ChangeDeliveryPersonController } from './controllers/order/change-delivery-person.controller'
 import { CreateOrderController } from './controllers/order/create.controller'
@@ -134,6 +136,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusDeliveredController,
 
 		UploadAttachmentController,
+
+		ReadNotificationController,
 	],
 	providers: [
 		AuthenticateAdministratorUseCase,
@@ -182,6 +186,8 @@ import { ViewReceiverController } from './controllers/receiver/view.controller'
 		SetOrderStatusDeliveredUseCase,
 
 		UploadAndCreateAttachmentUseCase,
+
+		ReadNotificationUseCase,
 	],
 })
 export class HttpModule {}

@@ -14,6 +14,13 @@ export class OrderDetailsPresenter {
 			state: details.deliveryPerson.state,
 		}
 
+		const currentLocation = !details.currentLocation ? null : {
+			currentLocationId: details.currentLocation.currentLocationId.toString(),
+			name: details.currentLocation.name,
+			city: details.currentLocation.city,
+			state: details.currentLocation.state,
+		}
+
 		const status = details.orderStatus.map((item) => {
 			return {
 				statusCode: item.statusCode,
@@ -46,6 +53,7 @@ export class OrderDetailsPresenter {
 				city: details.originLocation.city,
 				state: details.originLocation.state,
 			},
+			currentLocation,
 			deliveryPerson,
 			receiver: {
 				receiverId: details.receiver.receiverId.toString(),

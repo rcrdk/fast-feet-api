@@ -4,6 +4,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { DomainEvents } from '@/core/events/domain-events'
 import {
 	FindByReceiverParams,
 	FindManyByAvailabilityParams,
@@ -67,10 +68,11 @@ export class InMemoryOrderRepository implements OrderRepository {
 			return null
 		}
 
-		const { creator, deliveryPerson, originLocation, receiver, orderStatus } = {
+		const { creator, deliveryPerson, originLocation, currentLocation, receiver, orderStatus } = {
 			creator: this.administratorRepository.items.find((item) => item.id.equals(order.creatorId)),
 			deliveryPerson: order.deliveryPersonId ? this.deliveryPersonRepository.items.find((item) => item.id.equals(order.deliveryPersonId!)) : null,
 			originLocation: this.distributionCenterRepository.items.find((item) => item.id.equals(order.originLocationId)),
+			currentLocation: this.distributionCenterRepository.items.find((item) => item.id.equals(order.currentLocationId)),
 			receiver: this.receiverRepository.items.find((item) => item.id.equals(order.receiverId)),
 			orderStatus: this.orderStatusRepository.items.filter((item) => item.orderId.equals(order.id)).sort((a, b) => b.updatedAt!.getTime() - a.updatedAt!.getTime()),
 
@@ -111,6 +113,12 @@ export class InMemoryOrderRepository implements OrderRepository {
 				city: originLocation.city,
 				state: originLocation.state,
 			},
+			currentLocation: currentLocation ? {
+				currentLocationId: currentLocation.id,
+				name: currentLocation.name,
+				city: currentLocation.city,
+				state: currentLocation.state,
+			} : null,
 			receiver: {
 				receiverId: receiver.id,
 				name: receiver.name,
@@ -464,6 +472,8 @@ export class InMemoryOrderRepository implements OrderRepository {
 				statusCode: 'POSTED',
 			}),
 		)
+
+		DomainEvents.dispatchEventsForAggregate(data.id)
 	}
 
 	async updateDeliveryPerson({ data, authPersonId }: UpdateDeliveryPersonParams) {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import dayjs from 'dayjs'
 
+import { DomainEvents } from '@/core/events/domain-events'
 import {
 	FindByReceiverParams,
 	FindManyByAvailabilityParams,
@@ -47,6 +48,7 @@ export class PrismaOrderRepository implements OrderRepository {
 			include: {
 				deliveryPerson: true,
 				creator: true,
+				currentLocation: true,
 				originLocation: true,
 				receiver: true,
 				orderStatus: {
@@ -54,6 +56,9 @@ export class PrismaOrderRepository implements OrderRepository {
 						creator: true,
 						currentLocation: true,
 						attachments: true,
+					},
+					orderBy: {
+						updatedAt: 'desc',
 					},
 				},
 			},
@@ -295,6 +300,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				statusCode: 'POSTED',
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async updateDeliveryPerson({
@@ -350,6 +357,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				statusCode: 'PICKED',
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusTransferProgress(order: Order) {
@@ -370,6 +379,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				statusCode: 'TRANSFER_PROGRESS',
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusTransferFinished(order: Order) {
@@ -390,6 +401,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				statusCode: 'TRANSFER_FINISHED',
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusOnRoute({ order, details }: OrderStatusWithDetails) {
@@ -411,6 +424,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				details,
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusCanceled({ order, details }: OrderStatusWithDetails) {
@@ -432,6 +447,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				details,
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusReturned({ order, details }: OrderStatusWithDetails) {
@@ -453,6 +470,8 @@ export class PrismaOrderRepository implements OrderRepository {
 				details,
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 
 	async setStatusDelivered({
@@ -487,5 +506,7 @@ export class PrismaOrderRepository implements OrderRepository {
 				orderStatusId: addedStatus.id,
 			},
 		})
+
+		DomainEvents.dispatchEventsForAggregate(order.id)
 	}
 }

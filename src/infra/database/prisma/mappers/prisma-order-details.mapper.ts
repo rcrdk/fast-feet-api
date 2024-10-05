@@ -20,6 +20,7 @@ type PrismaOrderDetailsStatus = PrismaStatus & {
 type PrismaOrderDetails = PrismaOrder & {
 	creator: PrismaUser
 	originLocation: PrismaLocation
+	currentLocation?: PrismaLocation | null
 	deliveryPerson?: PrismaUser | null
 	receiver: PrismaReceiver
 	orderStatus: PrismaOrderDetailsStatus[]
@@ -36,6 +37,13 @@ export class PrismaOrderDetailsMapper {
 			phone: raw.deliveryPerson.phone,
 			city: raw.deliveryPerson.city,
 			state: raw.deliveryPerson.state,
+		}
+
+		const currentLocation = !raw.currentLocation ? null : {
+			currentLocationId: new UniqueEntityId(raw.currentLocation.id),
+			name: raw.currentLocation.name,
+			city: raw.currentLocation.city,
+			state: raw.currentLocation.state,
 		}
 
 		return OrderDetails.create({
@@ -59,6 +67,7 @@ export class PrismaOrderDetailsMapper {
 				city: raw.originLocation.city,
 				state: raw.originLocation.state,
 			},
+			currentLocation,
 			deliveryPerson,
 			receiver: {
 				receiverId: new UniqueEntityId(raw.receiver.id),
